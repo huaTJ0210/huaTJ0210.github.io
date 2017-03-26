@@ -1,0 +1,802 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="为什么要进行内存管理
+Objective-C不像JAVA和C#等语言，内存管理依赖垃圾回收(GC)机制;它需要开发者自己管理内存，即便目前的ARC机制也只是编译器帮助开发者完成一部分工作，实际开发中还是需要时刻关注创建对象之间关系、是否出现引用循环等问题；
+iOS程序员创建的对象大多分配在堆上，存储空间有限，在iOS系统中如果app内存使用量过大，会收到内存预警的消息，不作处理的情况下系统可能会强">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS之内存管理篇">
+<meta property="og:url" content="http://yoursite.com/2015/05/05/iOS之内存管理篇/index.html">
+<meta property="og:site_name" content="華">
+<meta property="og:description" content="为什么要进行内存管理
+Objective-C不像JAVA和C#等语言，内存管理依赖垃圾回收(GC)机制;它需要开发者自己管理内存，即便目前的ARC机制也只是编译器帮助开发者完成一部分工作，实际开发中还是需要时刻关注创建对象之间关系、是否出现引用循环等问题；
+iOS程序员创建的对象大多分配在堆上，存储空间有限，在iOS系统中如果app内存使用量过大，会收到内存预警的消息，不作处理的情况下系统可能会强">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/117735-74f016b97d214da5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-02-27T06:24:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS之内存管理篇">
+<meta name="twitter:description" content="为什么要进行内存管理
+Objective-C不像JAVA和C#等语言，内存管理依赖垃圾回收(GC)机制;它需要开发者自己管理内存，即便目前的ARC机制也只是编译器帮助开发者完成一部分工作，实际开发中还是需要时刻关注创建对象之间关系、是否出现引用循环等问题；
+iOS程序员创建的对象大多分配在堆上，存储空间有限，在iOS系统中如果app内存使用量过大，会收到内存预警的消息，不作处理的情况下系统可能会强">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/117735-74f016b97d214da5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/05/05/iOS之内存管理篇/"/>
+
+
+
+
+
+  <title> iOS之内存管理篇 | 華 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">華</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/05/05/iOS之内存管理篇/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="华子">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://tva2.sinaimg.cn/crop.0.0.639.639.180/8e8e3b1bjw8evv5nqax26j20hs0hrwf5.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="華">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS之内存管理篇
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-05-05T18:03:00+08:00">
+                2015-05-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="为什么要进行内存管理"><a href="#为什么要进行内存管理" class="headerlink" title="为什么要进行内存管理"></a>为什么要进行内存管理</h3><ul>
+<li>Objective-C不像JAVA和C#等语言，内存管理依赖垃圾回收(GC)机制;它需要开发者自己管理内存，即便目前的ARC机制也只是编译器帮助开发者完成一部分工作，实际开发中还是需要时刻关注创建对象之间关系、是否出现引用循环等问题；</li>
+<li>iOS程序员创建的对象大多分配在堆上，存储空间有限，在iOS系统中如果app内存使用量过大，会收到内存预警的消息，不作处理的情况下系统可能会强制清理程序；因此内存管理对移动端开发尤为重要；<a id="more"></a>
+<h3 id="如何进行内存管理"><a href="#如何进行内存管理" class="headerlink" title="如何进行内存管理"></a>如何进行内存管理</h3>使用引用计数的方式对创建的对象进行内存的管理操作；有强引用指向（retain）那么引用计数+1，强引用被置为nil(release)那么引用计数-1；对象超过作用域该对象的引用计数如果为0，则系统会清理对象占用的内存空间，目前内存管理的方式分为MRC和ARC两种.      <ul>
+<li>MRC：需要开发者编码追加retain/release等消息；</li>
+<li>ARC：编译器为开发者追加retain/release等消息；</li>
+</ul>
+</li>
+</ul>
+<h3 id="引用计数是什么"><a href="#引用计数是什么" class="headerlink" title="引用计数是什么"></a>引用计数是什么</h3><ul>
+<li>内存管理中对引用自动计数的技术；  </li>
+<li>简单的说是一个数值，可以通过对象的retainCount获取 ；这个数值为0时代表给对象可以被系统回收；</li>
+<li>引用计数采用散列表的方式存储，对象的内存地址作为key，value就是对象的retainCount（此结论待探讨）；  </li>
+</ul>
+<h3 id="内存管理的思考方式"><a href="#内存管理的思考方式" class="headerlink" title="内存管理的思考方式"></a>内存管理的思考方式</h3><ul>
+<li>自己生成的对象自己持有（new、 alloc、 copy、 mutablecopy） ；</li>
+<li>非自己生成的对象自己也能持有  ；</li>
+<li>不需要自己持有的对象时释放 ；</li>
+<li>非自己持有的对象无法释放 ，使用autorelease机制生成的对象，一旦持有就不需要自己释放，一旦释放就会导致崩溃问题；</li>
+</ul>
+<h3 id="autorelease的作用"><a href="#autorelease的作用" class="headerlink" title="autorelease的作用"></a>autorelease的作用</h3><ul>
+<li>生成的对象不自己持有，但能保证对象在超出作用域范围存在并能正确地释放  </li>
+<li>将对象添加到autoreleasepool中；  </li>
+<li>在对象超过autoreleasepool的作用域，向对象发送release消息；</li>
+<li>像NSMutableArray的类方法+array内部生成对象就使用了autorelease；</li>
+</ul>
+<h3 id="autorelease的实现-（GNUStep）"><a href="#autorelease的实现-（GNUStep）" class="headerlink" title="autorelease的实现  （GNUStep）"></a>autorelease的实现  （GNUStep）</h3><ul>
+<li>autorelease实例方法的本质就是调用NSAutoreleasePool的addObject:类方法 ；</li>
+<li>关于autorelease的频繁调用，系统的解决机制是使用”IMP Caching”,每一个类都有一个方法缓存列表，这样就能提高在运行时频繁调用某个方法的效率  ；</li>
+</ul>
+<h3 id="autorelease的实现-（Apple）"><a href="#autorelease的实现-（Apple）" class="headerlink" title="autorelease的实现  （Apple）"></a>autorelease的实现  （Apple）</h3><p><img src="http://upload-images.jianshu.io/upload_images/117735-74f016b97d214da5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=" autorelease的实现"></p>
+<h3 id="autoreleasepool"><a href="#autoreleasepool" class="headerlink" title="autoreleasepool"></a>autoreleasepool</h3><ul>
+<li>使用autorealease标记的对象都会被注册到自动释放池中，当自动释放池被drain时会向存储的对象一一发送release消息  </li>
+<li>autorealeasepool类似一个堆栈，提供pop();push();removeAll();方法。一次runloop循环就会创建一个autorealeasepool，事件循环结束自动释放池销毁，对象realease；引用计数为0的销毁，不为0的可能会出现内存泄露的问题    </li>
+</ul>
+<h3 id="手动创建autoreleasepool的情况"><a href="#手动创建autoreleasepool的情况" class="headerlink" title="手动创建autoreleasepool的情况"></a>手动创建autoreleasepool的情况</h3><p>当开发中遇到在某个作用域内部产生大量的autorelease对象导致内存激增，需要考虑手动创建autoreleasepool来释放局部变量的情况！ </p>
+<h3 id="所有权修饰符"><a href="#所有权修饰符" class="headerlink" title="所有权修饰符"></a>所有权修饰符</h3><h5 id="strong"><a href="#strong" class="headerlink" title="__strong"></a>__strong</h5><blockquote>
+<p>持有强引用的变量会在超过其作用域的时候被释放；对应属性中的retain/strong；默认情况下的所有权修饰符是__strong;   </p>
+</blockquote>
+<pre><code>{
+  // 自己生成并持有对象
+  id _strong obj = [[NSObject alloc]init];
+}// 超出作用域，强引用失效，释放对象
+</code></pre><h5 id="weak"><a href="#weak" class="headerlink" title="__weak"></a>__weak</h5><ul>
+<li>__weak修饰符解决的是两个强引用对象互相引用导致的引用循环所引发的内存泄露问题；  </li>
+<li><strong>weak修饰符与</strong>strong 修饰符相反，不能持有对象；</li>
+<li>__weak修饰符持有的对象对释放后，弱引用会被自动置为nil；  </li>
+</ul>
+<pre><code>{  
+ id obj = [[NSObject alloc]init];
+ id __weak weakObj = obj;   
+}
+</code></pre><ul>
+<li>首先会调用函数objc_loadWeakRetained(&amp;obj);  </li>
+<li>retain一下obj；但不改变引用计数;  </li>
+<li>obj_autorealease()将obj注册到autorealeasepool中;  </li>
+<li>全局有一个可变字典；obj的内存地址作为key值，value是所有指向obj的weak指针列表（CFMutableSet）;  </li>
+<li>obj指向的内存块销毁了，对应的value中指针都为统一置为nil  </li>
+</ul>
+<h5 id="unsafe-unretained"><a href="#unsafe-unretained" class="headerlink" title="__unsafe_unretained"></a>__unsafe_unretained</h5><blockquote>
+<p>和weak相似但不会在对象被销毁时自动置为nil（属性中对应assgin）<br>对于weak来说__unsafe_unretained性能上更加优越</p>
+</blockquote>
+<h5 id="autoreleasing"><a href="#autoreleasing" class="headerlink" title="__autoreleasing"></a>__autoreleasing</h5><blockquote>
+<p>类似调用autorelease方法将对象添加到自动释放池中   </p>
+</blockquote>
+<h3 id="内存管理开发tips"><a href="#内存管理开发tips" class="headerlink" title="内存管理开发tips"></a>内存管理开发tips</h3><h5 id="ARC与Block的内存管理"><a href="#ARC与Block的内存管理" class="headerlink" title="ARC与Block的内存管理"></a>ARC与Block的内存管理</h5><blockquote>
+<p> block为什么会导致循环引用？<br> 当self对象持有block，在block中也持有self；在block中会copy一个self对象作为block的一个属性；当要该属性的释放要等到block从堆中移除，而此时block要等待持有自己的self销毁，由此导致循环引用；<br> 解决方法：弱化self对象，但要在block内不防止弱化的对象过早释放，由此在block中还得再次强化已弱化的self对象   </p>
+</blockquote>
+<h4 id="属性的set方法MRC下的内存管理的写法"><a href="#属性的set方法MRC下的内存管理的写法" class="headerlink" title="属性的set方法MRC下的内存管理的写法"></a>属性的set方法MRC下的内存管理的写法</h4><pre><code>-(void)setName:(NSString*)newName{
+  [newName retain];
+  [_name release];
+  _name = newName;
+</code></pre><h4 id="自动释放池和线程"><a href="#自动释放池和线程" class="headerlink" title="自动释放池和线程"></a>自动释放池和线程</h4><blockquote>
+<p> Cocoa程序中的每一个线程，都维护自己的自动释放池栈。如果你要写一个Foundation程序，或者卸载一个线程，你需要创建自己的autorelease池块。如果你的程序或者线程是常驻内存，并可能产生大量自动释放对象，你应该使用自动释放池（AppKit和UIKit在主线程中有自动释放池）；否则自动释放对象累积，导致内存占用增长。如果你不是Cocoa中卸载线程，你不需要使用一个自动释放池块。  </p>
+</blockquote>
+<h4 id="控制器移除时dealloc无法被调动"><a href="#控制器移除时dealloc无法被调动" class="headerlink" title="控制器移除时dealloc无法被调动"></a>控制器移除时dealloc无法被调动</h4><p>遇到这种情况，就需要排查控制器中出现的内存泄露了；</p>
+<ul>
+<li>delegate属性类型是否被声明为strong  </li>
+<li>NSTime是否被被关闭  </li>
+<li>block中是否造成了self的循环引用  </li>
+<li>是否存在两个对象之间的强引用   </li>
+</ul>
+<blockquote>
+<p>参考文档 </p>
+<p>  <a href="https://developer.apple.com/library/content/releasenotes/ObjectiveC/RN-TransitioningToARC/Introduction/Introduction.html" target="_blank" rel="external">Transitioning to ARC Release Notes</a><br> 《Objective-C 高级编程》 </p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/04/06/视图与视图层次结构/" rel="next" title="视图与视图层次结构">
+                <i class="fa fa-chevron-left"></i> 视图与视图层次结构
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/06/20/初识Objective-c的消息传递机制/" rel="prev" title="Objective-c的消息传递机制">
+                Objective-c的消息传递机制 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://tva2.sinaimg.cn/crop.0.0.639.639.180/8e8e3b1bjw8evv5nqax26j20hs0hrwf5.jpg"
+               alt="华子" />
+          <p class="site-author-name" itemprop="name">华子</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么要进行内存管理"><span class="nav-number">1.</span> <span class="nav-text">为什么要进行内存管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何进行内存管理"><span class="nav-number">2.</span> <span class="nav-text">如何进行内存管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用计数是什么"><span class="nav-number">3.</span> <span class="nav-text">引用计数是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存管理的思考方式"><span class="nav-number">4.</span> <span class="nav-text">内存管理的思考方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#autorelease的作用"><span class="nav-number">5.</span> <span class="nav-text">autorelease的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#autorelease的实现-（GNUStep）"><span class="nav-number">6.</span> <span class="nav-text">autorelease的实现  （GNUStep）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#autorelease的实现-（Apple）"><span class="nav-number">7.</span> <span class="nav-text">autorelease的实现  （Apple）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#autoreleasepool"><span class="nav-number">8.</span> <span class="nav-text">autoreleasepool</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手动创建autoreleasepool的情况"><span class="nav-number">9.</span> <span class="nav-text">手动创建autoreleasepool的情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#所有权修饰符"><span class="nav-number">10.</span> <span class="nav-text">所有权修饰符</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#strong"><span class="nav-number">10.0.1.</span> <span class="nav-text">__strong</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#weak"><span class="nav-number">10.0.2.</span> <span class="nav-text">__weak</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#unsafe-unretained"><span class="nav-number">10.0.3.</span> <span class="nav-text">__unsafe_unretained</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#autoreleasing"><span class="nav-number">10.0.4.</span> <span class="nav-text">__autoreleasing</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存管理开发tips"><span class="nav-number">11.</span> <span class="nav-text">内存管理开发tips</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ARC与Block的内存管理"><span class="nav-number">11.0.1.</span> <span class="nav-text">ARC与Block的内存管理</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#属性的set方法MRC下的内存管理的写法"><span class="nav-number">11.1.</span> <span class="nav-text">属性的set方法MRC下的内存管理的写法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自动释放池和线程"><span class="nav-number">11.2.</span> <span class="nav-text">自动释放池和线程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#控制器移除时dealloc无法被调动"><span class="nav-number">11.3.</span> <span class="nav-text">控制器移除时dealloc无法被调动</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">华子</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

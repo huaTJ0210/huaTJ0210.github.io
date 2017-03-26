@@ -1,0 +1,798 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS动画," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="阅读iOS核心动画译文版本对其中的内容做了概要整理；文中罗列出视图、图层、Core Animation 、Core Graphics的介绍。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS核心动画(一)">
+<meta property="og:url" content="http://yoursite.com/2015/10/25/iOS核心动画(一)/index.html">
+<meta property="og:site_name" content="華">
+<meta property="og:description" content="阅读iOS核心动画译文版本对其中的内容做了概要整理；文中罗列出视图、图层、Core Animation 、Core Graphics的介绍。">
+<meta property="og:image" content="http://ofldf2gv9.bkt.clouddn.com/视图和图层.png">
+<meta property="og:image" content="http://ofldf2gv9.bkt.clouddn.com/图层.png">
+<meta property="og:image" content="http://ofldf2gv9.bkt.clouddn.com/CALayer.png">
+<meta property="og:image" content="http://ofldf2gv9.bkt.clouddn.com/布局.png">
+<meta property="og:image" content="http://ofldf2gv9.bkt.clouddn.com/视觉效果.png">
+<meta property="og:image" content="http://ofldf2gv9.bkt.clouddn.com/变换.png">
+<meta property="og:image" content="http://ofldf2gv9.bkt.clouddn.com/动画.png">
+<meta property="og:image" content="http://ofldf2gv9.bkt.clouddn.com/iOS核心动画.png">
+<meta property="og:updated_time" content="2017-02-21T03:44:45.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS核心动画(一)">
+<meta name="twitter:description" content="阅读iOS核心动画译文版本对其中的内容做了概要整理；文中罗列出视图、图层、Core Animation 、Core Graphics的介绍。">
+<meta name="twitter:image" content="http://ofldf2gv9.bkt.clouddn.com/视图和图层.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/10/25/iOS核心动画(一)/"/>
+
+
+
+
+
+  <title> iOS核心动画(一) | 華 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">華</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/10/25/iOS核心动画(一)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="华子">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://tva2.sinaimg.cn/crop.0.0.639.639.180/8e8e3b1bjw8evv5nqax26j20hs0hrwf5.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="華">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS核心动画(一)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-10-25T15:31:18+08:00">
+                2015-10-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>阅读iOS核心动画译文版本对其中的内容做了概要整理；文中罗列出视图、图层、Core Animation 、Core Graphics的介绍。</strong><br><a id="more"></a></p>
+<h4 id="视图和图层"><a href="#视图和图层" class="headerlink" title="视图和图层"></a>视图和图层</h4><center><br><img src="http://ofldf2gv9.bkt.clouddn.com/视图和图层.png" alt="视图和图层"><br></center> 
+
+<h4 id="图层"><a href="#图层" class="headerlink" title="图层"></a>图层</h4><center><br><img src="http://ofldf2gv9.bkt.clouddn.com/图层.png" alt="图层"><br></center> 
+
+
+<h4 id="CALayer"><a href="#CALayer" class="headerlink" title="CALayer"></a>CALayer</h4><center><br><img src="http://ofldf2gv9.bkt.clouddn.com/CALayer.png" alt="CALayer"><br></center> 
+
+<h4 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h4><center><br><img src="http://ofldf2gv9.bkt.clouddn.com/布局.png" alt="布局"><br></center> 
+
+<h4 id="视觉效果"><a href="#视觉效果" class="headerlink" title="视觉效果"></a>视觉效果</h4><center><br><img src="http://ofldf2gv9.bkt.clouddn.com/视觉效果.png" alt="视觉效果"><br></center> 
+
+<h4 id="变换"><a href="#变换" class="headerlink" title="变换"></a>变换</h4><center><br><img src="http://ofldf2gv9.bkt.clouddn.com/变换.png" alt="变换"><br></center> 
+
+<h4 id="动画"><a href="#动画" class="headerlink" title="动画"></a>动画</h4><center><br><img src="http://ofldf2gv9.bkt.clouddn.com/动画.png" alt="动画"><br></center>    
+
+<h4 id="性能调优"><a href="#性能调优" class="headerlink" title="性能调优"></a>性能调优</h4><h5 id="GPU"><a href="#GPU" class="headerlink" title="GPU"></a>GPU</h5><ul>
+<li>GPU的相关操作: 将图层内容渲染到屏幕上 </li>
+<li>影响GPU的操作  <ul>
+<li>太多的几何结构 </li>
+<li>重绘：由重叠的半透明图层引起 </li>
+<li>离屏绘制：不能直接在屏幕上绘制，必须绘制到离屏图片上下文中  </li>
+<li>过大的图片   </li>
+</ul>
+</li>
+</ul>
+<h5 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h5><p>影响CPU的操作  </p>
+<ul>
+<li>布局计算 :自动布局机制  </li>
+<li>视图的懒加载 ：iOS只会在视图控制器的视图显示在屏幕上时，才会加载他  </li>
+<li>Core Graphics绘制：为了支持对图层内容的任意绘制，Core Animation必须创建一个内存中等大小的寄宿图片。然后一旦绘制结束之后，必须把图片数据通过IPC传到渲染服务器。在此基础上，Core Graphics绘制就会变得十分缓慢  </li>
+<li>解压图片: PNG或者JPEG压缩之后的图片文件会比同质量的位图小得多。但是在图片绘制到屏幕上之前，必须把它扩展成完整的未解压的尺寸;iOS只有在真正绘制的时候才去解压   </li>
+</ul>
+<h5 id="Instruments"><a href="#Instruments" class="headerlink" title="Instruments"></a>Instruments</h5><ul>
+<li>时间分析器：测量方法打断CPU使用情况   </li>
+<li>Core Animation:用来调试各种Core Animation性能问题  <ul>
+<li>Color Blended Layers：基于渲染程度对于屏幕中的混合区域进行绿到红的高亮</li>
+<li>ColorHitsGreenandMissesRed：耗时的图层绘制就会使用红色高亮 </li>
+</ul>
+</li>
+<li>OpenGL ES 驱动：用来调试GPU性能问题  <ul>
+<li>Renderer Utilization - 如果这个值超过了~50%，就意味着你的动画可能对帧率有所限制，很可能因为离屏渲染或者是重绘导致的过度混合  </li>
+<li>Tiler Utilization - 如果这个值超过了~50%，就意味着你的动画可能限制于几何结构方面，也就是在屏幕上有太多的图层占用了  </li>
+</ul>
+</li>
+</ul>
+<h5 id="高效绘制"><a href="#高效绘制" class="headerlink" title="高效绘制"></a>高效绘制</h5><p><strong>避免使用CALayerDelegate协议中的-drawLayer:inContext:方法或者UIView中的-drawRect:</strong>  </p>
+<blockquote>
+<p>原因：实现这两个方法中的其中之一就必须需要一个绘制上下文，这个上下文的大小基本和原有图层的内存占有量一致；所以重绘的代价太高  </p>
+</blockquote>
+<p><strong>对于Core Graphics 可以使用CAShapLayer来替换绘制图形、直线和曲线，使用CATextLayer绘制文本，CAGradientLayer绘制渐变</strong>   </p>
+<h5 id="图像IO"><a href="#图像IO" class="headerlink" title="图像IO"></a>图像IO</h5><p><strong>使用列表加载远程图片资源</strong>  </p>
+<p>直接加载会导致界面卡顿；因为图片资源大，导致加载时间长；  </p>
+<blockquote>
+<p> 解决方案：在子线程中加载图片，在主线程中更新显示内容  </p>
+</blockquote>
+<p><strong>延迟解压</strong>  </p>
+<blockquote>
+<p>加载图片的时候iOS通常会延迟解压图片的时间;+imageNamed:可以避免延迟加载，但是此方法只是使用<br> 应用资源包中的图片;使用ImageIO框架强制将图片解压出来,渲染的时候直接使用或者使用CATiledLayer（异步加载和显示大型图片）同时使用缓存策略  </p>
+</blockquote>
+<h5 id="关于离屏渲染问题"><a href="#关于离屏渲染问题" class="headerlink" title="关于离屏渲染问题"></a>关于离屏渲染问题</h5><ul>
+<li>设置控件圆角：cornerRadius和masksToBounds一起使用时要考虑性能损耗<br>可以采用CAShapeLayer结合UIBezierPath 绘制圆角的图层来实现 </li>
+<li>控件阴影的设置 采用 shadowPath来创建一个对应形状的阴影路径  </li>
+<li>混合和过度绘制（GPU会放弃绘制被遮挡住的图层像素）  <ul>
+<li>给视图设置背景色，并且不透明  </li>
+<li>设置opaque 为yes  </li>
+</ul>
+</li>
+<li>对象回收 <blockquote>
+<p>处理巨大数量的相似视图或是图层时还有一个技巧就是回收；类似于UITableView的重用机制</p>
+</blockquote>
+</li>
+</ul>
+<div align="center"><br><img src="http://ofldf2gv9.bkt.clouddn.com/iOS核心动画.png" width="600" height="240" alt="iOS核心动画思维导图"><br></div>
+
+
+
+
+
+
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS动画/" rel="tag"># iOS动画</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/15/AppStore被拒之icloud备份数据较大/" rel="next" title="AppStore被拒之icloud备份数据较大">
+                <i class="fa fa-chevron-left"></i> AppStore被拒之icloud备份数据较大
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/12/01/iOS之NSOperation/" rel="prev" title="iOS之NSOperation">
+                iOS之NSOperation <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://tva2.sinaimg.cn/crop.0.0.639.639.180/8e8e3b1bjw8evv5nqax26j20hs0hrwf5.jpg"
+               alt="华子" />
+          <p class="site-author-name" itemprop="name">华子</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#视图和图层"><span class="nav-number">1.</span> <span class="nav-text">视图和图层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#图层"><span class="nav-number">2.</span> <span class="nav-text">图层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CALayer"><span class="nav-number">3.</span> <span class="nav-text">CALayer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#布局"><span class="nav-number">4.</span> <span class="nav-text">布局</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#视觉效果"><span class="nav-number">5.</span> <span class="nav-text">视觉效果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#变换"><span class="nav-number">6.</span> <span class="nav-text">变换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#动画"><span class="nav-number">7.</span> <span class="nav-text">动画</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#性能调优"><span class="nav-number">8.</span> <span class="nav-text">性能调优</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#GPU"><span class="nav-number">8.1.</span> <span class="nav-text">GPU</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CPU"><span class="nav-number">8.2.</span> <span class="nav-text">CPU</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Instruments"><span class="nav-number">8.3.</span> <span class="nav-text">Instruments</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#高效绘制"><span class="nav-number">8.4.</span> <span class="nav-text">高效绘制</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#图像IO"><span class="nav-number">8.5.</span> <span class="nav-text">图像IO</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#关于离屏渲染问题"><span class="nav-number">8.6.</span> <span class="nav-text">关于离屏渲染问题</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">华子</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
