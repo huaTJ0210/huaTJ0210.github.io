@@ -87,24 +87,24 @@
 
 
 
-<meta name="description" content="阅读![iOS核心动画译文版本]（http://wiki.jikexueyuan.com/project/ios-core-animation）对其中的内容做了概要整理；文中罗列出视图、图层、Core Animation 、Core Graphics的介绍。">
+<meta name="description" content="阅读iOS核心动画译文版本对其中的内容做了概要整理；文中罗列出视图、图层、Core Animation 、Core Graphics的介绍。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS核心动画阅读笔记">
 <meta property="og:url" content="http://yoursite.com/2015/10/25/iOS核心动画(一)/index.html">
 <meta property="og:site_name" content="華">
-<meta property="og:description" content="阅读![iOS核心动画译文版本]（http://wiki.jikexueyuan.com/project/ios-core-animation）对其中的内容做了概要整理；文中罗列出视图、图层、Core Animation 、Core Graphics的介绍。">
+<meta property="og:description" content="阅读iOS核心动画译文版本对其中的内容做了概要整理；文中罗列出视图、图层、Core Animation 、Core Graphics的介绍。">
 <meta property="og:image" content="http://ofldf2gv9.bkt.clouddn.com/视图和图层.png">
-<meta property="og:image" content="http://ofldf2gv9.bkt.clouddn.com/图层.png">
 <meta property="og:image" content="http://ofldf2gv9.bkt.clouddn.com/CALayer.png">
+<meta property="og:image" content="http://ofldf2gv9.bkt.clouddn.com/图层.png">
 <meta property="og:image" content="http://ofldf2gv9.bkt.clouddn.com/布局.png">
 <meta property="og:image" content="http://ofldf2gv9.bkt.clouddn.com/视觉效果.png">
 <meta property="og:image" content="http://ofldf2gv9.bkt.clouddn.com/变换.png">
 <meta property="og:image" content="http://ofldf2gv9.bkt.clouddn.com/动画.png">
 <meta property="og:image" content="http://ofldf2gv9.bkt.clouddn.com/iOS核心动画.png">
-<meta property="og:updated_time" content="2017-03-28T03:17:24.000Z">
+<meta property="og:updated_time" content="2017-03-28T03:29:35.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS核心动画阅读笔记">
-<meta name="twitter:description" content="阅读![iOS核心动画译文版本]（http://wiki.jikexueyuan.com/project/ios-core-animation）对其中的内容做了概要整理；文中罗列出视图、图层、Core Animation 、Core Graphics的介绍。">
+<meta name="twitter:description" content="阅读iOS核心动画译文版本对其中的内容做了概要整理；文中罗列出视图、图层、Core Animation 、Core Graphics的介绍。">
 <meta name="twitter:image" content="http://ofldf2gv9.bkt.clouddn.com/视图和图层.png">
 
 
@@ -358,13 +358,15 @@
       
 
       
-        <p><strong>阅读![iOS核心动画译文版本]（<a href="http://wiki.jikexueyuan.com/project/ios-core-animation）对其中的内容做了概要整理；文中罗列出视图、图层、Core" target="_blank" rel="external">http://wiki.jikexueyuan.com/project/ios-core-animation）对其中的内容做了概要整理；文中罗列出视图、图层、Core</a> Animation 、Core Graphics的介绍。</strong><br><a id="more"></a></p>
+        <blockquote>
+<p>阅读<a href="http://wiki.jikexueyuan.com/project/ios-core-animation" target="_blank" rel="external">iOS核心动画译文版本</a>对其中的内容做了概要整理；文中罗列出视图、图层、Core Animation 、Core Graphics的介绍。<br><a id="more"></a></p>
+</blockquote>
 <h4 id="视图和图层"><a href="#视图和图层" class="headerlink" title="视图和图层"></a>视图和图层</h4><center><br><img src="http://ofldf2gv9.bkt.clouddn.com/视图和图层.png" alt="视图和图层"><br></center> 
+
+<h4 id="CALayer"><a href="#CALayer" class="headerlink" title="CALayer"></a>CALayer</h4><center><br><img src="http://ofldf2gv9.bkt.clouddn.com/CALayer.png" alt="CALayer"><br></center> 
 
 <h4 id="图层"><a href="#图层" class="headerlink" title="图层"></a>图层</h4><center><br><img src="http://ofldf2gv9.bkt.clouddn.com/图层.png" alt="图层"><br></center> 
 
-
-<h4 id="CALayer"><a href="#CALayer" class="headerlink" title="CALayer"></a>CALayer</h4><center><br><img src="http://ofldf2gv9.bkt.clouddn.com/CALayer.png" alt="CALayer"><br></center> 
 
 <h4 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h4><center><br><img src="http://ofldf2gv9.bkt.clouddn.com/布局.png" alt="布局"><br></center> 
 
@@ -622,7 +624,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#视图和图层"><span class="nav-number">1.</span> <span class="nav-text">视图和图层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#图层"><span class="nav-number">2.</span> <span class="nav-text">图层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CALayer"><span class="nav-number">3.</span> <span class="nav-text">CALayer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#布局"><span class="nav-number">4.</span> <span class="nav-text">布局</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#视觉效果"><span class="nav-number">5.</span> <span class="nav-text">视觉效果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#变换"><span class="nav-number">6.</span> <span class="nav-text">变换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#动画"><span class="nav-number">7.</span> <span class="nav-text">动画</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#性能调优"><span class="nav-number">8.</span> <span class="nav-text">性能调优</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#GPU"><span class="nav-number">8.1.</span> <span class="nav-text">GPU</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CPU"><span class="nav-number">8.2.</span> <span class="nav-text">CPU</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Instruments"><span class="nav-number">8.3.</span> <span class="nav-text">Instruments</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#高效绘制"><span class="nav-number">8.4.</span> <span class="nav-text">高效绘制</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#图像IO"><span class="nav-number">8.5.</span> <span class="nav-text">图像IO</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#关于离屏渲染问题"><span class="nav-number">8.6.</span> <span class="nav-text">关于离屏渲染问题</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#视图和图层"><span class="nav-number">1.</span> <span class="nav-text">视图和图层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CALayer"><span class="nav-number">2.</span> <span class="nav-text">CALayer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#图层"><span class="nav-number">3.</span> <span class="nav-text">图层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#布局"><span class="nav-number">4.</span> <span class="nav-text">布局</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#视觉效果"><span class="nav-number">5.</span> <span class="nav-text">视觉效果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#变换"><span class="nav-number">6.</span> <span class="nav-text">变换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#动画"><span class="nav-number">7.</span> <span class="nav-text">动画</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#性能调优"><span class="nav-number">8.</span> <span class="nav-text">性能调优</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#GPU"><span class="nav-number">8.1.</span> <span class="nav-text">GPU</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CPU"><span class="nav-number">8.2.</span> <span class="nav-text">CPU</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Instruments"><span class="nav-number">8.3.</span> <span class="nav-text">Instruments</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#高效绘制"><span class="nav-number">8.4.</span> <span class="nav-text">高效绘制</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#图像IO"><span class="nav-number">8.5.</span> <span class="nav-text">图像IO</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#关于离屏渲染问题"><span class="nav-number">8.6.</span> <span class="nav-text">关于离屏渲染问题</span></a></li></ol></li></ol></div>
             
 
           </div>
