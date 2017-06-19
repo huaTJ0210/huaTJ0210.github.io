@@ -257,198 +257,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/19/工作总结与试用期计划20170619/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="华子">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://tva2.sinaimg.cn/crop.0.0.639.639.180/8e8e3b1bjw8evv5nqax26j20hs0hrwf5.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="華">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/19/工作总结与试用期计划20170619/" itemprop="url">
-                  工作总结与试用期计划20170619
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-19T12:42:47+08:00">
-                2017-06-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="项目熟悉"><a href="#项目熟悉" class="headerlink" title="项目熟悉"></a>项目熟悉</h3><ul>
-<li>ipa打包和各种资源文件的在不同环境的使用配置</li>
-<li>CBFramework的具体提供的功能</li>
-<li>H5交互开发流程（JSWebViewController作为交互的主控制器） </li>
-</ul>
-<h3 id="app安装包瘦身（已完成）"><a href="#app安装包瘦身（已完成）" class="headerlink" title="app安装包瘦身（已完成）"></a>app安装包瘦身（已完成）</h3><ul>
-<li>移除VIP弹框所使用的静态资源文件和动画逻辑代码</li>
-<li>修复vip弹框的相关bug</li>
-<li>2.5.1完成appstore的上线</li>
-</ul>
-<h3 id="现金劵和优惠券-（项目进度80-）"><a href="#现金劵和优惠券-（项目进度80-）" class="headerlink" title="现金劵和优惠券 （项目进度80%）"></a>现金劵和优惠券 （项目进度80%）</h3><ul>
-<li>优惠券弹框模块开发</li>
-<li>定期宝购买页面UI调整和优惠券选取模块开发</li>
-<li>定期宝支付成功后展示优惠券详情界面开发</li>
-<li>将vip、测评、优惠券弹框拆分到独立模块，并对具体业务做了优化（弹框只在三个tab界面弹出，修复弹出多个弹框的bug等）</li>
-</ul>
-<h3 id="三方sdk版本管理-（6-19完成）"><a href="#三方sdk版本管理-（6-19完成）" class="headerlink" title="三方sdk版本管理 （6/19完成）"></a>三方sdk版本管理 （6/19完成）</h3><ul>
-<li>使用cocoapods对AFN/SD/MJRefresh完成版本管理</li>
-</ul>
-<h3 id="日常测试bug修复（已完成）"><a href="#日常测试bug修复（已完成）" class="headerlink" title="日常测试bug修复（已完成）"></a>日常测试bug修复（已完成）</h3><ul>
-<li>用户设置登录密码文案不一致</li>
-<li>没有月工资单不需要提示</li>
-<li>工资宝介绍页面缺少标题</li>
-<li>体现超额信息显示不完整</li>
-<li>手势密码界面弹出业务弹框</li>
-<li>实名认证验证银行卡界面出现多次打开的情况</li>
-<li>已测评用户在立即投资界面弹出的bug</li>
-</ul>
-<h3 id="新员工培训（已完成）"><a href="#新员工培训（已完成）" class="headerlink" title="新员工培训（已完成）"></a>新员工培训（已完成）</h3><ul>
-<li>06/09 全天员工培训</li>
-<li>06/16 下午员工培训</li>
-</ul>
-<h3 id="定期宝页面整改梳理（已完成，待开发）"><a href="#定期宝页面整改梳理（已完成，待开发）" class="headerlink" title="定期宝页面整改梳理（已完成，待开发）"></a>定期宝页面整改梳理（已完成，待开发）</h3><ul>
-<li>网络数据请求（网络库），当前已经处于主线程，串行队列异步执行主线程的任务，需要整改；</li>
-<li>AFN返回block已是在主线程中，再次在请求主线程执行任务没有意义；</li>
-<li>业务请求接口的处理大都放在viewController中太过于臃肿；</li>
-<li>定期宝列表每次返回都有刷新数据，发送网络请求的操作，应该优化处理！</li>
-<li>首页轮播图业务应该抽离出Viewcontrolelr，并且具体的业务（网络请求失败使用本地文件）应该封装；</li>
-</ul>
-<h2 id="下一步工作计划"><a href="#下一步工作计划" class="headerlink" title="下一步工作计划"></a>下一步工作计划</h2><h3 id="三方SDK封装"><a href="#三方SDK封装" class="headerlink" title="三方SDK封装"></a>三方SDK封装</h3><ul>
-<li>整合Appdelegate中的三方服务到具体的业务分类中，做到三方业务模块化</li>
-<li>包装三方SDK，提供API给实际业务使用；保证业务后期替换三方SDK的开发成本</li>
-<li>三方依赖包采用cocoapods做版本管理，简化升级过程</li>
-<li>简化sdk的引入，无关业务剔除，尽量减少app安装包的大小</li>
-</ul>
-<h3 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h3><ul>
-<li>创建网络helper类；提供数据请求、文件下载等api；</li>
-<li>将session检测、网络可用检测，握手等操作整合到网络层中，提供简洁的api给业务层使用；</li>
-<li>提供可配置的缓存功能</li>
-<li>安全验证（待讨论）</li>
-</ul>
-<h3 id="数据层"><a href="#数据层" class="headerlink" title="数据层"></a>数据层</h3><ul>
-<li>持久化、内存等数据的存储提供统一api；</li>
-<li>避免业务中随便使用NSUserDefaults 做存储</li>
-</ul>
-<h3 id="业务层"><a href="#业务层" class="headerlink" title="业务层"></a>业务层</h3><ul>
-<li>根据具体的业务划分模块，采用MVC（MVVM）模式简化控制器中的业务逻辑</li>
-<li>对于具体已划分的业务模块拆分出业务逻辑类；保证可进行单元测试；</li>
-<li>系统级别业务做到解耦和（运营活动{vip、测评，优惠券}）；不能影响到原有的业务；保证修改关闭，新增开放的规则；</li>
-</ul>
-<h3 id="静态资源管理"><a href="#静态资源管理" class="headerlink" title="静态资源管理"></a>静态资源管理</h3><ul>
-<li>合理控制图片资源的大小，避免增大安装包的体积</li>
-</ul>
-<h3 id="CBFrameWork"><a href="#CBFrameWork" class="headerlink" title="CBFrameWork"></a>CBFrameWork</h3><ul>
-<li>新增三端交互API，使用固定协议（H5传递functionName，functionParams即可），避免每次新增api,客户端需要重新打包CBFrameWork；</li>
-<li>API版本控制（类似iOS系统，H5使用的API都有最低版本要求，避免低版本用户使用报错）</li>
-<li>握手的同步请求（有待研究，目前方案对数据请求的影响不大）</li>
-<li>H5文件下载优化（针对目前线上出现的文件更新失败后，客户无法使用，来修改下载逻辑）</li>
-<li>尽量减少系统对于CBFrameWork的依赖，自定义可完成的功能，尽量从CBFrameWork拆分出去</li>
-</ul>
-<h3 id="客户端新技术的调研-Weex-RN"><a href="#客户端新技术的调研-Weex-RN" class="headerlink" title="客户端新技术的调研(Weex/RN)"></a>客户端新技术的调研(Weex/RN)</h3><ul>
-<li>详细设计一套基于 Weex/RN 的开发流程包含（更新系统、页面开发流程、业务开发与客户端的交互、安全性、容错机制等）</li>
-<li>vue/react的前端技术学习（业务功能开发、界面优化等）</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/04/说说三观/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1738,6 +1546,153 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/08/如何选择NSString成员变量的修饰属性copy-or-strong/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="华子">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://tva2.sinaimg.cn/crop.0.0.639.639.180/8e8e3b1bjw8evv5nqax26j20hs0hrwf5.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="華">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/01/08/如何选择NSString成员变量的修饰属性copy-or-strong/" itemprop="url">
+                  如何选择NSString成员变量的修饰属性copy or strong
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-08T17:32:23+08:00">
+                2016-01-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h4 id="两个问题"><a href="#两个问题" class="headerlink" title="两个问题"></a>两个问题</h4><ul>
+<li>为什么NSString类型成员变量的修饰符属性使用copy而不是strong？</li>
+<li>NSArray类型成员变量的修饰符属性你使用copy or strong?</li>
+</ul>
+<p><strong>下面从对象接收copy消息可以解析问题的答案</strong></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/01/08/如何选择NSString成员变量的修饰属性copy-or-strong/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
@@ -1787,7 +1742,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-count">33</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
