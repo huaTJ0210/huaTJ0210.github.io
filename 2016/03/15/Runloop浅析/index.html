@@ -92,10 +92,7 @@
 Runloop概念
 Runloop本身是一个对象（CFRunloopRef或是NSRunloop  ）
 管理事件和消息
-提供一种机制：接收到消息或是事件处于运行状态，否则处于休眠避免CPU资源的浪费   
-
-Runloop和线程的关系
-线程和Runloop是一一对应的，系统持有一个全局的CFMutableDictionary来保">
+提供一种机制：接收到消息或是事件处于运行状态，否则处于休眠避免CPU资源的浪费">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Runloop浅析">
 <meta property="og:url" content="http://yoursite.com/2016/03/15/Runloop浅析/index.html">
@@ -105,13 +102,10 @@ Runloop和线程的关系
 Runloop概念
 Runloop本身是一个对象（CFRunloopRef或是NSRunloop  ）
 管理事件和消息
-提供一种机制：接收到消息或是事件处于运行状态，否则处于休眠避免CPU资源的浪费   
-
-Runloop和线程的关系
-线程和Runloop是一一对应的，系统持有一个全局的CFMutableDictionary来保">
+提供一种机制：接收到消息或是事件处于运行状态，否则处于休眠避免CPU资源的浪费">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/117735-cfc201030af27008.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/117735-6c9cb0e8a42e326c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-08-08T05:56:18.000Z">
+<meta property="og:updated_time" content="2017-08-08T06:04:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Runloop浅析">
 <meta name="twitter:description" content="文章内容来自: 深入理解RunLoop 官方文档-Runloop
@@ -119,10 +113,7 @@ Runloop和线程的关系
 Runloop概念
 Runloop本身是一个对象（CFRunloopRef或是NSRunloop  ）
 管理事件和消息
-提供一种机制：接收到消息或是事件处于运行状态，否则处于休眠避免CPU资源的浪费   
-
-Runloop和线程的关系
-线程和Runloop是一一对应的，系统持有一个全局的CFMutableDictionary来保">
+提供一种机制：接收到消息或是事件处于运行状态，否则处于休眠避免CPU资源的浪费">
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/117735-cfc201030af27008.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -382,13 +373,14 @@ Runloop和线程的关系
 <h4 id="Runloop概念"><a href="#Runloop概念" class="headerlink" title="Runloop概念"></a>Runloop概念</h4><ul>
 <li>Runloop本身是一个对象（CFRunloopRef或是NSRunloop  ）</li>
 <li>管理事件和消息</li>
-<li>提供一种机制：接收到消息或是事件处于运行状态，否则处于休眠避免CPU资源的浪费   </li>
-</ul>
+<li><p>提供一种机制：接收到消息或是事件处于运行状态，否则处于休眠避免CPU资源的浪费   </p>
+<a id="more"></a>
 <h4 id="Runloop和线程的关系"><a href="#Runloop和线程的关系" class="headerlink" title="Runloop和线程的关系"></a>Runloop和线程的关系</h4><ul>
 <li>线程和Runloop是一一对应的，系统持有一个全局的CFMutableDictionary来保存线程和Runloop；其中key是线程，value对应CFRunloopRef实例；   </li>
 </ul>
-<ul>
-<li>线程的最初创建如果不获取Runloop是不会自动创建的  </li>
+</li>
+<li><p>线程的最初创建如果不获取Runloop是不会自动创建的  </p>
+</li>
 </ul>
 <h4 id="Runloop组成"><a href="#Runloop组成" class="headerlink" title="Runloop组成"></a>Runloop组成</h4><p><img src="http://upload-images.jianshu.io/upload_images/117735-cfc201030af27008.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Runloop组成"><br>一个runloop中存在多个Mode，每个Mode中存在Source/Observer/Timer ；每次调用 RunLoop 的主函数时，只能指定其中一个 Mode，这个Mode被称作 CurrentMode。如果需要切换 Mode，只能退出runloop，再重新指定一个 Mode 进入。这样做主要是为了分隔开不同组的 Source/Timer/Observer，让其互不影响   </p>
 <h5 id="CFRunloopSourceRef-（事件产生）"><a href="#CFRunloopSourceRef-（事件产生）" class="headerlink" title="CFRunloopSourceRef （事件产生）"></a>CFRunloopSourceRef （事件产生）</h5><ul>
@@ -578,7 +570,7 @@ CFMutableSetRef _modes;           // Set
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-count">38</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -600,7 +592,7 @@ CFMutableSetRef _modes;           // Set
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
