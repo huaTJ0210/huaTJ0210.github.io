@@ -1,0 +1,90 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> OC基础之类 · 華</title><meta name="description" content="OC基础之类 - 华子"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/timg.jpeg"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="華"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/timg.jpeg" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://weibo.com/huatianjie1" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/huaTJ0210" target="_blank" class="nav-list-link">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">OC基础之类</h1><div class="post-info">Nov 28, 2014</div><div class="post-content"><blockquote>
+<p>Objective-C是一种通用、高级、面向对象的编程语言。它扩展了标准的ANSI C编程语言，将Smalltalk式的消息传递机制加入到ANSI C中。目前主要支持的编译器有GCC和Clang（采用LLVM作为前端）。<br><a id="more"></a> </p>
+<h5 id="类"><a href="#类" class="headerlink" title="类"></a>类</h5><p>对一组具有相同属性和行为事物的抽象；（车，鸟，人等)  </p>
+<hr>
+</blockquote>
+<p><strong>Objective_C 类的结构</strong>  </p>
+<pre><code>struct objc_class {
+              Class isa;//指针，顾名思义，表示是一个什么，
+              //实例的isa指向类对象，类对象的isa指向元类
+              #if !__OBJC2__
+                  Class super_class;  //指向父类
+                  const char *name;  //类名
+                  long version;
+                  long info;
+                  long instance_size
+                  struct objc_ivar_list *ivars //成员变量列表
+                  struct objc_method_list **methodLists; //方法列表
+                  struct objc_cache *cache;//缓存一种优化，调用过的方法存入缓存列表，下次调用先找缓存
+                  struct objc_protocol_list *protocols //协议列表
+              #endif
+      } OBJC2_UNAVAILABLE;
+</code></pre><h5 id="实例变量"><a href="#实例变量" class="headerlink" title="实例变量"></a>实例变量</h5><p>实例变量的定义  </p>
+<pre><code>@interface People : NSObject
+{
+    NSUInteger _age;
+    NSString* _graduateSchool;
+}
+</code></pre><p>实例变量的存取方法  </p>
+<pre><code> -(void)setAge:(NSUInteger)age{
+    _age = age;
+}
+-(NSUInteger)age{
+    return _age;
+}
+</code></pre><p>获取当前类实例变量列表  </p>
+<pre><code>unsigned int count;
+   // 获取成员变量
+   Ivar *ivarList = class_copyIvarList([self class], &amp;count);
+   for (unsigned int i = 0; i&lt; count; i++) {
+       Ivar ivar = ivarList[i];
+       const char * ivarName =ivar_getName(ivar);
+       NSLog(@&quot;ivarName----&gt;%@&quot;,[NSString stringWithUTF8String:ivarName]);
+   }
+</code></pre><h5 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h5><ul>
+<li>实例方法：具体用来操作对象，或是访问属性值；</li>
+<li>类方法：获取类的全局变量或是创建对象；  </li>
+</ul>
+<p><strong>基础概念</strong> </p>
+<ul>
+<li>SEL：选择器，是表示一个方法的selector的指针，<code>typedef struct objc_selector *SEL;</code> Objective-C在编译时，会依据每一个方法的名字、参数序列，生成一个唯一的整型标识(Int类型的地址)，这个标识就是SEL;本质上，SEL只是一个指向方法的指针（准确的说，只是一个根据方法名hash化了的KEY值，能唯一代表一个方法），它的存在只是为了加快方法的查询速度;  </li>
+<li>IMP：实际上是一个函数指针，指向方法实现的首地址;<code>id (*IMP)(id, SEL, ...)</code>;参数1：实例方法或者是类方法 分别代表类实例的内存地址或是指向原类的指针;</li>
+<li>Method ：表示类定义的方法;<code>typedef struct objc_method *Method;</code>  </li>
+</ul>
+<pre><code>struct objc_method {
+SEL method_name                 OBJC2_UNAVAILABLE;  // 方法名
+char *method_types                  OBJC2_UNAVAILABLE;
+IMP method_imp                      OBJC2_UNAVAILABLE;  // 方法实现
+}
+</code></pre><blockquote>
+<p> 理解这几个术语之间的关系最好的方式是：一个类维护一个运行时可接收的消息分发表；分发表中的每个入口是一个方法(Method)，其中key是一个特定名称，即选择器(SEL)，其对应一个实现(IMP)，即指向底层C函数的指针。</p>
+</blockquote>
+<p>获取当前类的方法列表  </p>
+<pre><code>unsigned int count;
+Method * methodList = class_copyMethodList([self class], &amp;count);
+for (unsigned int i = 0; i&lt; count; i++) {
+    Method method =  methodList[i];
+    NSLog(@&quot;method----&gt;%@&quot;,NSStringFromSelector(method_getName(method)));
+}
+</code></pre><p> 动态增加实例方法  </p>
+<pre><code> #import &quot;People.h&quot;
+ #import &lt;objc/runtime.h&gt;
+ void runAddMethod(id self,SEL _cmd, NSString* string){
+    NSLog(@&quot;add C IMP %@&quot;,string);
+ }
+@implementation People
+// 动态增加实例方法
++ (BOOL)resolveInstanceMethod:(SEL)sel{
+    if ([NSStringFromSelector(sel) isEqualToString:@&quot;addMethod:&quot;]) {
+        class_addMethod(self, sel, (IMP)runAddMethod, &quot;v&quot;);
+    }
+    return YES;
+} 
+@end
+</code></pre><p>消息转发 :实现一个对象拥有其他对象的方法；增强对象的功能  </p>
+<ul>
+<li>动态方法解析：对象在接收到未知的消息时，首先会调用所属类的类方法<code>+resolveInstanceMethod:(实例方法)</code>或者<code>+resolveClassMethod:(类方法)</code>。在这个方法中，我们有机会为该未知消息新增一个”处理方法”“。不过使用该方法的前提是我们已经实现了该”处理方法”，只需要在运行时通过class_addMethod函数动态添加到类里面就可以了;</li>
+<li>备用接受者:如果上一步无法处理则会执行(只能够把消息转给能够处理的对象去操作)<code>- (id)forwardingTargetForSelector:(SEL)aSelector</code>;</li>
+<li>完整转发: 如果在上一步还不能处理未知消息，则唯一能做的就是启用完整的消息转发机制了<code>- (void)forwardInvocation:(NSInvocation *)anInvocation</code>  </li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/2014/12/01/数据结构之线性表的顺序存储/" class="prev">PREV</a><a href="/2014/10/03/OC基础之NSURLSession/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">华子</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

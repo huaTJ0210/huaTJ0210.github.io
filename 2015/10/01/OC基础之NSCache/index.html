@@ -1,0 +1,44 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> OC基础之NSCache · 華</title><meta name="description" content="OC基础之NSCache - 华子"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/timg.jpeg"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="華"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/timg.jpeg" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://weibo.com/huatianjie1" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/huaTJ0210" target="_blank" class="nav-list-link">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">OC基础之NSCache</h1><div class="post-info">Oct 1, 2015</div><div class="post-content"><h5 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h5><p>需要在项目运行时在内存里缓存某些对象，该如何操作？<br><a id="more"></a></p>
+<h5 id="NSMutableDictionary实现需求"><a href="#NSMutableDictionary实现需求" class="headerlink" title="NSMutableDictionary实现需求"></a>NSMutableDictionary实现需求</h5><ul>
+<li>问题一：当缓存的对象较多，系统抛出memory warning需要手动处理；</li>
+<li>问题二：线程问题，根据key存储或者获取值的时候要考虑线程安全</li>
+</ul>
+<h5 id="NSCache"><a href="#NSCache" class="headerlink" title="NSCache"></a>NSCache</h5><blockquote>
+<p>An NSCache object is a collection-like container, or cache, that stores key-value pairs, similar to the NSDictionary class. Developers often incorporate caches to temporarily store objects with transient data that are expensive to create. Reusing these objects can provide performance benefits, because their values do not have to be recalculated. However, the objects are not critical to the application and can be discarded if memory is tight. If discarded, their values will have to be recomputed again when needed.  </p>
+<p>NSCache对象是一个类似于NSDictionary存储键值对的容器或缓存。开发人员通常会缓存那些临时创建昂贵的对象，对象的再次被利用能够提升性能;  </p>
+</blockquote>
+<pre><code> #import &lt;Foundation/NSObject.h&gt;
+@class NSString;
+@protocol NSCacheDelegate;
+NS_ASSUME_NONNULL_BEGIN
+NS_CLASS_AVAILABLE(10_6, 4_0)
+@interface NSCache &lt;KeyType, ObjectType&gt; : NSObject {
+@private
+    id _delegate;
+    void *_private[5];
+    void *_reserved;
+}
+@property (copy) NSString *name;
+@property (nullable, assign) id&lt;NSCacheDelegate&gt; delegate;
+- (nullable ObjectType)objectForKey:(KeyType)key;
+- (void)setObject:(ObjectType)obj forKey:(KeyType)key; // 0 cost
+- (void)setObject:(ObjectType)obj forKey:(KeyType)key cost:(NSUInteger)g;
+- (void)removeObjectForKey:(KeyType)key;
+- (void)removeAllObjects;
+@property NSUInteger totalCostLimit;    // limits are imprecise/not strict
+@property NSUInteger countLimit;    // limits are imprecise/not strict
+@property BOOL evictsObjectsWithDiscardedContent;
+@end
+@protocol NSCacheDelegate &lt;NSObject&gt;
+@optional
+- (void)cache:(NSCache *)cache willEvictObject:(id)obj;
+@end
+</code></pre><h5 id="NSCache与NSMutableDictionary的对比"><a href="#NSCache与NSMutableDictionary的对比" class="headerlink" title="NSCache与NSMutableDictionary的对比"></a>NSCache与NSMutableDictionary的对比</h5><p>从头文件中可以看出NSCache的API和NSMutableDictionary的基本相似；但从苹果的官方上介绍NSCache的优点：（1）会自动移除对象来释放内存；（2）线程操作安全；（3）键对象不会像NSMutableDictionary中那样被复制；  </p>
+<h5 id="NSCache解析"><a href="#NSCache解析" class="headerlink" title="NSCache解析"></a>NSCache解析</h5><ul>
+<li>countLimit和totalCostLimit来现在cache的数量或者限制cost，cost是指对象在内存中占有的字节数；通常设置为0；</li>
+<li><code>- (void)cache:(NSCache *)cache willEvictObject:(id)obj;</code> 缓存对象将要被移除的时候才会调用该方法。</li>
+</ul>
+<h5 id="SDWebImage-开源框架中的使用"><a href="#SDWebImage-开源框架中的使用" class="headerlink" title="SDWebImage 开源框架中的使用"></a>SDWebImage 开源框架中的使用</h5><p>在SDWebImage中就使用了NScache将image对象在内存中缓存，key就是图片的远程地址；  </p>
+<hr>
+<p>参考<a href="http://nshipster.cn/nscache/" target="_blank" rel="external">NSCache</a></p>
+</div></article></div></main><footer><div class="paginator"><a href="/2015/10/15/iOS篇-审核/" class="prev">PREV</a><a href="/2015/09/14/OC基础之KVO/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">华子</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

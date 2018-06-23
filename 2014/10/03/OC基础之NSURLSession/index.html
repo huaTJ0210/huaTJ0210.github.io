@@ -1,0 +1,134 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> OC基础之NSURLSession · 華</title><meta name="description" content="OC基础之NSURLSession - 华子"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/timg.jpeg"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="華"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/timg.jpeg" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://weibo.com/huatianjie1" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/huaTJ0210" target="_blank" class="nav-list-link">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">OC基础之NSURLSession</h1><div class="post-info">Oct 3, 2014</div><div class="post-content"><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><pre><code>
+ The NSURLSession class and related classes provide an API for downloading content via HTTP. This API provides a rich set of
+ delegate methods for supporting authentication and gives your app the ability to perform background downloads 
+ when your app is not running or, in iOS, while your app is suspended.
+  NSURLSession类和相关类提供一个API通过HTTP下载内容。这个API提供了一组丰富的委托方法支持
+身份验证和给你的应用能力来执行后台下载，当应用程序不运行时,或者在iOS应用程序被挂起(翻译仅供参考)
+</code></pre><a id="more"></a>
+<h3 id="如何创建"><a href="#如何创建" class="headerlink" title="如何创建"></a>如何创建</h3><pre><code>  /*
+ * The shared session uses the currently set global NSURLCache,
+ * NSHTTPCookieStorage and NSURLCredentialStorage objects.
+ *第一种方式是使用静态的sharedSession方法，该类使用共享的会话，该
+会话使用全局的Cache，Cookie和证书。
+ */
++ (NSURLSession *)sharedSession;
+
+/*
+ * Customization of NSURLSession occurs during creation of a new session.
+ * If you only need to use the convenience routines with custom
+ * configuration options it is not necessary to specify a delegate.
+ * If you do specify a delegate, the delegate will be retained until after
+ * the delegate has been sent the URLSession:didBecomeInvalidWithError: message.
+ *第二种方式是通过sessionWithConfiguration:方法创建对象，也就是创
+建对应配置的会话，与NSURLSessionConfiguration合作使用。
+ */
++ (NSURLSession *)sessionWithConfiguration:(NSURLSessionConfiguration *)configuration;  
+/*
+ * 第三种方式是通过sessionWithConfiguration:delegate:delegateQueue方法创建对象，二
+三两种方式可以创建一个新会话并定制其会话类型。该方式中指定了
+session的委托和委托所处的队列。当不再需要连接时，可以调用Session的
+invalidateAndCancel直接关闭，或者调用finishTasksAndInvalidate等待当前Task结束后关闭。这时Delegate会收到
+URLSession:didBecomeInvalidWithError:这个事件。Delegate收到这个事件之后会被解引用。
+*/
++ (NSURLSession *)sessionWithConfiguration:(NSURLSessionConfiguration *)configuration delegate:(nullable id &lt;NSURLSessionDelegate&gt;)delegate delegateQueue:(nullable NSOperationQueue *)queue;
+</code></pre><h3 id="NSURLSessionConfiguration"><a href="#NSURLSessionConfiguration" class="headerlink" title="NSURLSessionConfiguration"></a>NSURLSessionConfiguration</h3><blockquote>
+<p>用于配置会话的属性，可以通过该类配置会话的工作模式  </p>
+</blockquote>
+<ul>
+<li><p>有三种模式  </p>
+<pre><code>+(NSURLSessionConfiguration *)defaultSessionConfiguration;  
++(NSURLSessionConfiguration*)ephemeralSessionConfiguration;   
++(NSURLSessionConfiguration*)backgroundSessionConfiguration:(NSString *)identifier;
+</code></pre></li>
+<li><p>几个重要属性  </p>
+</li>
+</ul>
+<pre><code>@property BOOL allowsCellularAccess:代表只允许蜂窝数据下访问 
+@property (getter=isDiscretionary) BOOL discretionary NS_AVAILABLE(NA, 7_0);   
+ discretionary：是根据系统做性能优化，电量充足的时候使用wifi
+</code></pre><h3 id="NSURLSessionTask"><a href="#NSURLSessionTask" class="headerlink" title="NSURLSessionTask"></a>NSURLSessionTask</h3><blockquote>
+<p>NSURLSessionTask是一个抽象子类，它有三个子类：NSURLSessionDataTask，NSURLSessionUploadTask和NSURLSessionDownloadTask。这三个类封装了现代应用程序的三个基本网络任务：获取数据，比如JSON或XML，以及上传和下载文件。  </p>
+</blockquote>
+<h4 id="一个使用NSURLSession执行的数据请求"><a href="#一个使用NSURLSession执行的数据请求" class="headerlink" title="一个使用NSURLSession执行的数据请求"></a>一个使用NSURLSession执行的数据请求</h4><pre><code>-(void)loadData{                 
+    NSURL* url = [NSURL URLWithString:@&quot;http://www.jianshu.com&quot;];
+    NSURLRequest* urlRquest = [NSURLRequest requestWithURL:url];
+    NSURLSession* urlSession = [NSURLSession sharedSession];
+    NSURLSessionDataTask* dataTask =  [urlSession dataTaskWithRequest:urlRquest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+         NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+           NSInteger responseStatusCode = [httpResponse statusCode];
+            if (responseStatusCode == 200) {
+           dispatch_async(dispatch_get_main_queue(), ^{
+            NSString* htmlStr  = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+           UIWebView* webView = [[UIWebView alloc] initWithFrame:self.view.frame];
+          [webView loadHTMLString:htmlStr baseURL:nil];
+           [self.view addSubview:webView];
+             });
+          }
+    }];
+       [dataTask resume];
+}
+</code></pre><h3 id="NSURLSessionDelegate和NSURLSessionTaskDelegate协议"><a href="#NSURLSessionDelegate和NSURLSessionTaskDelegate协议" class="headerlink" title="NSURLSessionDelegate和NSURLSessionTaskDelegate协议"></a>NSURLSessionDelegate和NSURLSessionTaskDelegate协议</h3><blockquote>
+<p>在协议的方法中可以完成各种各样的回调动作，如身份验证、完成任务后的动作、错误处理和后台任务完成的动作等。委托方法指定在NSURLSession中一定数量的字节传输使用int64_t类型的参数    </p>
+</blockquote>
+<pre><code>-(void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session NS_AVAILABLE_IOS(7_0);   
+ -(void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler NS_AVAILABLE_IOS(7_0);
+</code></pre><blockquote>
+<p>将任务切换到后台之后，Session的Delegate不会再收到和Task相关的消息。当所有Task全都完成后，程序将被唤醒，并调用ApplicationDelegate的application:handleEventsForBackgroundURLSession:completionHandler:回调，在这里要为后台session（由background session的identifier标识）指定对应的回调代码块 随后，对于每一个完成的后台Task调用该Session的Delegate中的URLSession:downloadTask:didFinishDownloadingToURL:（成功的话）和URLSession:task:didCompleteWithError:（成功或者失败都会调用）方法做处理，以上的回调代码块可以在这里调用   </p>
+</blockquote>
+<h3 id="使用NSURLSessionDownloadTask"><a href="#使用NSURLSessionDownloadTask" class="headerlink" title="使用NSURLSessionDownloadTask"></a>使用NSURLSessionDownloadTask</h3><pre><code>NSURL* downLoadURL = [NSURL URLWithString:@&quot;http://pic.4j4j.cn/upload/pic/20131213/0f37a308d8.jpg&quot;];
+    NSURLRequest* request = [[NSURLRequest alloc] initWithURL:downLoadURL];
+    NSURLSession* session = [NSURLSession sharedSession];
+    NSURLSessionDownloadTask* downLoadTask = [session downloadTaskWithRequest:request completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSData* data = [NSData dataWithContentsOfURL:location];
+            UIImage* image = [UIImage imageWithData:data];
+            self.downLoad_IMageView.image = image;
+        });
+    }];
+
+    [downLoadTask resume];
+</code></pre><h3 id="NSURLSessionDownloadTask-后台模式"><a href="#NSURLSessionDownloadTask-后台模式" class="headerlink" title="NSURLSessionDownloadTask 后台模式"></a>NSURLSessionDownloadTask 后台模式</h3><p><a href="http://blog.csdn.net/codywangziham01/article/details/38066543" target="_blank" rel="external">参考文章</a>     </p>
+<pre><code>- (IBAction)backGround_Action:(id)sender {
+
+    NSURL* downLoadURL = [NSURL URLWithString:@&quot;http://dlsw.baidu.com/sw-search-sp/soft/ed/25724/baidumusicmac9.1.1.1427694756.dmg&quot;];
+    NSURLRequest* request = [[NSURLRequest alloc] initWithURL:downLoadURL];
+    NSURLSession* session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:@&quot;backGround_Action&quot;] delegate:self delegateQueue:nil];
+   NSURLSessionDownloadTask* downLoadTask = [session downloadTaskWithRequest:request];
+    [downLoadTask resume];
+}
+</code></pre><blockquote>
+<p>如果是一个BackgroundSession，在Task执行的时候，用户切到后台，Session会和ApplicationDelegate做交互。当程序切到后台后，在BackgroundSession中的Task还会继续下载，这部分文档叙述比较少，现在分三个场景分析下Session和Application的关系：   </p>
+</blockquote>
+<ul>
+<li><p>当加入了多个Task，程序没有切换到后台。这种情况Task会按照NSURLSessionConfiguration的设置正常下载，不会和ApplicationDelegate有交互。   </p>
+</li>
+<li><p>当加入了多个Task，程序切到后台，所有Task都完成下载.当AppDelegate被唤醒  ,下面的代理方法会被调用</p>
+</li>
+</ul>
+<pre><code>-(void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)())completionHandler{
+    if ([identifier isEqual:@&quot;backGround_Actio&quot;]){
+   /**
+     *   typedef void(^backgroundSessionCompletionHandler)();  
+     *   @property(nonatomic,copy)backgroundSessionCompletionHandler completionHandler;
+    */ 
+        self.completionHandler = completionHandler;
+    }
+}
+</code></pre><pre><code>// 代理方法也被调用 
+-(void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session{
+   AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (appDelegate.completionHandler) {
+       // 所有任务已经执行完毕
+
+    }
+}
+</code></pre><ul>
+<li><p>当加入了多个Task，程序切到后台，下载完成了几个Task，然后用户又切换到前台。（程序没有退出）切到后台之后，Session的Delegate仍然收不到消息。在下载完成几个Task之后再切换到前台，系统会先汇报已经下载完成的Task的情况，然后继续下载没有下载完成的Task，后面的过程同第一种情况。  </p>
+</li>
+<li><p>当加入了多个Task，程序切到后台，几个Task已经完成，但还有Task还没有下载完的时候关掉强制退出程序，然后再进入程序的时候。（程序退出了   </p>
+</li>
+</ul>
+<blockquote>
+<p>最后这个情况比较有意思，由于程序已经退出了，后面没有下完Session就不在了后面的Task肯定是失败了。但是已经下载成功的那些Task，新启动的程序也没有听“汇报”的机会了。经过实验发现，这个时候之前在NSURLSessionConfiguration设置的NSString类型的ID起作用了，当ID相同的时候，一旦生成Session对象并设置Delegate，马上可以收到上一次关闭程序之前没有汇报工作的Task的结束情况（成功或者失败）。但是当ID不相同，这些情况就收不到了，因此为了不让自己的消息被别的应用程序收到，或者收到别的应用程序的消息，起见ID还是和程序的Bundle名称绑定上比较好，至少保证唯一性。</p>
+</blockquote>
+</div></article></div></main><footer><div class="paginator"><a href="/2014/11/28/OC基础之类/" class="prev">PREV</a><a href="/2014/09/08/UIKIT-UIButton/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">华子</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

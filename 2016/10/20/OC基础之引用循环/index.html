@@ -1,0 +1,57 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> OC基础之引用循环 · 華</title><meta name="description" content="OC基础之引用循环 - 华子"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/timg.jpeg"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="華"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/timg.jpeg" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://weibo.com/huatianjie1" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/huaTJ0210" target="_blank" class="nav-list-link">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">OC基础之引用循环</h1><div class="post-info">Oct 20, 2016</div><div class="post-content"><p>在使用面向对象的编程语言进行开发的过程中大都涉及到内存管理相关的问题；JAVA、C#等语言采用GC（垃圾回收）机制来管理内存的使用；而最早从事iOS开发的工程师则经历过MRC（手动管理）内存的阶段，后期apple推出了ARC（自动引用计数）的方式来简化内存的管理；那么ARC究竟是什么呢？ARC是如何进行内存管理的呢？<br><a id="more"></a></p>
+<h4 id="自动引用计数（ARC）"><a href="#自动引用计数（ARC）" class="headerlink" title="自动引用计数（ARC）"></a>自动引用计数（ARC）</h4><ul>
+<li>创建一个对象就是在内存中开辟了一块空间来存储对象的属性和行为，对象都有自己的生命周期，系统如何判断对象的生命周期完毕后就对它进行回收呢？  </li>
+<li>iOS系统采用的是引用计数，在开辟的内存区域中存在一个NSInteger类型的变量，对象一旦创建它的值就为1，（通常情况下）有强引用指向它的值就会+1，强引用置为nil，它的值就会-1（retain消息会使得引用计数+1，release消息会使得引用计数-1）；在一次事件循环结束后如果对象的引用计数为0则系统就会回收该对象；那么一次的事件循环还发生了什么呢？  </li>
+<li>首先要介绍自动释放池(autoReleasePool)：它的实质是一个NSMutableArray，一次的事件循环都会创建一个自动释放池，事件循环中产生的对象会被依次加入到autoReleasePool中，事件循环结束后自动释放池会一次向存储的对象发送release消息，使得对象的引用计数-1，当此操作完毕后，引用计数为0的对象就会被系统回收了； </li>
+<li>总的来说自动引用计数（ARC）就是iOS系统用来进行内存管理手段，通过监控对象的引用计数值来决定对象是否应该回收；   </li>
+</ul>
+<h4 id="判断一个对象是否被回收的依据"><a href="#判断一个对象是否被回收的依据" class="headerlink" title="判断一个对象是否被回收的依据"></a>判断一个对象是否被回收的依据</h4><p>对象的引用计数为0时，Objective-C中会调用<code>-(void)dealloc</code>而Swift会调用<code>deinit {}</code>;当这两个方法被正常调用时说明对象的内存管理是正确的；但是也会出现对象不被正常释放的情况，例如：两个对象互相强引用造成循环引用，使用block或是闭包造成与self的循环引用等，那么该如何解决这种强引用循环呢？  </p>
+<h4 id="循环强引用"><a href="#循环强引用" class="headerlink" title="循环强引用"></a>循环强引用</h4><h5 id="类的实例之间的循环强引用"><a href="#类的实例之间的循环强引用" class="headerlink" title="类的实例之间的循环强引用"></a>类的实例之间的循环强引用</h5><pre><code>@interface Person()
+@property(strong)Car* car;
+@end
+
+@interface Car()
+@property(strong)Person* owner;
+@end   
+</code></pre><p>上述代码中创建Person和Car的实例后，为属性赋值，就会造成两者互为强引用，这样就使得引用计数不能为0，ARC就无法对两者进行内存的释放； 那么该如何打破这种互相强引用呢？Objective-C和Swift都提供了weak关键字的机制来解决这个问题；使用weak修饰属性在赋值的时候不会使引用计数+1，没有了强引用那么对象就能正常释放！除了weak在Swift中还提供了unowned（无主引用）解决强循环引用；</p>
+<h5 id="Swift中weak和unowned"><a href="#Swift中weak和unowned" class="headerlink" title="Swift中weak和unowned"></a>Swift中weak和unowned</h5><p>当两个实例出现互相强引用：（1）实例的值为nil对逻辑上不造成影响，那么选择weak（2）实例的值的一方必须存在，那么只能使用unowned；例如人和信用卡一样，信用卡的拥有者必须要实际存在；   </p>
+<h4 id="block和闭包中出现强循环引用"><a href="#block和闭包中出现强循环引用" class="headerlink" title="block和闭包中出现强循环引用"></a>block和闭包中出现强循环引用</h4><pre><code>#import &quot;HZBlock.h&quot;
+typedef void (^TestBlock)(NSString* message);
+@interface HZBlock()
+@property(nonatomic,copy)TestBlock testBlock;
+@property(nonatomic,copy)NSString* name;
+@end
+@implementation HZBlock
+
+-(void)testBlcok{
+    self.testBlock = ^(NSString* message){
+       // 循环引用
+        NSString* nameNew = self.name;
+        NSLog(@&quot;%@&quot;,nameNew);
+    };
+}   
+</code></pre><p>上述代码中在block中使用self，编译器会报警告，告知此处会出现循环引用(Capturing ‘self’ strongly in this block is likely to lead to a retain cycle)；  </p>
+<p>在Objective-C中可以weak化self来解决此问题   </p>
+<pre><code>// weak化self
+__weak __typeof(self) weakSelf = self;
+// 在block体中为了避免self被释放，可以再次强引用
+__typeof(&amp;*weakSelf) strongSelf = weakSelf;    
+</code></pre><p> 在Swift中定义捕获列表解决闭包内的引用循环   </p>
+<pre><code>class AutoRefManager: NSObject { 
+
+let name: String
+let text: String?
+
+lazy var asHTML: (Void) -&gt; String = {
+// 捕获列表
+    [unowned self] in
+   self.text!
+}
+
+init(name: String, text: String? = nil) {
+    self.name = name
+    self.text = text
+}
+}
+</code></pre><h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>在开发中遇到类似的循环引用时要仔细思考，是否会造成内存泄露的问题，然后再选择合适的解决方案来解决出现的问题；</p>
+</div></article></div></main><footer><div class="paginator"><a href="/2016/10/26/源码阅读篇--SDWebImage/" class="prev">PREV</a><a href="/2016/03/20/iOS篇-测试/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">华子</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

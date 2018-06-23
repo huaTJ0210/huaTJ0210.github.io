@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> iOS篇-审核 · 華</title><meta name="description" content="iOS篇-审核 - 华子"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/timg.jpeg"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="華"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/timg.jpeg" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://weibo.com/huatianjie1" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/huaTJ0210" target="_blank" class="nav-list-link">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">iOS篇-审核</h1><div class="post-info">Oct 15, 2015</div><div class="post-content"><p>新版本app上架提交审核，苹果方面返回审核结果说是应用安装后icloud的存储空间会增加8M(app中会解压一个zip压缩包)左右，这个违反了上架的规则；在网上查询得到的信息是NSDocumentDirectory下的数据能不备份到icloud的尽量不要备份，貌似最大的支持备份到5M之内；解决方案有两个；<br><a id="more"></a></p>
+<h4 id="（一）放在NSDocumentDirectory下的数据单独建立文件夹，并且手动设置该路径不需要同步到icloud"><a href="#（一）放在NSDocumentDirectory下的数据单独建立文件夹，并且手动设置该路径不需要同步到icloud" class="headerlink" title="（一）放在NSDocumentDirectory下的数据单独建立文件夹，并且手动设置该路径不需要同步到icloud"></a>（一）放在NSDocumentDirectory下的数据单独建立文件夹，并且手动设置该路径不需要同步到icloud</h4><pre><code>/**
+ *  禁止备份文件目录下的数据
+ *
+ *  @param URL
+ *
+ *  @return
+ */
+- (BOOL)addSkipBackupAttributeToItemAtPath:(NSString *) filePathString
+{
+    NSURL* URL= [NSURL fileURLWithPath: filePathString];
+    assert([[NSFileManager defaultManager] fileExistsAtPath: [URL path]]);
+    NSError *error = nil;
+    BOOL success = [URL setResourceValue: [NSNumber numberWithBool: YES]
+                                  forKey: NSURLIsExcludedFromBackupKey error: &amp;error];
+    if(!success){
+        NSLog(@&quot;Error excluding %@ from backup %@&quot;, [URL lastPathComponent], error);
+    }
+    return success;
+}
+</code></pre><blockquote>
+<p><strong>NSURLIsExcludedFromBackupKey</strong>:Key for determining whether the resource is excluded from all backups of app data, returned as a Boolean NSNumber object (read-write).<br>You can use this property to exclude cache and other app support files which are not needed in a backup. Some operations commonly made to user documents cause this property to be reset to false; consequently, do not use this property on user documents.   </p>
+</blockquote>
+<h4 id="（二）将存放在NSDocumentDirectory下的数据更换目录到NSLibraryDiretory下，该目录系统默认不会备份数据到icloud"><a href="#（二）将存放在NSDocumentDirectory下的数据更换目录到NSLibraryDiretory下，该目录系统默认不会备份数据到icloud" class="headerlink" title="（二）将存放在NSDocumentDirectory下的数据更换目录到NSLibraryDiretory下，该目录系统默认不会备份数据到icloud"></a>（二）将存放在NSDocumentDirectory下的数据更换目录到NSLibraryDiretory下，该目录系统默认不会备份数据到icloud</h4><hr>
+<h4 id="沙盒路径的简介"><a href="#沙盒路径的简介" class="headerlink" title="沙盒路径的简介"></a>沙盒路径的简介</h4><h5 id="沙盒"><a href="#沙盒" class="headerlink" title="沙盒"></a>沙盒</h5><blockquote>
+<p>iOS应用程序只能在为该应用创建的文件系统中读取文件信息，不能去其他地方访问，这个部分就叫做沙盒； </p>
+</blockquote>
+<h5 id="Documents"><a href="#Documents" class="headerlink" title="Documents"></a>Documents</h5><p>苹果建议将程序中建立的或在程序中浏览到的文件数据保存在该目录下，iTunes备份和恢复的时候会包括此目录</p>
+<h5 id="Library"><a href="#Library" class="headerlink" title="Library"></a>Library</h5><p>存储程序的默认设置或其它状态信息；</p>
+<ul>
+<li>Library/Caches：存放缓存文件，iTunes不会备份此目录，此目录下文件不会在应用退出删除</li>
+<li>Library/Preference：保存用户的偏好设置</li>
+</ul>
+<h5 id="tmp"><a href="#tmp" class="headerlink" title="tmp"></a>tmp</h5><p>提供一个即时创建临时文件的地方</p>
+</div></article></div></main><footer><div class="paginator"><a href="/2015/10/25/iOS篇-动画/" class="prev">PREV</a><a href="/2015/10/01/OC基础之NSCache/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">华子</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

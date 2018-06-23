@@ -1,0 +1,74 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 源码阅读篇--AFNetWorking · 華</title><meta name="description" content="源码阅读篇--AFNetWorking - 华子"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/timg.jpeg"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="華"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/timg.jpeg" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://weibo.com/huatianjie1" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/huaTJ0210" target="_blank" class="nav-list-link">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">源码阅读篇--AFNetWorking</h1><div class="post-info">Mar 8, 2016</div><div class="post-content"><p>AFNetworking对于iOS开发者来说是一个十分熟悉的网络请求三方框架，本文就是就是对这个优秀三方框架的学习的一些总结；首先看一下最新的AFNetworking结构目录：<br><img src="http://upload-images.jianshu.io/upload_images/117735-065c16fb6d316dad.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="AFNetworking结构目录"><br><a id="more"></a></p>
+<h5 id="AFNetworking包含的模块"><a href="#AFNetworking包含的模块" class="headerlink" title="AFNetworking包含的模块"></a>AFNetworking包含的模块</h5><ul>
+<li>网络请求模块</li>
+<li>网络监控模块</li>
+<li>安全策略模块  </li>
+<li>网络请求/响应序列化模块  </li>
+<li>UIKit的扩展模块    </li>
+</ul>
+<h5 id="AFNetworking便捷之处"><a href="#AFNetworking便捷之处" class="headerlink" title="AFNetworking便捷之处"></a>AFNetworking便捷之处</h5><p>AFNetworking在使用过程中仅仅需要开发者考虑，HTTP Method、URL、Params、回调的Block中解析响应数据、错误的回调Block中处理错误展示的信息；对于数据的上传、下载、安全策略配置等方面的支持AFNetworking更让开发者减轻了不少开发量；  </p>
+<h5 id="AFNetworking-的简单使用案例"><a href="#AFNetworking-的简单使用案例" class="headerlink" title="AFNetworking 的简单使用案例"></a>AFNetworking 的简单使用案例</h5><pre><code> -(void)requestPhoneNumberBelong{
+NSURLSessionConfiguration* sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+AFHTTPSessionManager* sessionManager = [[AFHTTPSessionManager alloc] initWithBaseURL:nil sessionConfiguration:sessionConfiguration];
+[sessionManager GET:@&quot;http://tcc.taobao.com/cc/json/mobile_tel_segment.htm&quot; parameters:@{@&quot;tel&quot;:@&quot;18518487767&quot;} success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+    NSStringEncoding gbkEncoding = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
+    NSString *pageSource = [[NSString alloc] initWithData:responseObject encoding:gbkEncoding];
+} failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+}];
+ }   
+</code></pre><h5 id="AFHTTPSessionManager的创建解析"><a href="#AFHTTPSessionManager的创建解析" class="headerlink" title="AFHTTPSessionManager的创建解析"></a>AFHTTPSessionManager的创建解析</h5><p>创建sessionManger也是使用NSURLSessionConfiguration配置SessionConfiguration，使用AFSecurityPolicy来配置安全策略；</p>
+<h5 id="AFNetworking网络任务的创建是在哪个线程执行的？"><a href="#AFNetworking网络任务的创建是在哪个线程执行的？" class="headerlink" title="AFNetworking网络任务的创建是在哪个线程执行的？"></a>AFNetworking网络任务的创建是在哪个线程执行的？</h5><p>对于这个问题首先看一下网络任务创建的代码片段   </p>
+<pre><code>    __block NSURLSessionDataTask *dataTask = nil;
+dispatch_sync(url_session_manager_creation_queue(), ^{
+    NSLog(@&quot;----&gt;%@&quot;,[NSThread currentThread]);
+    dataTask = [self.session dataTaskWithRequest:request];
+});     
+//  url_session_manager_creation_queue 的创建
+static dispatch_queue_t url_session_manager_creation_queue() {
+static dispatch_queue_t af_url_session_manager_creation_queue;
+static dispatch_once_t onceToken;
+dispatch_once(&amp;onceToken, ^{
+    af_url_session_manager_creation_queue = dispatch_queue_create(&quot;com.alamofire.networking.session.manager.creation&quot;, DISPATCH_QUEUE_SERIAL);
+});
+
+return af_url_session_manager_creation_queue;
+</code></pre><p>}</p>
+<p>使用dispatch_sync在url_session_manager_creation_queue()函数返回的serial queue中执行request的请求，因此AFNetworking在创建网络任务的时候所在的线程取决于你网络任务发起所在的线程（主线程或是你自己创建的线程中）；<br>对于这个段代码片段究竟有什么作用？看资料的解释是为了解决iOS 8.0以下版本中偶发的taskIdentifiers不唯一的bug；   </p>
+<h5 id="AFNetworking网络任务的完成回调是在哪个线程执行的？"><a href="#AFNetworking网络任务的完成回调是在哪个线程执行的？" class="headerlink" title="AFNetworking网络任务的完成回调是在哪个线程执行的？"></a>AFNetworking网络任务的完成回调是在哪个线程执行的？</h5><p>首先一段代码片段   </p>
+<pre><code>  NSError *serializationError = nil;
+NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString] parameters:parameters error:&amp;serializationError];
+if (serializationError) {
+    if (failure) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored &quot;-Wgnu&quot;
+        dispatch_async(self.completionQueue ?: dispatch_get_main_queue(), ^{
+            failure(nil, serializationError);
+        });
+#pragma clang diagnostic pop
+    }
+
+    return nil;
+}
+</code></pre><p><strong>代码中如果NSMutableURLRequest的对象创建失败，当completionQueue为nil时，会异步在main queue中执行失败回调，也就是在主线程中处理错误回调；</strong>   </p>
+<p>当数据请求完成会回调<code>- (void)URLSession:(__unused NSURLSession *)session   task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error</code> 方法；此方法中存在代码片段    </p>
+<pre><code>dispatch_async(dispatch_get_main_queue(), ^{
+           [[NSNotificationCenter defaultCenter] postNotificationName:AFNetworkingTaskDidCompleteNotification object:task userInfo:userInfo];
+       });    
+</code></pre><p>所以AFNetworking在NSURLSession完成数据请求回调之后会在主线程里发送AFNetworkingTaskDidCompleteNotification通知，即AFNetworking网络任务的完成回调处理是在<strong>主线程</strong>中完成的；   </p>
+<h5 id="AFSecurityPolicy"><a href="#AFSecurityPolicy" class="headerlink" title="AFSecurityPolicy"></a>AFSecurityPolicy</h5><p>AFSecurityPolicy可以简化客户端配置安全策略的工作量；AFSecurityPolicy提供了三种模式：  </p>
+<ul>
+<li>AFSSLPinningModeNone:这个模式表示不做SSL pinning，只跟浏览器一样在系统的信任机构列表里验证服务端返回的证书。若证书是信任机构签发的就会通过，若是自己服务器生成的证书，这里是不会通过的。   </li>
+<li>AFSSLPinningModeCertificate：这个模式表示用证书绑定方式验证证书，需要客户端保存有服务端的证书拷贝，这里验证分两步，第一步验证证书的域名/有效期等信息，第二步是对比服务端返回的证书跟客户端返回的是否一致。   </li>
+<li>AFSSLPinningModePublicKey：这个模式同样是用证书绑定方式验证，客户端要有服务端的证书拷贝，只是验证时只验证证书里的公钥，不验证证书的有效期等信息。只要公钥是正确的，就能保证通信不会被窃听，因为中间人没有私钥，无法解开通过公钥加密的数据。</li>
+</ul>
+<h5 id="客户端配置HTTPS的方式"><a href="#客户端配置HTTPS的方式" class="headerlink" title="客户端配置HTTPS的方式"></a>客户端配置HTTPS的方式</h5><p>客户端验证HTTPS协议的一种方式是将把服务端证书(需要转换成cer格式)放到APP项目资源里，AFSecurityPolicy会自动寻找根目录下所有cer文件   </p>
+<pre><code> AFSecurityPolicy *securityPolicy = [AFSecurityPolicy               policyWithPinningMode:AFSSLPinningModePublicKey];
+securityPolicy.allowInvalidCertificates = YES;
+ [AFHTTPRequestOperationManager manager].securityPolicy = securityPolicy;  
+[manager GET:@&quot;https://example.com/&quot; parameters:nil         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+}];
+</code></pre><blockquote>
+<p><a href="http://blog.cnbang.net/tech/2456/" target="_blank" rel="external">AFNetworking2.0</a>这个系列对源码进行了更详细的解析可以参照。</p>
+</blockquote>
+</div></article></div></main><footer><div class="paginator"><a href="/2016/03/15/OC基础之Runloop/" class="prev">PREV</a><a href="/2016/03/01/UIKIT-UIButton事件解析/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">华子</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

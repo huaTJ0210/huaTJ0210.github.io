@@ -1,0 +1,31 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> OC基础之KVO · 華</title><meta name="description" content="OC基础之KVO - 华子"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/timg.jpeg"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="華"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/timg.jpeg" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://weibo.com/huatianjie1" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/huaTJ0210" target="_blank" class="nav-list-link">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">OC基础之KVO</h1><div class="post-info">Sep 14, 2015</div><div class="post-content"><h4 id="什么是KVO"><a href="#什么是KVO" class="headerlink" title="什么是KVO"></a>什么是KVO</h4><blockquote>
+<p>KVO,即：Key-Value Observing，它提供一种机制，当指定的对象的属性被修改后，则对象就会接受到通知。简单的说就是每次指定的被观察的对象的属性被修改后，KVO就会自动通知相应的观察者了。  </p>
+</blockquote>
+<a id="more"></a>   
+<h4 id="KVO的使用"><a href="#KVO的使用" class="headerlink" title="KVO的使用"></a>KVO的使用</h4><pre><code>// 添加监测
+-(void)test{
+    [self addObserver:self forKeyPath:@&quot;name&quot; options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
+}
+//属性改变后的响应
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary&lt;NSString *,id&gt; *)change context:(void *)context{
+    /**
+     * 检测改变的数据
+     change是一个字典
+     {
+     kind = 1;
+     new = newValue;//获取新数据 一定要使用@&quot;new&quot;作为key 在change字典中获取
+     old = oldValue;
+     }
+     根据监控的属性 通过字典key（new）来获取改变后的值
+     */
+    if ([keyPath isEqualToString:@&quot;name&quot;]) {
+        NSLog(@&quot;%@&quot;,[change objectForKey:@&quot;new&quot;]);
+    }
+}
+// 移除监测
+-(void)dealloc{
+    [self removeObserver:self forKeyPath:@&quot;name&quot;];
+}
+</code></pre><h4 id="KVO的内部实现"><a href="#KVO的内部实现" class="headerlink" title="KVO的内部实现"></a>KVO的内部实现</h4><p><a href="http://www.cocoachina.com/industry/20140107/7667.html" target="_blank" rel="external">KVO的内部实现</a><br><a href="http://www.cocoachina.com/industry/20140624/8936.html" target="_blank" rel="external">KVO简单探索</a>  </p>
+<h4 id="自我实现KVO"><a href="#自我实现KVO" class="headerlink" title="自我实现KVO"></a>自我实现KVO</h4><p><a href="http://www.cocoachina.com/ios/20150313/11321.html" target="_blank" rel="external">自我实现KVO</a></p>
+</div></article></div></main><footer><div class="paginator"><a href="/2015/10/01/OC基础之NSCache/" class="prev">PREV</a><a href="/2015/09/13/OC基础之KCV/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">华子</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

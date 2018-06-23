@@ -1,0 +1,45 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> UILabel · 華</title><meta name="description" content="UILabel - 华子"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/timg.jpeg"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="華"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/timg.jpeg" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://weibo.com/huatianjie1" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/huaTJ0210" target="_blank" class="nav-list-link">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">UILabel</h1><div class="post-info">Sep 7, 2014</div><div class="post-content"><h4 id="UILabel简介"><a href="#UILabel简介" class="headerlink" title="UILabel简介"></a>UILabel简介</h4><blockquote>
+<p>The UILabel class implements a read-only text view. You can use this class to draw one or multiple lines of static text, such as those you might use to identify other parts of your user interface. The base UILabel class provides support for both simple and complex styling of the label text. You can also control over aspects of appearance, such as whether the label uses a shadow or draws with a highlight. If needed, you can customize the appearance of your text further by subclassing.<br>显示只读静态的文本时会使用到UILabel，同时UILabel提供了一系列的属性来设置字体大小、颜色、文本的显示位置（左、中、右）等，同时在碰到一些特殊的需求时可以继承UILabel自定义一些特性；<br><a id="more"></a> </p>
+</blockquote>
+<h4 id="UILabel的基础使用"><a href="#UILabel的基础使用" class="headerlink" title="UILabel的基础使用"></a>UILabel的基础使用</h4><pre><code>CGFloat margin_left = 40.0f;
+CGFloat margin_top  = 15.0f;
+CGFloat label_width = 100.0f;
+CGFloat label_height = 40.0f;
+
+// 基础显示文字
+UILabel* fristLabel = [[UILabel alloc] init];
+[fristLabel setFrame:CGRectMake(margin_left, margin_top, label_width, label_height)];
+fristLabel.text = @&quot;fristLabeldsfadsfadsf&quot;;
+fristLabel.font = [UIFont systemFontOfSize:15.0f];// 文字大小的设置
+fristLabel.textColor = [UIColor orangeColor];// 文字颜色的设置
+fristLabel.shadowColor = [UIColor yellowColor];
+// 根据状态标识切换显示文字的颜色
+fristLabel.highlightedTextColor = [UIColor orangeColor];
+fristLabel.highlighted = YES;
+//根据宽度设置字体的大小
+[fristLabel setAdjustsFontSizeToFitWidth:YES];
+[fristLabel setTextAlignment:NSTextAlignmentCenter];//居中显示
+[self.view addSubview:fristLabel];
+</code></pre><h4 id="UILabel对指定文本高亮显示（iOS7-）"><a href="#UILabel对指定文本高亮显示（iOS7-）" class="headerlink" title="UILabel对指定文本高亮显示（iOS7+）"></a>UILabel对指定文本高亮显示（iOS7+）</h4><pre><code> UILabel* secondLabel = [[UILabel alloc] initWithFrame:CGRectMake(margin_left, CGRectGetMaxY(fristLabel.frame), label_width, label_height)];
+// 对文本进行处理
+NSMutableAttributedString* textAttributedStr = [[NSMutableAttributedString alloc] initWithString:@&quot;支付金额:100元&quot;];
+//将100显示为橙色
+[textAttributedStr addAttribute:NSForegroundColorAttributeName value:[UIColor orangeColor] range:NSMakeRange(5,3)];
+[secondLabel setFont:[UIFont systemFontOfSize:13.0f]];
+[secondLabel setTextAlignment:NSTextAlignmentCenter];
+secondLabel.attributedText = textAttributedStr;
+[self.view addSubview:secondLabel];
+</code></pre><h4 id="UILabel多行显示以及动态调整控件的高度"><a href="#UILabel多行显示以及动态调整控件的高度" class="headerlink" title="UILabel多行显示以及动态调整控件的高度"></a>UILabel多行显示以及动态调整控件的高度</h4><pre><code>UILabel* thirdLabel = [[UILabel alloc] init];
+thirdLabel.text = @&quot;知之为知之，不知为不知，是知也！&quot;;
+thirdLabel.font = [UIFont systemFontOfSize:15.0f];
+[thirdLabel setTextAlignment:NSTextAlignmentCenter];//居中显示
+// label 的折行显示最重要的属性设置
+thirdLabel.numberOfLines = 0;
+// 计算显示文本需要的宽和高
+CGSize thirdLabelSize= [thirdLabel.text boundingRectWithSize:CGSizeMake(label_width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:15.0f]} context:nil].size;
+[thirdLabel setFrame:CGRectMake(margin_left, CGRectGetMaxY(secondLabel.frame)+margin_top, label_width, thirdLabelSize.height)];
+[self.view addSubview:thirdLabel];  
+</code></pre><h4 id="UILabel自定义显示内容的位置"><a href="#UILabel自定义显示内容的位置" class="headerlink" title="UILabel自定义显示内容的位置"></a>UILabel自定义显示内容的位置</h4><pre><code>// override points. can adjust rect before calling super.
+// label has default content mode of UIViewContentModeRedraw
+- (CGRect)textRectForBounds:(CGRect)bounds limitedToNumberOfLines:
+</code></pre></div></article></div></main><footer><div class="paginator"><a href="/2014/09/08/UIKIT-UIButton/" class="prev">PREV</a><a href="/2014/09/01/iOS-Progarmming-01/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">华子</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> OC基础之load和initialize · 華</title><meta name="description" content="OC基础之load和initialize - 华子"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/timg.jpeg"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="華"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/timg.jpeg" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://weibo.com/huatianjie1" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/huaTJ0210" target="_blank" class="nav-list-link">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">OC基础之load和initialize</h1><div class="post-info">Jan 9, 2016</div><div class="post-content"><blockquote>
+<p>Objective-C作为一门面向对象语言，有类和对象的概念。编译后，类相关的数据结构会保留在目标文件中，在运行时得到解析和使用。在应用程序运行起来的时候，类的信息会有加载和初始化过程。<br><a id="more"></a></p>
+</blockquote>
+<h4 id="void-load"><a href="#void-load" class="headerlink" title="+ (void)load"></a><code>+ (void)load</code></h4><blockquote>
+<p>Invoked whenever a class or category is added to the Objective-C runtime; implement this method to perform class-specific behavior upon loading.<br>这个方法的执行发生类或是分类加入到objc运行时,仅此执行一次；</p>
+</blockquote>
+<h4 id="void-initialize"><a href="#void-initialize" class="headerlink" title="+(void)initialize"></a><code>+(void)initialize</code></h4><blockquote>
+<p>Initializes the class before it receives its first message<br>这个方法的执行发生在类第一次接收到消息的时候，给方法会晚于<code>+ (void)load</code>方法执行</p>
+</blockquote>
+<h4 id="验证执行顺序"><a href="#验证执行顺序" class="headerlink" title="验证执行顺序"></a>验证执行顺序</h4><pre><code>#import &quot;Person.h&quot;
+
+@implementation Person
++(void)load{
+    NSLog(@&quot;加载Person文件！&quot;);
+}
+
++(void)initialize{
+    NSLog(@&quot;使用Person！&quot;);
+}
+@end
+
+#import &lt;Foundation/Foundation.h&gt;
+#import &quot;Person.h&quot;
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        Person* person = [[Person alloc] ini
+        Person* person1 = [[Person alloc] init];
+        }
+ ===》 [11767:1733037] 加载Person文件！
+ ===》  [11767:1733037] 使用Person！
+</code></pre><p><strong>+(void)load先于+(void)initialize执行，并且两者在应用的生命周期内都只执行一次</strong></p>
+<h4 id="避免UIButton被连续点击触发事件"><a href="#避免UIButton被连续点击触发事件" class="headerlink" title="避免UIButton被连续点击触发事件"></a>避免UIButton被连续点击触发事件</h4><pre><code>import &quot;UIButton+HZ.h&quot;
+#import &lt;objc/objc-runtime.h&gt;
+@implementation UIButton (HZ)
++(void)load{
+    Method originalMethod = class_getInstanceMethod([UIButton class], @selector(sendAction:to:forEvent:));
+    Method anotherMethod = class_getInstanceMethod([UIButton class], @selector(delaysendAction:to:forEvent:));
+    method_exchangeImplementations(originalMethod, anotherMethod);
+}
+
+
+-(void)delaysendAction:(SEL)action to:(id)target forEvent:(UIEvent *)event{
+    [self delaysendAction:action to:target forEvent:event];
+    self.enabled = NO;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3*NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.enabled = YES;
+    });
+}
+
+@end
+</code></pre><p><strong>在UIButton的分类中重写<code>+(void)load</code>实现UIButton点击事件的触发方法替换</strong></p>
+<p><a href="http://www.cocoachina.com/ios/20150104/10826.html" target="_blank" rel="external">参考NSObject的load和initialize方法</a></p>
+</div></article></div></main><footer><div class="paginator"><a href="/2016/02/24/OC基础之面向切面编程/" class="prev">PREV</a><a href="/2016/01/08/OC基础之NSString/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">华子</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

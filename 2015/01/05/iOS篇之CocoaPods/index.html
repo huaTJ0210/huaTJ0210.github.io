@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> iOS篇之CocoaPods · 華</title><meta name="description" content="iOS篇之CocoaPods - 华子"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/timg.jpeg"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="華"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/timg.jpeg" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://weibo.com/huatianjie1" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/huaTJ0210" target="_blank" class="nav-list-link">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">iOS篇之CocoaPods</h1><div class="post-info">Jan 5, 2015</div><div class="post-content"><h3 id="CocoaPods-上手体验："><a href="#CocoaPods-上手体验：" class="headerlink" title="CocoaPods 上手体验："></a>CocoaPods 上手体验：</h3><blockquote>
+<p>当开发环境已经具备CocoaPods功能，再次引入三方库，只需要在工程目录文件Podfile中添加 pod  ’Three party libraries Name’,’~&gt;versionCode’ 然后 pod update ；Duang~项目就集成了你的需要；再也不要傻帽似的去github上download到本地，手动拖入工程，配置各种framework，不是ARC的还要……..<br><a id="more"></a></p>
+<h3 id="CocoaPods简介"><a href="#CocoaPods简介" class="headerlink" title="CocoaPods简介:"></a>CocoaPods简介:</h3><p>关于CocoaPods的前世今生Mattt Thompson 的这篇<a href="http://nshipster.cn/cocoapods/" target="_blank" rel="external">CocoaPods</a>讲解的很清晰.</p>
+</blockquote>
+<h3 id="CocoaPods安装："><a href="#CocoaPods安装：" class="headerlink" title="CocoaPods安装："></a>CocoaPods安装：</h3><ul>
+<li>CocoaPods：资料上说是用Ruby实现的，要想使用它首先需要有Ruby的环境。还好OSX系统默认的已经可以运行Ruby（曾在windows上敲过几行ruby，虽然不懂还是觉得很牛哄的样子），再说gem，她是管理Ruby库和程序的标准包，所以查看一下自己MAC 上的版本 </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ gem -v   #执行此命令获取版本信息</div><div class="line">```  </div><div class="line">不过还是建议直接升级（低版本的各种坑，会导致你一直会使用各家引擎搜索关于各种bug的解决方案)</div></pre></td></tr></table></figure>
+<p>$ sudo gem update –system #完成版本更新<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">+ 直接安装CocoaPods运行终端命令（不建议执行该命令，原因往下看）</div></pre></td></tr></table></figure></p>
+<p>$ sudo gem install cocoapods #安装CocoaPods<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">手贱运行了OK等啊等啊没信了原因呵呵，解决方案（来自智慧的程序猿，具体改动了什么我也不知道）</div></pre></td></tr></table></figure></p>
+<p>$ gem sources–remove <a href="https://rubygems.org/" target="_blank" rel="external">https://rubygems.org/</a> #等待有反应再敲下面的命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line">$ gem sources -a https://ruby.taobao.org/</div></pre></td></tr></table></figure></p>
+<p>可以执行命令检测是否替换成功<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ gem sources -l</div></pre></td></tr></table></figure></p>
+<p>成功信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://ruby.taobao.org/ #来自网络</div></pre></td></tr></table></figure></p>
+<ul>
+<li>再次执行install命令</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo gem install cocoapods #安装CocoaPods</div></pre></td></tr></table></figure>
+<p><em>前辈们说：需要注意的是，如果安装的时候使用了sudo，升级的时候一样需要使用该关键字，不然升级完了以后又会出现路径不匹配问题。</em></p>
+<ul>
+<li>安装进程结束后执行</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ pod setup</div></pre></td></tr></table></figure>
+<h3 id="CocoaPods的使用："><a href="#CocoaPods的使用：" class="headerlink" title="CocoaPods的使用："></a>CocoaPods的使用：</h3><h5 id="据说CocoaPods的一切都是从一个名为Podfile的文件开始的，所以要有这样一个文件"><a href="#据说CocoaPods的一切都是从一个名为Podfile的文件开始的，所以要有这样一个文件" class="headerlink" title="据说CocoaPods的一切都是从一个名为Podfile的文件开始的，所以要有这样一个文件"></a>据说CocoaPods的一切都是从一个名为Podfile的文件开始的，所以要有这样一个文件</h5><ul>
+<li>创建一个CocoaPodsTest项目放在桌面；终端运行（目录是本人pro的路径。具体操作看自己的工程路径）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ cd /Users/apple/Desktop/CocoaPodsTest #切换到工程目录</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ touch Podfile #创建一个Podfile文件</div></pre></td></tr></table></figure>
+<ul>
+<li>在Podfile文件中存放以下内容（可以使用vim直接编辑，vim使用本人也很菜）</li>
+</ul>
+<blockquote>
+<p>platform :ios, ‘7.0’<br>pod ‘AFNetworking’, ‘~&gt; 2.0’</p>
+</blockquote>
+<ul>
+<li>切换工程目录</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ cd /Users/apple/Desktop/CocoaPodsTest #切换到工程目录</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ pod install</div></pre></td></tr></table></figure>
+<ul>
+<li>关闭xcode，打开CocoaPodsTest.xcworkspace文件 就会看到AFNetWorking已经乖乖地躺在那了（家里的奶酪什么时候也能这么乖啊）</li>
+<li>CocoaPods的添加新的三方库：</li>
+</ul>
+<ul>
+<li>使用命令查找你需要的三方库信息（例如SBJson）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ pod search SBJson #查看三方库信息</div></pre></td></tr></table></figure>
+<ul>
+<li>将执行获取的信息 {pod ’SBJson’,’~&gt;4.0.1’}保存到 Podfile文件中</li>
+<li>在当前目录执行</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ pod update #更新</div></pre></td></tr></table></figure>
+<p><a href="http://blog.csdn.net/xdrt81y/article/details/30631221" target="_blank" rel="external">CocoaPods详解之——使用篇</a><br><a href="http://blog.csdn.net/xdrt81y/article/details/30631595" target="_blank" rel="external">CocoaPods详解之—-进阶篇</a><br><a href="http://blog.csdn.net/xdrt81y/article/details/30632329" target="_blank" rel="external">CocoaPods详解之—-制作篇</a></p>
+<h4 id="20160831更新"><a href="#20160831更新" class="headerlink" title="20160831更新"></a>20160831更新</h4><h5 id="安装错误"><a href="#安装错误" class="headerlink" title="安装错误"></a>安装错误</h5><p>安装时出现 ERROR:  While executing gem … (Errno::EPERM)<br>    Operation not permitted - /usr/bin/xcodeproj  解决方法： sudo gem install -n /usr/local/bin cocoapods  使用此命令安装</p>
+<h5 id="The-dependency-Aspects-is-not-used-in-any-concrete-target-解决"><a href="#The-dependency-Aspects-is-not-used-in-any-concrete-target-解决" class="headerlink" title="The dependency Aspects is not used in any concrete target.解决"></a>The dependency <code>Aspects</code> is not used in any concrete target.解决</h5><pre><code>target &apos;HZUIKIT&apos; do
+pod &apos;Aspects&apos;
+end 
+</code></pre><h4 id="20160926更新"><a href="#20160926更新" class="headerlink" title="20160926更新"></a>20160926更新</h4><blockquote>
+<p>错误信息 None of your spec sources contain a spec satisfying the dependency  </p>
+</blockquote>
+<p>解决方式： pod setup –verbose    </p>
+</div></article></div></main><footer><div class="paginator"><a href="/2015/02/03/OC基础之内存管理篇(2)/" class="prev">PREV</a><a href="/2015/01/01/iOS篇--推送/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">华子</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> iOS篇--推送 · 華</title><meta name="description" content="iOS篇--推送 - 华子"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/timg.jpeg"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="華"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/timg.jpeg" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://weibo.com/huatianjie1" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/huaTJ0210" target="_blank" class="nav-list-link">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">iOS篇--推送</h1><div class="post-info">Jan 1, 2015</div><div class="post-content"><h3 id="本地通知"><a href="#本地通知" class="headerlink" title="本地通知"></a>本地通知</h3><p>目前市面是存在很多的app可以根据用户的时间设置提供定时提醒功能，通常提醒的消息会从状态栏顶部弹出，几秒后消失，并且在通知中心中能够停留，用户点击通知内容会拉起app；这个功能通常的实现是用到了<strong>UILocalNotification</strong>；<br><a id="more"></a></p>
+<h4 id="什么是UILocalNotification"><a href="#什么是UILocalNotification" class="headerlink" title="什么是UILocalNotification"></a>什么是UILocalNotification</h4><blockquote>
+<p>A UILocalNotification object specifies a notification that an app can schedule for presentation at a specific date and time. The operating system is responsible for delivering local notifications at their scheduled times; the app does not have to be running for this to happen. Although local notifications are similar to remote notifications in that they are used for displaying alerts, playing sounds, and badging app icons, they are composed and delivered locally and do not require connection with remote servers.</p>
+<p>大体上就是说UILocalNotification能根据日期或是时间设定，将要通知的时间加入到系统中，在设定的时刻触发提醒</p>
+</blockquote>
+<h4 id="如何使用UILocalNotification"><a href="#如何使用UILocalNotification" class="headerlink" title="如何使用UILocalNotification"></a>如何使用UILocalNotification</h4><pre><code>- (IBAction)localNotificationAction:(id)sender {
+    UILocalNotification* localNotification =[[UILocalNotification alloc] init];
+    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:10.0f];
+    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+    localNotification.alertBody = @&quot;事件提醒&quot;;
+    localNotification.alertAction = @&quot;查看具体消息&quot;;
+    localNotification.hasAction = YES;
+    localNotification.alertTitle = @&quot;通知的标题&quot;;
+    localNotification.userInfo = @{@&quot;name&quot;:@&quot;hua&quot;,@&quot;age&quot;:@&quot;18&quot;};
+    localNotification.applicationIconBadgeNumber = 1;
+    // 调度通知
+   [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+}
+</code></pre><h4 id="新增了一个UILocalNotification为什么-void-application-UIApplication-application-didReceiveLocalNotification-UILocalNotification-notification方法没有触发"><a href="#新增了一个UILocalNotification为什么-void-application-UIApplication-application-didReceiveLocalNotification-UILocalNotification-notification方法没有触发" class="headerlink" title="新增了一个UILocalNotification为什么-(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification方法没有触发"></a>新增了一个UILocalNotification为什么<code>-(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification</code>方法没有触发</h4><p>在iOS8版本之后发本地通知也需要获取用户的权限所以需要在程序启动时进行确认</p>
+<pre><code>- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+// Override point for customization after application launch.
+//iOS8 之后需要获取用户的许可才能执行
+UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil];
+[[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+return YES;
+}
+</code></pre><h5 id="应用进程被杀死之后，获取的本地通知信息该如何展示？"><a href="#应用进程被杀死之后，获取的本地通知信息该如何展示？" class="headerlink" title="应用进程被杀死之后，获取的本地通知信息该如何展示？"></a>应用进程被杀死之后，获取的本地通知信息该如何展示？</h5><pre><code>- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+// Override point for customization after application launch.
+//iOS8 之后需要获取用户的许可才能执行
+UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil];
+[[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+// 如果本地通知的信息不为空
+if (launchOptions[UIApplicationLaunchOptionsLocalNotificationKey]) {
+    // 当被杀死状态收到本地通知时执行的跳转代码
+   // 根据UIApplicationLaunchOptionsLocalNotificationKey可以获取本地通知的详细信息
+    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@&quot;本地通知&quot; message:[launchOptions description] delegate:nil cancelButtonTitle:@&quot;确定&quot; otherButtonTitles:@&quot;&quot;, nil];
+    [alertView show];
+}
+return YES;
+}
+</code></pre><p>应用进程被杀死之后 在didFinishLauchingWithOption:方法获取本地通知信息后，<code>-(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification</code>该方法不会再被触发</p>
+<h3 id="远程推送"><a href="#远程推送" class="headerlink" title="远程推送"></a>远程推送</h3><p>目前接触到开发的app对于推送开发都是集成三方的SDK，在应用启动时注册，然后通过三方提供的api服务端根据上传的devicetoken向指定用户推送消息；虽然三方发SDK已经非常方便但是对于apple 的APNs服务还是需要搞清楚基本的运行流程；</p>
+<h4 id="（1）注册远程推送"><a href="#（1）注册远程推送" class="headerlink" title="（1）注册远程推送"></a>（1）注册远程推送</h4><p> 应用启动时在<code>didFinishLaunchingWithOptions:</code>方法中注册远程通知，这时具体会上传UDID和bundle identifier给APNs；</p>
+<pre><code>- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+if ([[UIDevice currentDevice].systemVersion doubleValue] &gt;= 8.0) {
+    // 1.注册远程推送
+    [application registerForRemoteNotifications];
+} else {
+    [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeNewsstandContentAvailability | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound];
+}
+return YES;
+}
+</code></pre><h4 id="（2）APNs的回调"><a href="#（2）APNs的回调" class="headerlink" title="（2）APNs的回调"></a>（2）APNs的回调</h4><pre><code>-(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
+// 在此将deviceToken上传到自己的服务端
+}
+</code></pre><h4 id="（3）app服务端将deviceToken-消息传给APNs-这样指定的用户在权限打开的状态下是能够获取到消息的"><a href="#（3）app服务端将deviceToken-消息传给APNs-这样指定的用户在权限打开的状态下是能够获取到消息的" class="headerlink" title="（3）app服务端将deviceToken+消息传给APNs,这样指定的用户在权限打开的状态下是能够获取到消息的"></a>（3）app服务端将deviceToken+消息传给APNs,这样指定的用户在权限打开的状态下是能够获取到消息的</h4><hr>
+<p>关于实现在生产环境和开发环境上的推送功能可以参照极光推送官网的文档进行配置；下图是极光实现推送通知的概要图；</p>
+<center><br><img src="http://docs.jiguang.cn/client/image/jpush_ios.png" alt="清醒思考的艺术"><br></center> 
+
+
+
+</div></article></div></main><footer><div class="paginator"><a href="/2015/01/05/iOS篇之CocoaPods/" class="prev">PREV</a><a href="/2014/12/06/数据结构之排序/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">华子</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

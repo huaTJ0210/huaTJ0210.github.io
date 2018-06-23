@@ -1,0 +1,99 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> OC基础之NSString · 華</title><meta name="description" content="OC基础之NSString - 华子"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/timg.jpeg"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="華"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/timg.jpeg" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://weibo.com/huatianjie1" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/huaTJ0210" target="_blank" class="nav-list-link">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">OC基础之NSString</h1><div class="post-info">Jan 8, 2016</div><div class="post-content"><h4 id="两个问题"><a href="#两个问题" class="headerlink" title="两个问题"></a>两个问题</h4><ul>
+<li>为什么NSString类型成员变量的修饰符属性使用copy而不是strong？</li>
+<li>NSArray类型成员变量的修饰符属性你使用copy or strong?</li>
+</ul>
+<p><strong>下面从对象接收copy消息可以解析问题的答案</strong></p>
+<a id="more"></a>
+<h4 id="对象接收到copy消息会如何"><a href="#对象接收到copy消息会如何" class="headerlink" title="对象接收到copy消息会如何"></a>对象接收到copy消息会如何</h4><p>对象接收到copy消息，如果已经对象的类型已经遵守了NSCopying协议那么会触发<code>- (id)copyWithZone:(nullable NSZone *)zone</code>;如果未遵守该协议那么<code>-[User copyWithZone:]: unrecognized selector sent to instance 0x100203ed0</code></p>
+<h4 id="NSCopying协议的内容"><a href="#NSCopying协议的内容" class="headerlink" title="NSCopying协议的内容"></a>NSCopying协议的内容</h4><pre><code>@protocol NSCopying
+
+- (id)copyWithZone:(nullable NSZone *)zone;
+
+@end
+</code></pre><blockquote>
+<p>Returns a new instance that’s a copy of the receiver.遵守协议的对象，实现<code>- (id)copyWithZone:(nullable NSZone *)zone</code>就会返回一个新的实例对象；</p>
+</blockquote>
+<h4 id="收到copy消息的对象都会创建一个新的实例对象吗？"><a href="#收到copy消息的对象都会创建一个新的实例对象吗？" class="headerlink" title="收到copy消息的对象都会创建一个新的实例对象吗？"></a>收到copy消息的对象都会创建一个新的实例对象吗？</h4><pre><code>- (void)testMethod {
+        #pragma mark - NSString
+        NSString* k_name = [NSString stringWithFormat:@&quot;%@&quot;,@&quot;HZiOS&quot;];
+        NSLog(@&quot;(1)%@---%p&quot;,k_name,k_name);
+        NSString* another_name = [k_name copy];
+        NSLog(@&quot;(2)%@---%p&quot;,another_name,another_name);
+
+        #pragma mark - NSMutableString
+        NSMutableString* kmutable_name = [NSMutableString stringWithFormat:@&quot;%@&quot;,@&quot;HZiOSmutable&quot;];
+        NSLog(@&quot;(3)%@---%p&quot;,kmutable_name,kmutable_name);
+        NSString* other_name = [kmutable_name copy];
+        NSLog(@&quot;(4)%@---%p&quot;,other_name,other_name);
+        /*
+         (1)HZiOS---0x534f695a4855
+         (2)HZiOS---0x534f695a4855
+         (3)HZiOSmutable---0x100207120
+         (4)HZiOSmutable---0x100700110
+         */
+}
+</code></pre><h5 id="NSString不可变字符串"><a href="#NSString不可变字符串" class="headerlink" title="NSString不可变字符串"></a>NSString不可变字符串</h5><p>上述代码中NSString类型的变量在收到copy消息的时候并未返回一个全新的实例对象，可以看到两个变量的内存地址是一样的；由此可以猜想在NSString类型的变量收到copy消息时在<code>- (id)copyWithZone:(nullable NSZone *)zone;</code>方法中做了逻辑判断，<code>[k_name isKindOfClass:[NSString class]]</code>此条件成立则直接返回当前实例对象；</p>
+<h5 id="NSMutableString可变字符串"><a href="#NSMutableString可变字符串" class="headerlink" title="NSMutableString可变字符串"></a>NSMutableString可变字符串</h5><p>上述代码中NSMutableString的变量kmutable_name收到copy消息返回了一个不可变NSString的变量other_name；两个变量的内存地址不一致；这就说明重新创建一个全新的实例变量；</p>
+<h5 id="为什么NSString和NSMutableString接收到copy消息操作会不一样呢？"><a href="#为什么NSString和NSMutableString接收到copy消息操作会不一样呢？" class="headerlink" title="为什么NSString和NSMutableString接收到copy消息操作会不一样呢？"></a>为什么NSString和NSMutableString接收到copy消息操作会不一样呢？</h5><ul>
+<li>NSString类型接收到copy消息如果返回一个新实例，那么内存中就存在两块内存空间存储相同值的不可变字符串，这样做的话会浪费本来就很稀缺的内存空间，所以具体实现上apple的工程师应该做一些优化；</li>
+<li>NSMutableString类型接收到消息返回一个新实例，原因在于存储可变字符串变量的内存空间在开发的某个阶段接收到 <code>[kmutable_name appendString:@&quot;123&quot;];</code>那么内存空间的值就被改变了，相应的定义的不可变类型的变量值发生了改变，这样可能会造成程序的异常；</li>
+</ul>
+<hr>
+<h4 id="NSArray类型成员变量的修饰符属性你使用copy-or-strong？"><a href="#NSArray类型成员变量的修饰符属性你使用copy-or-strong？" class="headerlink" title="NSArray类型成员变量的修饰符属性你使用copy or strong？"></a>NSArray类型成员变量的修饰符属性你使用copy or strong？</h4><p>答案是使用copy；为什么使用copy这个就是为了完全避免被子类类型的变量赋值后导致的程序异常</p>
+<blockquote>
+<p>总结</p>
+</blockquote>
+<h4 id="当属性类型为NSString，并且赋值的类型也是NSString（对于不可变类型的集合同样适用）那么使用copy和strong没有区别"><a href="#当属性类型为NSString，并且赋值的类型也是NSString（对于不可变类型的集合同样适用）那么使用copy和strong没有区别" class="headerlink" title="当属性类型为NSString，并且赋值的类型也是NSString（对于不可变类型的集合同样适用）那么使用copy和strong没有区别"></a>当属性类型为NSString，并且赋值的类型也是NSString（对于不可变类型的集合同样适用）那么使用copy和strong没有区别</h4><pre><code>-(void)testCopyStr{
+        #pragma mark - copy属性
+        NSString* k_name = [NSString stringWithFormat:@&quot;%@&quot;,@&quot;HZiOS&quot;];
+        NSLog(@&quot;%@---%p&quot;,k_name,k_name);
+        self.name = k_name;
+        NSLog(@&quot;%@---%p&quot;,self.name,self.name);
+        k_name = [NSString stringWithFormat:@&quot;%@&quot;,@&quot;anotherStr&quot;];
+        NSLog(@&quot;%@---%p&quot;,k_name,k_name);
+        NSLog(@&quot;%@---%p&quot;,self.name,self.name);
+
+        #pragma mark - test copy and mutableCopy
+        self.name = [k_name copy];
+        NSLog(@&quot;%@---%p&quot;,self.name,self.name);
+        self.name = [k_name mutableCopy];
+        NSLog(@&quot;%@---%p&quot;,self.name,self.name);
+        NSLog(@&quot;----------------------------------&quot;);
+
+        /*
+          HZiOS---0x534f695a4855
+          HZiOS---0x534f695a4855
+          anotherStr---0x10b192a02d085a5
+          HZiOS---0x534f695a4855
+          anotherStr---0x10b192a02d085a5
+          anotherStr---0x10b192a02d085a5
+         */
+}
+</code></pre><hr>
+<pre><code>-(void)testStrongStr{
+    #pragma mark - strong属性
+    NSString* k_name = [NSString stringWithFormat:@&quot;%@&quot;,@&quot;HZiOS1&quot;];
+    NSLog(@&quot;%@---%p&quot;,k_name,k_name);
+    self.anotherName = k_name;
+    NSLog(@&quot;%@---%p&quot;,self.anotherName,self.anotherName);
+    k_name = [NSString stringWithFormat:@&quot;%@&quot;,@&quot;anotherStr1&quot;];
+    NSLog(@&quot;%@---%p&quot;,k_name,k_name);
+    NSLog(@&quot;%@---%p&quot;,self.anotherName,self.anotherName);
+
+   #pragma mark - test copy and mutableCopy
+    self.anotherName = [k_name copy];
+    NSLog(@&quot;%@---%p&quot;,self.anotherName,self.anotherName);
+    self.anotherName = [k_name mutableCopy];
+    NSLog(@&quot;%@---%p&quot;,self.anotherName,self.anotherName);
+
+    /*
+      HZiOS1---0x1002036a0
+      HZiOS1---0x1002036a0
+      HZiOS1addStr---0x1002036a0
+      HZiOS1addStr---0x1002036a0
+      HZiOS1addStr---0x1001029b0
+      HZiOS1addStr---0x100700150
+     */
+}
+</code></pre><h4 id="唯一需要注意的是属性类型为NSString时，接收到-xxx-mutableCopy-的返回值，使用copy和strong会略有不同；这个可以看代码中的内存地址；"><a href="#唯一需要注意的是属性类型为NSString时，接收到-xxx-mutableCopy-的返回值，使用copy和strong会略有不同；这个可以看代码中的内存地址；" class="headerlink" title="唯一需要注意的是属性类型为NSString时，接收到[xxx mutableCopy]的返回值，使用copy和strong会略有不同；这个可以看代码中的内存地址；"></a>唯一需要注意的是属性类型为NSString时，接收到[xxx mutableCopy]的返回值，使用copy和strong会略有不同；这个可以看代码中的内存地址；</h4><p>copy属性特征：接收到[xxx mutableCopy]的返回值，实际又接收了copy消息，这样在内存中有存在两块内存空间存储相同的不可变字符，so优化合并，所以打印出来的内存地址是一样的；</p>
+</div></article></div></main><footer><div class="paginator"><a href="/2016/01/09/OC基础之load和initialize/" class="prev">PREV</a><a href="/2015/12/03/OC基础之GCD/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">华子</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

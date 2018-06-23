@@ -1,0 +1,78 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> OC基础之Runloop · 華</title><meta name="description" content="OC基础之Runloop - 华子"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/timg.jpeg"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="華"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/timg.jpeg" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://weibo.com/huatianjie1" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/huaTJ0210" target="_blank" class="nav-list-link">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">OC基础之Runloop</h1><div class="post-info">Mar 15, 2016</div><div class="post-content"><blockquote>
+<p>文章内容来自:<br> <a href="http://blog.ibireme.com/2015/05/18/runloop/" target="_blank" rel="external">深入理解RunLoop</a><br> <a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/Multithreading/RunLoopManagement/RunLoopManagement.html#//apple_ref/doc/uid/10000057i-CH16-SW1" target="_blank" rel="external">官方文档-Runloop</a></p>
+</blockquote>
+<h4 id="Runloop概念"><a href="#Runloop概念" class="headerlink" title="Runloop概念"></a>Runloop概念</h4><ul>
+<li>Runloop本身是一个对象（CFRunloopRef或是NSRunloop  ）</li>
+<li>管理事件和消息</li>
+<li><p>提供一种机制：接收到消息或是事件处于运行状态，否则处于休眠避免CPU资源的浪费   </p>
+<a id="more"></a>
+<h4 id="Runloop和线程的关系"><a href="#Runloop和线程的关系" class="headerlink" title="Runloop和线程的关系"></a>Runloop和线程的关系</h4><ul>
+<li>线程和Runloop是一一对应的，系统持有一个全局的CFMutableDictionary来保存线程和Runloop；其中key是线程，value对应CFRunloopRef实例；   </li>
+</ul>
+</li>
+<li><p>线程的最初创建如果不获取Runloop是不会自动创建的  </p>
+</li>
+</ul>
+<h4 id="Runloop组成"><a href="#Runloop组成" class="headerlink" title="Runloop组成"></a>Runloop组成</h4><p><img src="http://upload-images.jianshu.io/upload_images/117735-cfc201030af27008.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Runloop组成"><br>一个runloop中存在多个Mode，每个Mode中存在Source/Observer/Timer ；每次调用 RunLoop 的主函数时，只能指定其中一个 Mode，这个Mode被称作 CurrentMode。如果需要切换 Mode，只能退出runloop，再重新指定一个 Mode 进入。这样做主要是为了分隔开不同组的 Source/Timer/Observer，让其互不影响   </p>
+<h5 id="CFRunloopSourceRef-（事件产生）"><a href="#CFRunloopSourceRef-（事件产生）" class="headerlink" title="CFRunloopSourceRef （事件产生）"></a>CFRunloopSourceRef （事件产生）</h5><ul>
+<li>source0：包含一个回调的函数指针，它不能主动触发事件，需要调用函数将其标记，然后再唤醒runloop执行；</li>
+<li>source1：包含一个mach_port和函数指针，被用于处理内核和其他线程发送过来的消息，可以直接唤醒runloop；  </li>
+</ul>
+<h4 id="CFRunloopTimerRef"><a href="#CFRunloopTimerRef" class="headerlink" title="CFRunloopTimerRef"></a>CFRunloopTimerRef</h4><p>CFRunloopTimerRef包含一个时间长度和函数指针，runloop会注册时间，当时间一到就会触发回调函数；  </p>
+<h4 id="CFRunloopObserverRef"><a href="#CFRunloopObserverRef" class="headerlink" title="CFRunloopObserverRef"></a>CFRunloopObserverRef</h4><p>CFRunloopObserverRef包含一个函数指针，它可以监控runloop的状态，一旦状态改变就会触发回调函数；   </p>
+<pre><code> typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
+kCFRunLoopEntry         = (1UL &lt;&lt; 0), // 即将进入Loop
+kCFRunLoopBeforeTimers  = (1UL &lt;&lt; 1), // 即将处理 Timer
+kCFRunLoopBeforeSources = (1UL &lt;&lt; 2), // 即将处理 Source
+kCFRunLoopBeforeWaiting = (1UL &lt;&lt; 5), // 即将进入休眠
+kCFRunLoopAfterWaiting  = (1UL &lt;&lt; 6), // 刚从休眠中唤醒
+kCFRunLoopExit          = (1UL &lt;&lt; 7), // 即将退出Loop
+};  
+</code></pre><blockquote>
+<p>Source/Timer/Observer 被统称为 <strong>mode item</strong>，一个 item 可以被同时加入多个 mode。但一个 item 被重复加入同一个 mode 时是不会有效果的。如果一个 mode 中一个 item 都没有，则 RunLoop 会直接退出，不进入循环   </p>
+</blockquote>
+<h4 id="Runloop的Mode"><a href="#Runloop的Mode" class="headerlink" title="Runloop的Mode"></a>Runloop的Mode</h4><p>CFRunLoopMode 和 CFRunLoop 的结构大致如下： </p>
+<pre><code>struct __CFRunLoopMode {
+CFStringRef _name;            // Mode Name, 例如 @&quot;kCFRunLoopDefaultMode&quot;
+CFMutableSetRef _sources0;    // Set
+CFMutableSetRef _sources1;    // Set
+CFMutableArrayRef _observers; // Array
+CFMutableArrayRef _timers;    // Array
+...
+};
+
+struct __CFRunLoop {
+CFMutableSetRef _commonModes;     // Set
+CFMutableSetRef _commonModeItems; // Set&lt;Source/Observer/Timer&gt;
+CFRunLoopModeRef _currentMode;    // Current Runloop Mode
+CFMutableSetRef _modes;           // Set
+...
+};   
+</code></pre><h4 id="RunLoop-的内部逻辑"><a href="#RunLoop-的内部逻辑" class="headerlink" title="RunLoop 的内部逻辑"></a>RunLoop 的内部逻辑</h4><p><img src="http://upload-images.jianshu.io/upload_images/117735-6c9cb0e8a42e326c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoop 的内部逻辑">   </p>
+<p>当以一种Mode启动runloop时，CFRunLoopRunSpecific函数会根据ModeName找到对应的Mode，判断Mode内部是否存在source/observer/timer,如果存在会调用CFRunloopRun函数，CFRunloopRun内部存在一个while循环，runloop会通知observers将要分别启动timer、source0、source1，一旦启动observers中对应的回调函数将会被调用；runloop会通过mach_msg()函数接收系统消息，当这一切执行完毕，当前runloop就会退出！   </p>
+<h4 id="AutoreleasePool"><a href="#AutoreleasePool" class="headerlink" title="AutoreleasePool"></a>AutoreleasePool</h4><p>一个runloop循环可以理解创建一个AutoreleasePool，在启动和离开时分别触发AutoreleasePool的push和pop函数，在此次循环结束后完成内存的清理工作；   </p>
+<h4 id="事件响应"><a href="#事件响应" class="headerlink" title="事件响应"></a>事件响应</h4><ul>
+<li>苹果注册了一个 Source1 (基于 mach port 的) 用来接收系统事件，其回调函数为 __IOHIDEventSystemClientQueueCallback()</li>
+<li>触摸，加速，接近传感器等几种 Event，随后用 mach port 转发给需要的App进程。随后苹果注册的那个 Source1 就会触发回调，并调用 _UIApplicationHandleEventQueue() 进行应用内部的分发。</li>
+<li>_UIApplicationHandleEventQueue() 会把 IOHIDEvent 处理并包装成 UIEvent 进行处理或分发，其中包括识别 UIGesture/处理屏幕旋转/发送给 UIWindow 等。通常事件比如 UIButton 点击、touchesBegin/Move/End/Cancel 事件都是在这个回调中完成的。  </li>
+</ul>
+<p>事件的分发有一个hit-testing的过程，这样能够找到最终处理时间的控件，进而执行自定义的逻辑！  </p>
+<h4 id="手势识别"><a href="#手势识别" class="headerlink" title="手势识别"></a>手势识别</h4><ul>
+<li>当上面的 _UIApplicationHandleEventQueue() 识别了一个手势时，其首先会调用 Cancel 将当前的 touchesBegin/Move/End 系列回调打断。随后系统将对应的 UIGestureRecognizer 标记为待处理。</li>
+<li>苹果注册了一个 Observer 监测 BeforeWaiting (Loop即将进入休眠) 事件，这个Observer的回调函数是 _UIGestureRecognizerUpdateObserver()，其内部会获取所有刚被标记为待处理的 GestureRecognizer，并执行GestureRecognizer的回调 </li>
+<li>当有 UIGestureRecognizer 的变化(创建/销毁/状态改变)时，这个回调都会进行相应处理。   </li>
+</ul>
+<h4 id="界面更新"><a href="#界面更新" class="headerlink" title="界面更新"></a>界面更新</h4><ul>
+<li>当在操作 UI 时，比如改变了 Frame、更新了 UIView/CALayer 的层次时，或者手动调用了 UIView/CALayer 的 setNeedsLayout/setNeedsDisplay方法后，这个 UIView/CALayer 就被标记为待处理，并被提交到一个全局的容器去。</li>
+<li>苹果注册了一个 Observer 监听 BeforeWaiting(即将进入休眠) 和 Exit (即将退出Loop) 事件，回调去执行一个很长的函数：<br>_ZN2CA11Transaction17observer_callbackEP19__CFRunLoopObservermPv()。这个函数里会遍历所有待处理的 UIView/CAlayer 以执行实际的绘制和调整，并更新 UI 界面   </li>
+</ul>
+<h4 id="关于网络请求"><a href="#关于网络请求" class="headerlink" title="关于网络请求"></a>关于网络请求</h4><ul>
+<li>CFSocket 是最底层的接口，只负责 socket 通信。</li>
+<li>CFNetwork 是基于 CFSocket 等接口的上层封装，ASIHttpRequest 工作于这一层。</li>
+<li>NSURLConnection 是基于 CFNetwork 的更高层的封装，提供面向对象的接口，AFNetworking 工作于这一层。</li>
+<li>NSURLSession 是 iOS7 中新增的接口，表面上是和 NSURLConnection 并列的，但底层仍然用到了 NSURLConnection 的部分功能 (比如 com.apple.NSURLConnectionLoader 线程)，AFNetworking2 和 Alamofire 工作于这一层。  </li>
+</ul>
+<h4 id="与-Runloop-相关的实例"><a href="#与-Runloop-相关的实例" class="headerlink" title="与 Runloop 相关的实例"></a>与 Runloop 相关的实例</h4><h5 id="NSTimer注册的事件不被执行"><a href="#NSTimer注册的事件不被执行" class="headerlink" title="NSTimer注册的事件不被执行"></a>NSTimer注册的事件不被执行</h5><p>日常开发中，与 runLoop 接触得最近可能就是通过 NSTimer 了。一个 Timer 一次只能加入到一个 RunLoop 中。我们日常使用的时候，通常就是加入到当前的 runLoop 的 default mode 中，而 ScrollView 在用户滑动时，主线程 RunLoop 会转到 UITrackingRunLoopMode 。而这个时候， Timer 就不会运行。  </p>
+<hr>
+<p>有如下两种解决方案：<br>第一种: 设置RunLoop Mode，例如NSTimer,我们指定它运行于 NSRunLoopCommonModes ，这是一个Mode的集合。注册到这个 Mode 下后，无论当前 runLoop 运行哪个 mode ，事件都能得到执行。<br>第二种: 另一种解决Timer的方法是，我们在另外一个线程执行和处理 Timer 事件，然后在主线程更新UI。</p>
+</div></article></div></main><footer><div class="paginator"><a href="/2016/03/20/iOS篇-测试/" class="prev">PREV</a><a href="/2016/03/08/源码阅读篇--AFNetWorking/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">华子</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

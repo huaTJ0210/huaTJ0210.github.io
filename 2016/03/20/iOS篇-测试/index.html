@@ -1,0 +1,125 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> iOS篇-测试 · 華</title><meta name="description" content="iOS篇-测试 - 华子"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/timg.jpeg"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="華"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/timg.jpeg" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://weibo.com/huatianjie1" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/huaTJ0210" target="_blank" class="nav-list-link">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">iOS篇-测试</h1><div class="post-info">Mar 20, 2016</div><div class="post-content"><p> Xcode中集成XCTest框架进行简单的单元测试；在创建App工程时默认创建UnitTest和UITest；UnitTest可以很方便的自定义Method验证项目中某一个业务逻辑单元，UITest则通过录制操作步骤生成代码，然后再执行可以起到自动化测试界面的效果。  </p>
+<a id="more"></a>
+<h4 id="UnitTest的使用"><a href="#UnitTest的使用" class="headerlink" title="UnitTest的使用"></a>UnitTest的使用</h4><p><strong>如何写一个简单的验证api的单元测试</strong><br>创建一个single view application的项目如下图所示  </p>
+<div align="center"><br><img src="http://ofldf2gv9.bkt.clouddn.com/HZTestProject.png" width="500" height="280" alt="iOS核心动画思维导图"><br></div><br>Unit Tests和UI Tests都是默认选中的，然后再项目中找到XXTests.m（我的项目中是HZTestTests.m）文件;<br><div align="center"><br><img src="http://ofldf2gv9.bkt.clouddn.com/TestList.png" width="200" height="400" alt="iOS核心动画思维导图"><br></div> 
+
+<h5 id="XXTests-m详解"><a href="#XXTests-m详解" class="headerlink" title="XXTests.m详解"></a>XXTests.m详解</h5><p>首先看一下文件中的几个自动生成Method；    </p>
+<pre><code>#import &lt;XCTest/XCTest.h&gt;
+@interface HZTestTests : XCTestCase
+
+@end
+
+@implementation HZTestTests
+
+- (void)setUp {
+    [super setUp];
+    // Put setup code here. This method is called before the invocation of each test method in the class.
+}
+
+- (void)tearDown {
+    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    [super tearDown];
+}
+
+- (void)testExample {
+    // This is an example of a functional test case.
+    // Use XCTAssert and related functions to verify your tests produce the correct results.
+}
+@end   
+</code></pre><h6 id="void-setUp"><a href="#void-setUp" class="headerlink" title="- (void)setUp"></a>- (void)setUp</h6><p>如果有一些初始代码需要在调用其他测试类的方法之前调用可以写在这个方法中；  </p>
+<h6 id="void-tearDown"><a href="#void-tearDown" class="headerlink" title="- (void)tearDown"></a>- (void)tearDown</h6><p>关于测试的方法调用完毕之后会调用   </p>
+<h6 id="void-testExample"><a href="#void-testExample" class="headerlink" title="- (void)testExample"></a>- (void)testExample</h6><p>测试的业务逻辑代码可以写在这个方法中；通常是自己创建已test开头的方法类似-(void)testLogin;来验证逻辑   </p>
+<h5 id="自定义测试方法并执行"><a href="#自定义测试方法并执行" class="headerlink" title="自定义测试方法并执行"></a>自定义测试方法并执行</h5><p><strong>如下图所示在左侧有空心菱形点击就可以直接执行相应的代码；没有菱形的可以command+b 一下</strong>  </p>
+<div align="center"><br><img src="http://ofldf2gv9.bkt.clouddn.com/excuteTest.png" width="600" height="400" alt="iOS核心动画思维导图"><br></div>     
+
+<p><strong>测试一个API的耗时时间可以直接调用measureBlock在控制台就可以看到具体的执行时间</strong>   </p>
+<pre><code>#pragma mark- 性能测试的耗时操作
+- (void)testExcuteTime{
+    // This is an example of a performance test case.
+    __block NSInteger sum;
+    [self measureBlock:^{
+        // Put the code you want to measure the time of here.
+        for (NSInteger index=0; index&lt;10000; index++)
+            sum +=index;
+    }];
+}    
+</code></pre><p><strong>异步回调判断超时时间，创建XCTestExpectation对象，使用waitForExpectationsWithTimeout监测超时错误，使用[expectation fulfill]告知异步请求完成</strong>     </p>
+<pre><code>#pragma mark- 异步请求回调测试 
+-(void)testAsyncRequest{
+    XCTestExpectation * expectation = [self expectationWithDescription:@&quot;test async&quot;];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        sleep(4);
+        XCTAssert(YES,&quot;call back success!&quot;);
+        [expectation fulfill];
+    });
+    [self waitForExpectationsWithTimeout:5 handler:^(NSError *error) {
+        //Do something when time out
+        NSLog(@&quot;%@&quot;,[error localizedDescription]);
+    }];
+}
+</code></pre><h5 id="断言的使用"><a href="#断言的使用" class="headerlink" title="断言的使用"></a>断言的使用</h5><pre><code>#pragma mark-  系统提供的断言 
+
+  XCTAssert(expression, format...)
+  XCTAssertTrue(expression, format...)
+  XCTAssertFalse(expression, format...)
+  XCTAssertEqual(expression1, expression2, format...)
+  XCTAssertNotEqual(expression1, expression2, format...)
+  XCTAssertEqualWithAccuracy(expression1, expression2, accuracy, format...)
+  XCTAssertNotEqualWithAccuracy(expression1, expression2, accuracy, format...)
+  XCTAssertNil(expression, format...)
+  XCTAssertNotNil(expression, format...)   
+  XCTFail(format...)   
+</code></pre><h4 id="UITest的使用"><a href="#UITest的使用" class="headerlink" title="UITest的使用"></a>UITest的使用</h4><p><strong>HZTestUITests.m中系统会生成一些方法</strong></p>
+<pre><code>#import &lt;XCTest/XCTest.h&gt;
+
+@interface HZTestUITests : XCTestCase
+
+@end
+
+@implementation HZTestUITests
+
+- (void)setUp {
+    [super setUp];
+
+    // Put setup code here. This method is called before the invocation of each test method in the class.
+
+    // In UI tests it is usually best to stop immediately when a failure occurs.
+    self.continueAfterFailure = NO;
+    // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
+    [[[XCUIApplication alloc] init] launch];
+
+    // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+}
+
+- (void)tearDown {
+    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    [super tearDown];
+}
+
+- (void)testExample {
+    // Use recording to get started writing UI tests.
+    // Use XCTAssert and related functions to verify your tests produce the correct results.
+}
+</code></pre><p><strong>如何使用UITest</strong>  </p>
+<ul>
+<li>定义一个跳转场景viewController中点击一个button跳转到fristViewController </li>
+<li>在HZTestUITests.m定义一个-(void)testUI{}的方法； </li>
+<li>将光标放在 -(void)testUI{}的大括号中；点击下边的红色record；</li>
+<li>根据你的操作 系统会自动生成代码  </li>
+</ul>
+<p>下面是系统自动生成的代码详细  </p>
+<pre><code>  -(void)testUI{
+ XCUIApplication *app = [[XCUIApplication alloc] init];
+ XCUIElement *nextvcButton = app.buttons[@&quot;nextVC&quot;];
+ [nextvcButton tap];
+
+ XCUIElement *backButton = [[[app.navigationBars[@&quot;HZFristView&quot;] childrenMatchingType:XCUIElementTypeButton] matchingIdentifier:@&quot;Back&quot;] elementBoundByIndex:0];
+ [backButton tap];
+ [nextvcButton tap];
+ [backButton tap];
+} 
+</code></pre><p>执行自动UI跳转可以点击左侧的空心菱形进行操作！   </p>
+<blockquote>
+<p>简单的介绍XCTests框架的使用，如何将测试框架应用到实际项目还需要更多的探索！</p>
+</blockquote>
+</div></article></div></main><footer><div class="paginator"><a href="/2016/10/20/OC基础之引用循环/" class="prev">PREV</a><a href="/2016/03/15/OC基础之Runloop/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">华子</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

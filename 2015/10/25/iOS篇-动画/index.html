@@ -1,0 +1,86 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> iOS篇-动画 · 華</title><meta name="description" content="iOS篇-动画 - 华子"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/timg.jpeg"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="華"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/timg.jpeg" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://weibo.com/huatianjie1" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/huaTJ0210" target="_blank" class="nav-list-link">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">iOS篇-动画</h1><div class="post-info">Oct 25, 2015</div><div class="post-content"><blockquote>
+<p>阅读<a href="http://wiki.jikexueyuan.com/project/ios-core-animation" target="_blank" rel="external">iOS核心动画译文版本</a>对其中的内容做了概要整理；文中罗列出视图、图层、Core Animation 、Core Graphics的介绍。<br><a id="more"></a></p>
+</blockquote>
+<h4 id="视图和图层"><a href="#视图和图层" class="headerlink" title="视图和图层"></a>视图和图层</h4><center><br><img src="http://ofldf2gv9.bkt.clouddn.com/视图和图层.png" alt="视图和图层"><br></center> 
+
+<h5 id="增加一个子图层"><a href="#增加一个子图层" class="headerlink" title="增加一个子图层"></a>增加一个子图层</h5>   <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">     <span class="function"><span class="keyword">func</span> <span class="title">addBlueLayer</span><span class="params">(button:UIButton)</span></span> &#123;</div><div class="line">      button.backgroundColor = <span class="type">UIColor</span>.red</div><div class="line">      <span class="keyword">let</span> blueLayer = <span class="type">CALayer</span>()</div><div class="line">      blueLayer.frame = <span class="type">CGRect</span>(x: <span class="number">0</span>, y: <span class="number">0</span>, width: <span class="number">50</span>, height: <span class="number">30</span>)</div><div class="line">      blueLayer.backgroundColor = <span class="type">UIColor</span>.blue.cgColor</div><div class="line">      <span class="keyword">self</span>.view.layer.addSublayer(blueLayer)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="CALayer"><a href="#CALayer" class="headerlink" title="CALayer"></a>CALayer</h4><center><br><img src="http://ofldf2gv9.bkt.clouddn.com/CALayer.png" alt="CALayer"><br></center> 
+
+<h5 id="直接给视图的图层增加图片"><a href="#直接给视图的图层增加图片" class="headerlink" title="直接给视图的图层增加图片"></a>直接给视图的图层增加图片</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"> <span class="function"><span class="keyword">func</span> <span class="title">addImageOnLayer</span><span class="params">()</span></span>&#123;</div><div class="line">    <span class="keyword">let</span> image = <span class="type">UIImage</span>(named: <span class="string">"desktop"</span>)</div><div class="line">    <span class="keyword">self</span>.view.layer.contents = image?.cgImage</div><div class="line">    <span class="comment">/*</span></div><div class="line">      UIImageView:当图片显示不合适时，可以更改contentMode的属性</div><div class="line">      contents也可以设置contentsGravity 来修正图片的显示</div><div class="line">     </div><div class="line">     */</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h4><center><br><img src="http://ofldf2gv9.bkt.clouddn.com/布局.png" alt="布局"><br></center> 
+
+<h4 id="图层"><a href="#图层" class="headerlink" title="图层"></a>图层</h4><center><br><img src="http://ofldf2gv9.bkt.clouddn.com/图层.png" alt="图层"><br></center> 
+
+<h5 id="视图和图层通过改变transform属性来做变换"><a href="#视图和图层通过改变transform属性来做变换" class="headerlink" title="视图和图层通过改变transform属性来做变换"></a>视图和图层通过改变transform属性来做变换</h5>  <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">  <span class="comment">/*</span></div><div class="line">   图层做变换</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">layerTransform</span><span class="params">()</span></span>&#123;</div><div class="line">    </div><div class="line">    <span class="comment">// 旋转45度</span></div><div class="line">    <span class="keyword">let</span> transformrotated =  blueLayer.affineTransform().rotated(by: <span class="type">CGFloat</span>(<span class="type">M_PI_4</span>))</div><div class="line">    blueLayer.setAffineTransform(transformrotated)</div><div class="line">    </div><div class="line">    <span class="comment">// 放大二倍</span></div><div class="line">    <span class="keyword">let</span> transformscaled = blueLayer.affineTransform().scaledBy(x: <span class="number">2.0</span>, y: <span class="number">2.0</span>)</div><div class="line">    blueLayer.setAffineTransform(transformscaled)</div><div class="line">    </div><div class="line">    <span class="comment">// 平移 X轴 和 Y轴</span></div><div class="line">   <span class="keyword">let</span> transformstranslated = blueLayer.affineTransform().translatedBy(x: <span class="number">50</span>, y: <span class="number">50</span>)</div><div class="line">    blueLayer.setAffineTransform(transformstranslated)</div><div class="line">    </div><div class="line">&#125;</div><div class="line">   </div><div class="line">  </div><div class="line">  <span class="comment">/*</span></div><div class="line">   视图的变换</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">scaledImageView</span><span class="params">()</span></span>&#123;</div><div class="line">    <span class="keyword">let</span> imageView = <span class="type">UIImageView</span>(frame: <span class="type">CGRect</span>(x: <span class="number">180</span>, y: <span class="number">100</span>, width: <span class="number">100</span>, height: <span class="number">20</span>))</div><div class="line">    imageView.image = <span class="type">UIImage</span>(named: <span class="string">"desktop"</span>)</div><div class="line">    <span class="keyword">self</span>.view.addSubview(imageView)</div><div class="line">    <span class="comment">//将图片整体方法2倍</span></div><div class="line">    imageView.transform = <span class="type">CGAffineTransform</span>(scaleX: <span class="number">2.0</span>, y: <span class="number">2.0</span>)</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="视觉效果"><a href="#视觉效果" class="headerlink" title="视觉效果"></a>视觉效果</h4><center><br><img src="http://ofldf2gv9.bkt.clouddn.com/视觉效果.png" alt="视觉效果"><br></center> 
+
+<h4 id="变换"><a href="#变换" class="headerlink" title="变换"></a>变换</h4><center><br><img src="http://ofldf2gv9.bkt.clouddn.com/变换.png" alt="变换"><br></center> 
+
+<h4 id="动画"><a href="#动画" class="headerlink" title="动画"></a>动画</h4><center><br><img src="http://ofldf2gv9.bkt.clouddn.com/动画.png" alt="动画"><br></center>    
+
+<h4 id="性能调优"><a href="#性能调优" class="headerlink" title="性能调优"></a>性能调优</h4><h5 id="GPU"><a href="#GPU" class="headerlink" title="GPU"></a>GPU</h5><ul>
+<li>GPU的相关操作: 将图层内容渲染到屏幕上 </li>
+<li>影响GPU的操作  <ul>
+<li>太多的几何结构 </li>
+<li>重绘：由重叠的半透明图层引起 </li>
+<li>离屏绘制：不能直接在屏幕上绘制，必须绘制到离屏图片上下文中  </li>
+<li>过大的图片   </li>
+</ul>
+</li>
+</ul>
+<h5 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h5><p>影响CPU的操作  </p>
+<ul>
+<li>布局计算 :自动布局机制  </li>
+<li>视图的懒加载 ：iOS只会在视图控制器的视图显示在屏幕上时，才会加载他  </li>
+<li>Core Graphics绘制：为了支持对图层内容的任意绘制，Core Animation必须创建一个内存中等大小的寄宿图片。然后一旦绘制结束之后，必须把图片数据通过IPC传到渲染服务器。在此基础上，Core Graphics绘制就会变得十分缓慢  </li>
+<li>解压图片: PNG或者JPEG压缩之后的图片文件会比同质量的位图小得多。但是在图片绘制到屏幕上之前，必须把它扩展成完整的未解压的尺寸;iOS只有在真正绘制的时候才去解压   </li>
+</ul>
+<h5 id="Instruments"><a href="#Instruments" class="headerlink" title="Instruments"></a>Instruments</h5><ul>
+<li>时间分析器：测量方法打断CPU使用情况   </li>
+<li>Core Animation:用来调试各种Core Animation性能问题  <ul>
+<li>Color Blended Layers：基于渲染程度对于屏幕中的混合区域进行绿到红的高亮</li>
+<li>ColorHitsGreenandMissesRed：耗时的图层绘制就会使用红色高亮 </li>
+</ul>
+</li>
+<li>OpenGL ES 驱动：用来调试GPU性能问题  <ul>
+<li>Renderer Utilization - 如果这个值超过了~50%，就意味着你的动画可能对帧率有所限制，很可能因为离屏渲染或者是重绘导致的过度混合  </li>
+<li>Tiler Utilization - 如果这个值超过了~50%，就意味着你的动画可能限制于几何结构方面，也就是在屏幕上有太多的图层占用了  </li>
+</ul>
+</li>
+</ul>
+<h5 id="高效绘制"><a href="#高效绘制" class="headerlink" title="高效绘制"></a>高效绘制</h5><p><strong>避免使用CALayerDelegate协议中的-drawLayer:inContext:方法或者UIView中的-drawRect:</strong>  </p>
+<blockquote>
+<p>原因：实现这两个方法中的其中之一就必须需要一个绘制上下文，这个上下文的大小基本和原有图层的内存占有量一致；所以重绘的代价太高  </p>
+</blockquote>
+<p><strong>对于Core Graphics 可以使用CAShapLayer来替换绘制图形、直线和曲线，使用CATextLayer绘制文本，CAGradientLayer绘制渐变</strong>   </p>
+<h5 id="图像IO"><a href="#图像IO" class="headerlink" title="图像IO"></a>图像IO</h5><p><strong>使用列表加载远程图片资源</strong>  </p>
+<p>直接加载会导致界面卡顿；因为图片资源大，导致加载时间长；  </p>
+<blockquote>
+<p> 解决方案：在子线程中加载图片，在主线程中更新显示内容  </p>
+</blockquote>
+<p><strong>延迟解压</strong>  </p>
+<blockquote>
+<p>加载图片的时候iOS通常会延迟解压图片的时间;+imageNamed:可以避免延迟加载，但是此方法只是使用<br> 应用资源包中的图片;使用ImageIO框架强制将图片解压出来,渲染的时候直接使用或者使用CATiledLayer（异步加载和显示大型图片）同时使用缓存策略  </p>
+</blockquote>
+<h5 id="关于离屏渲染问题"><a href="#关于离屏渲染问题" class="headerlink" title="关于离屏渲染问题"></a>关于离屏渲染问题</h5><ul>
+<li>设置控件圆角：cornerRadius和masksToBounds一起使用时要考虑性能损耗<br>可以采用CAShapeLayer结合UIBezierPath 绘制圆角的图层来实现 </li>
+<li>控件阴影的设置 采用 shadowPath来创建一个对应形状的阴影路径  </li>
+<li>混合和过度绘制（GPU会放弃绘制被遮挡住的图层像素）  <ul>
+<li>给视图设置背景色，并且不透明  </li>
+<li>设置opaque 为yes  </li>
+</ul>
+</li>
+<li>对象回收 <blockquote>
+<p>处理巨大数量的相似视图或是图层时还有一个技巧就是回收；类似于UITableView的重用机制</p>
+</blockquote>
+</li>
+</ul>
+<div align="center"><br><img src="http://ofldf2gv9.bkt.clouddn.com/iOS核心动画.png" width="600" height="240" alt="iOS核心动画思维导图"><br></div>
+
+
+
+
+
+
+
+</div></article></div></main><footer><div class="paginator"><a href="/2015/12/01/OC基础之类与对象/" class="prev">PREV</a><a href="/2015/10/15/iOS篇-审核/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">华子</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

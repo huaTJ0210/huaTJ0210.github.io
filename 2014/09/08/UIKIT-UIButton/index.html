@@ -1,0 +1,118 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> UIButton · 華</title><meta name="description" content="UIButton - 华子"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/timg.jpeg"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="華"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/timg.jpeg" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://weibo.com/huatianjie1" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/huaTJ0210" target="_blank" class="nav-list-link">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">UIButton</h1><div class="post-info">Sep 8, 2014</div><div class="post-content"><h4 id="UIButton的简介"><a href="#UIButton的简介" class="headerlink" title="UIButton的简介"></a>UIButton的简介</h4><blockquote>
+<p>A UIButton object is a view that executes your custom code in response to user interactions. When you tap a button, or select a button that has focus, the button performs any actions attached to it. You communicate the purpose of a button using a text label, an image, or both. The appearance of buttons is configurable, so you can tint buttons or format titles to match the design of your app. You can add buttons to your interface programmatically or using Interface Builder.</p>
+<p>UIButton控件可以显示文本、图片、响应用户点击事件等，当UIButton处于不同的状态（UIControlStateNormal、UIControlStateHighlighted、UIControlStateDisabled、UIControlStateSelected等）下官方也提供了相应的API供开发者来做设置；</p>
+</blockquote>
+<a id="more"></a>
+<h4 id="UIButton的基本用法"><a href="#UIButton的基本用法" class="headerlink" title="UIButton的基本用法"></a>UIButton的基本用法</h4><pre><code>CGFloat margin_left = 40.0f;
+CGFloat margin_top  = 15.0f;
+CGFloat btn_width = 120.0f;
+CGFloat btn_height = 40.0f;
+
+UIButton* fristBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//正常状态显示文字
+[fristBtn setTitle:@&quot;fristBtn&quot; forState:UIControlStateNormal];
+// 选中状态下显示文字
+[fristBtn setTitle:@&quot;fristBtn_Selected&quot; forState:UIControlStateSelected];
+//设置背景图片
+[fristBtn setBackgroundImage:[UIImage imageNamed:@&quot;xxx.png&quot;] forState:UIControlStateNormal];
+[fristBtn setBackgroundColor:[UIColor orangeColor]];
+[fristBtn setFrame:CGRectMake(margin_left, margin_top, btn_width, btn_height)];
+// 添加点击事件
+[fristBtn addTarget:self action:@selector(fristBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+[self.view addSubview:fristBtn];
+</code></pre><h4 id="UIButton的组成-UIButtonLabel和UIImageView"><a href="#UIButton的组成-UIButtonLabel和UIImageView" class="headerlink" title="UIButton的组成 (UIButtonLabel和UIImageView)"></a>UIButton的组成 (UIButtonLabel和UIImageView)</h4><pre><code>UIButton* secondBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+[secondBtn setFrame:CGRectMake(margin_left, margin_top+CGRectGetMaxY(fristBtn.frame), btn_width, btn_height)];
+
+// 不设置状态的情况下直接设置文本和图片的话不显示，直接打印UIButtonLabel和UIImageViewframe都未被设置
+// secondBtn.titleLabel.text = @&quot;titleLabel&quot;;
+// secondBtn.imageView.image = [UIImage imageNamed:@&quot;businessImg&quot;];
+
+//只有在设置UIControlState的情况下文本和图片才显示
+[secondBtn setTitle:@&quot;secondBtn&quot; forState:UIControlStateNormal];
+secondBtn.titleLabel.font = [UIFont systemFontOfSize:13.0f];
+
+UIImage* secondImage = [UIImage imageNamed:@&quot;buyOne&quot;];
+// 60.000000,60.000000
+NSLog(@&quot;%lf,%lf&quot;,secondImage.size.width,secondImage.size.width);
+[secondBtn setImage:[UIImage imageNamed:@&quot;buyOne&quot;] forState:UIControlStateNormal];
+[secondBtn.imageView setContentMode:UIViewContentModeScaleAspectFit];
+
+// 打印设置之后的UIButtonLabel和UIImageView frame
+// &lt;UIButtonLabel: 0x7ff96971e400; frame = (146 12; 52.5 16); text = &apos;secondBtn&apos;; opaque = NO; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x7ff96971e8a0&gt;&gt;
+NSLog(@&quot;%@&quot;,secondBtn.titleLabel);
+//&lt;UIImageView: 0x7ff96972f150; frame = (1.5 0; 144 40); clipsToBounds = YES; opaque = NO; userInteractionEnabled = NO; layer = &lt;CALayer: 0x7ff96972ed20&gt;&gt;
+NSLog(@&quot;%@&quot;,secondBtn.imageView);
+[self.view addSubview:secondBtn]; 
+</code></pre><blockquote>
+<p>UIButton设置title和image时必须设定UIControlState，不然控件内容不会显示；在不做任何设置的情况下UIButton会将imageView显示在左侧，imageView的frame在UIButton的bounds范围内会根据图片的大小设定；titleLabel的frame也是在UIButton的bounds范围内根据字体来动态的计算；</p>
+</blockquote>
+<h4 id="UIButton的三个属性contentEdgeInsets、titleEdgeInsets、imageEdgeInsets"><a href="#UIButton的三个属性contentEdgeInsets、titleEdgeInsets、imageEdgeInsets" class="headerlink" title="UIButton的三个属性contentEdgeInsets、titleEdgeInsets、imageEdgeInsets"></a>UIButton的三个属性contentEdgeInsets、titleEdgeInsets、imageEdgeInsets</h4><p>这个三个属性的类型都是<code>UIEdgeInsets</code>   </p>
+<pre><code> typedef struct UIEdgeInsets {
+ //四个值有正负之分，top为1代表y轴向下移动一位，为负代表y轴向上移动一位
+CGFloat top, left, bottom, right;  // specify amount to inset (positive) for each of the edges. values can be negative to &apos;outset&apos;
+} UIEdgeInsets;
+</code></pre><ul>
+<li>contentEdgeInsets ：设置该值可以改变内容显示的位置类似UILabel的NSTextAlignment;</li>
+<li>titleEdgeInsets:该属性类似contentEdgeInsets；</li>
+<li>imageEdgeInsets：设置该属性可调整左侧显示图片的位置；</li>
+</ul>
+<h4 id="如何设置内容在下方图片在上部的UIButton"><a href="#如何设置内容在下方图片在上部的UIButton" class="headerlink" title="如何设置内容在下方图片在上部的UIButton"></a>如何设置内容在下方图片在上部的UIButton</h4><pre><code>#import &quot;ImageUpTitleDownButton.h&quot;
+@interface ImageUpTitleDownButton()
+@end
+@implementation ImageUpTitleDownButton
+
+- (id)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self setup];
+    }
+    return self;
+}
+
+-(id)initWithCoder:(NSCoder *)decoder
+{
+    self = [super initWithCoder:decoder];
+    if (self) {
+        [self setup];
+    }
+    return self;
+}
+
+-(void)setup
+{
+    // 字体居中显示
+    self.titleLabel.textAlignment = NSTextAlignmentCenter;
+    //图片的显示居中
+    [self.imageView setContentMode:UIViewContentModeScaleAspectFit];
+}
+//button 中imageVieW的位置
+- (CGRect)imageRectForContentRect:(CGRect)contentRect
+{
+    CGFloat imageW =contentRect.size.width;
+    CGFloat imageH = contentRect.size.height*0.7;
+    CGFloat imageX = 0;
+    CGFloat imageY = 0;
+    return CGRectMake(imageX, imageY, imageW, imageH);
+}
+
+//button 中label 的位置
+- (CGRect)titleRectForContentRect:(CGRect)contentRect
+{
+    CGFloat titleX = 0;
+    CGFloat titleY =contentRect.size.height*0.7;
+    CGFloat titleW = contentRect.size.width;
+    CGFloat titleH = contentRect.size.height*0.3;
+
+    return CGRectMake(titleX, titleY, titleW, titleH);
+}
+
+-(void)initWithTitle:(NSString*)title tintColor:(UIColor*)tintColor image:(NSString*)image fontSize:(CGFloat)fontSize{
+    self.titleLabel.font = [UIFont systemFontOfSize:fontSize];
+    [self setTitleColor:tintColor forState:UIControlStateNormal];
+    [self setTitle:title forState:UIControlStateNormal];
+    [self setImage:[UIImage imageNamed:image] forState:UIControlStateNormal];
+}
+@end
+</code></pre><p> 具体使用时只需要调用<code>initWithTitle:(NSString*)title tintColor:(UIColor*)tintColor image:(NSString*)image fontSize:(CGFloat)fontSize</code>创建UIButton即可；类似的需求还包括调整UIButton中imageView和titleLabel的位置等这些需求都可以继承UIButton在子类中重写<code>imageRectForContentRect</code>和<code>titleRectForContentRect</code>两个方法即可；</p>
+</div></article></div></main><footer><div class="paginator"><a href="/2014/10/03/OC基础之NSURLSession/" class="prev">PREV</a><a href="/2014/09/07/UIKIT-UILabel/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">华子</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

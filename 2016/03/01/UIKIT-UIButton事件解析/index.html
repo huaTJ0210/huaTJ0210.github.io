@@ -1,0 +1,39 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> UIKIT-UIButton事件解析 · 華</title><meta name="description" content="UIKIT-UIButton事件解析 - 华子"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/timg.jpeg"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="華"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/timg.jpeg" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://weibo.com/huatianjie1" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/huaTJ0210" target="_blank" class="nav-list-link">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">UIKIT-UIButton事件解析</h1><div class="post-info">Mar 1, 2016</div><div class="post-content"><p>一个UIButton对象从被点击到执行对应的target action method的过程到底经历了哪些？<br><a id="more"></a><br><strong>首先来通过Time Profiler来看一下点击一个简单的button函数的调用堆栈；</strong></p>
+<center><br><img src="http://ww4.sinaimg.cn/mw690/8e8e3b1bjw1f82cad8b5pj20v00ir108.jpg" alt="调用栈"><br></center>    
+
+<p>图片中涉及runloop的部分暂时先不做解释；那么从最上层[UIApplication sendEvent:]开始到最终的NSLog为什么会执行一大堆的方法调用呢？为了搞清该过程需要了解视图的树状结构、UIResponder、响应者链的产生、查找事件响应者等；   </p>
+<h4 id="视图的树状结构"><a href="#视图的树状结构" class="headerlink" title="视图的树状结构"></a>视图的树状结构</h4><p>iOS应用程序屏幕显示的内容都是呈现在UIWindow上的，然后指定window的rootViewController，在viewController上添加控制器的各种展示内容的subViews；如下图所示</p>
+<center><br><img src="http://smnh.me/images/hit-test-view-hierarchy.png" alt="图片来自网络"><br></center> 
+
+
+<h4 id="UIResponder"><a href="#UIResponder" class="headerlink" title="UIResponder"></a>UIResponder</h4><blockquote>
+<p>The UIResponder class defines an interface for objects that respond to and handle events. It is the superclass of UIApplication, UIView and its subclasses (which include UIWindow). Instances of these classes are sometimes referred to as responder objects or, simply, responders.<br>大体上说UIResponder给众多对象提供了响应和处理事件的接口；下面展示的是UIResponder一个重要属性nextResponder和相应的方法  </p>
+</blockquote>
+<pre><code>#if UIKIT_DEFINE_AS_PROPERTIES
+@property(nonatomic, readonly, nullable) UIResponder *nextResponder;
+#else
+- (nullable UIResponder*)nextResponder;
+#endif
+- (void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(nullable UIEvent *)event;
+- (void)touchesMoved:(NSSet&lt;UITouch *&gt; *)touches withEvent:(nullable UIEvent *)event;
+- (void)touchesEnded:(NSSet&lt;UITouch *&gt; *)touches withEvent:(nullable UIEvent *)event;
+- (void)touchesCancelled:(NSSet&lt;UITouch *&gt; *)touches withEvent:(nullable UIEvent *)event;  
+</code></pre><h4 id="响应者链的产生"><a href="#响应者链的产生" class="headerlink" title="响应者链的产生"></a>响应者链的产生</h4><p>由于视图继承自UIResponder，因此他有一个nextResponder属性，结合视图的层次结构这样一个响应者链就产生了；子视图的nextResponder指向的是父视图；事件在传递的过程中根据nextResponder指针完成树状图的遍历直到有视图处理此次事件，否则就放弃事件的响应；  </p>
+<h4 id="查找响应者"><a href="#查找响应者" class="headerlink" title="查找响应者"></a>查找响应者</h4><p>屏幕中点击了一个按钮，事件由UIApplication从runloop的事件队列中取出通过[UIApplication sendEvent:]传递给UIWindow；此时会触发Hit-Testing View也就是触发UIWindow中的<code>- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event;</code>和<code>- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event;</code>方法；那么Hit-Testing View的过程是什么呢？</p>
+<h5 id="Hit-Testing-View的过程"><a href="#Hit-Testing-View的过程" class="headerlink" title="Hit-Testing View的过程"></a>Hit-Testing View的过程</h5><p>Hit-Testing View实际是递归的使用<code>- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event;</code>和<code>- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event;</code>方法来找到<em>触摸点</em>所在的最上层视图然后返回；如下图所示： </p>
+<center><br><img src="http://zhoon.github.io/img/artical/ios_event/iosevent_4.png" alt="图片来自网络"><br></center>  
+
+<p>Hit-Testing View 的执行流程图   </p>
+<center><br><img src="http://zhoon.github.io/img/artical/ios_event/iosevent_5.png" alt="图片来自网络"><br></center> 
+
+<hr>
+<p>经过上述的Hit-Testing View的过程找到了事件处理的视图，此时UIWindow会调用[UIWindow _sendTouchesEnded:withEvent]将事件一层层的传递到UIButton对象，最终执行对应的逻辑操作；<br>在函数调用堆栈中还看到了一系列的UIControl执行的函数具体作用是什么可以参考<a href="http://southpeak.github.io/blog/2015/12/13/cocoa-uikit-uicontrol/" target="_blank" rel="external">UIControl介绍,进一步了解UIButton的父类UIContorl为button对象执行actionMethod的又做了哪些事情</a>   </p>
+<blockquote>
+<p>文章内容参考  </p>
+</blockquote>
+<ul>
+<li><a href="http://southpeak.github.io/2015/03/07/cocoa-uikit-uiresponder/" target="_blank" rel="external">UIKIT-UIRespoder</a>   </li>
+<li><a href="http://zhoon.github.io/ios/2015/04/12/ios-event.html" target="_blank" rel="external">深入浅出iOS事件机制</a>  </li>
+<li><a href="http://smnh.me/hit-testing-in-ios/" target="_blank" rel="external">Hit-Testing in iOS</a></li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/2016/03/08/源码阅读篇--AFNetWorking/" class="prev">PREV</a><a href="/2016/02/24/OC基础之面向切面编程/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">华子</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
