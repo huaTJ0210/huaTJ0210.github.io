@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-06-23T04:14:36.000Z</updated>
+  <updated>2018-07-04T15:02:23.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="http://yoursite.com/2018/07/04/iOS%E7%AF%87-%E9%A1%B5%E9%9D%A2%E4%BC%98%E5%8C%96%EF%BC%88-%EF%BC%89/"/>
+    <id>http://yoursite.com/2018/07/04/iOS篇-页面优化（-）/</id>
+    <published>2018-07-04T14:17:22.000Z</published>
+    <updated>2018-07-04T15:02:23.000Z</updated>
+    
+    <content type="html"><![CDATA[<hr><p>title: iOS篇-页面优化（-）<br>date: 2018-07-04 22:17:22<br>categories: iOS </p><h2 id="tags-iOS页面优化"><a href="#tags-iOS页面优化" class="headerlink" title="tags:[iOS页面优化]"></a>tags:[iOS页面优化]</h2><p>本文主要涉及到的知识点：  </p><ul><li>图像显示原理  </li><li>CPU和GPU的职责</li><li>UI卡顿掉帧的原因</li><li>视图的绘制</li><li>视图的异步绘制</li><li>离屏渲染</li><li>性能优化的集合  </li></ul><a id="more"></a><h3 id="图像显示原理"><a href="#图像显示原理" class="headerlink" title="图像显示原理"></a>图像显示原理</h3><p>CPU和GPU两个硬件通过总线相连接，CPU负责视图的计算，GPU负责视图渲染，GPU将渲染的位图提交给帧缓冲区（frame buffer），视频控制器接收到VSync信号后将位图在显示器上显示；<br><img src="https://upload-images.jianshu.io/upload_images/117735-1f696b1bc58ad56f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图像显示原理.png">    </p><p><strong>对应具体视图的显示</strong><br><img src="https://upload-images.jianshu.io/upload_images/117735-b1a696a84cd46d7d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕快照 2018-07-04 下午9.39.30.png"></p><h3 id="CPU和GPU的职责"><a href="#CPU和GPU的职责" class="headerlink" title="CPU和GPU的职责"></a>CPU和GPU的职责</h3><p> <strong>CPU的主要职责</strong>    </p><ul><li>Layout -&gt; UI布局【自动布局】、文本计算</li><li>Display -&gt; 绘制【Core Graphics绘制：为了支持对图层内容的任意绘制，Core Animation必须创建一个内存中等大小的寄宿图片。然后一旦绘制结束之后，必须把图片数据通过IPC传到渲染服务器。在此基础上，Core Graphics绘制就会变得十分缓慢】</li><li>Prepare -&gt; 图片的编解码【PNG或者JPEG压缩之后的图片文件会比同质量的位图小得多。但是在图片绘制到屏幕上之前，必须把它扩展成完整的未解压的尺寸;iOS只有在真正绘制的时候才去解压】</li><li>Commit -&gt; 将位图提交给GPU  </li></ul><p><strong>GPU的主要职责</strong>   </p><ul><li>将图层内容渲染到屏幕上   </li></ul><p><strong>影响GPU的操作</strong>    </p><ul><li>太多的几何结构，视图层级复杂</li><li>重绘：由重叠的半透明图层引起 </li><li>离屏绘制：不能直接在屏幕上绘制，必须绘制到离屏图片上下文中  </li><li>过大的图片  </li></ul><h3 id="UI卡顿掉帧的原因"><a href="#UI卡顿掉帧的原因" class="headerlink" title="UI卡顿掉帧的原因"></a>UI卡顿掉帧的原因</h3><p>在页面滑动流畅一般是60FPS，也就是16.7ms要产生一帧的图像渲染出来，如果CPU+GPU在一次VSync信号结束的16.7ms内没有产生一个帧图像在屏幕中显示就会产生卡顿掉帧；<br><img src="https://upload-images.jianshu.io/upload_images/117735-a22f468c86495bbb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕快照 2018-07-04 下午9.44.28.png">  </p><h3 id="视图的绘制"><a href="#视图的绘制" class="headerlink" title="视图的绘制"></a>视图的绘制</h3><p>如下图所示，UIView在接收到setNeedsDisplay的时候并不会直接进行视图的绘制工作，而是等整个流程走完，在当前runloop快结束的时候才会调用setNeedsDisplay标记的视图的drawRect方法<br><img src="https://upload-images.jianshu.io/upload_images/117735-4977b484d21e0045.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕快照 2018-07-04 下午9.54.03.png">  </p><p><img src="https://upload-images.jianshu.io/upload_images/117735-8b1ebc403dec24c4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕快照 2018-07-04 下午10.02.06.png"></p><h3 id="视图的异步绘制"><a href="#视图的异步绘制" class="headerlink" title="视图的异步绘制"></a>视图的异步绘制</h3><p><img src="https://upload-images.jianshu.io/upload_images/117735-52c1e98b800ef016.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕快照 2018-07-04 下午10.06.29.png"></p><h3 id="离屏渲染"><a href="#离屏渲染" class="headerlink" title="离屏渲染"></a>离屏渲染</h3><p><strong>GPU的渲染分为两种</strong>   </p><ul><li>On-Screen Rendering (当前屏幕渲染)：GPU的渲染是在当前用于显示的屏幕缓冲区进行的  </li><li>Off-Screen Rendering（离屏渲染）：GPU在当前屏幕缓冲区以外开辟一个缓存区进行渲染操作</li></ul><p><strong>离屏渲染的坏处</strong>  </p><ul><li>创建新缓冲区：要进行离屏渲染，首先要创建一个新的缓冲区  </li><li>上下文切换：离屏渲染的整个过程，要多次切换上下文，On-Screen -&gt; Off-Screen ,当离屏渲染结束后要将渲染结果显示，需要将上下文再次切换回来，而上下文的切换代价很大  </li></ul><p><strong>会触发离屏渲染的操作</strong>   </p><ul><li>为图层设置遮罩（layer.mask）</li><li>layer.masksToBounds/view.clipsToBounds 设置为true</li><li>layer.opacity小于1.0</li><li>layer.shadow</li><li>layer.cornerRadius</li><li>drawRect中进行绘制  </li></ul><p><strong>如何优化离屏渲染</strong>  </p><ul><li>控件圆角的设置：CAShaperLayer/Core Graphics 结合UIBezierPath 绘制圆角 </li><li>阴影的绘制：设置shadowPath</li><li>使用instrument的Core Animation检测：图层的离屏渲染、图层是否透明</li></ul><h3 id="性能优化的集合"><a href="#性能优化的集合" class="headerlink" title="性能优化的集合"></a>性能优化的集合</h3><ul><li>避免使用CALayerDelegate协议中的-drawLayer:inContext:方法或者UIView中的-drawRect:<br>原因：实现这两个方法中的其中之一就必须需要一个绘制上下文，这个上下文的大小基本和原有图层的内存占有量一致；所以重绘的代价太高 </li><li>对于Core Graphics 可以使用CAShapLayer来替换绘制图形、直线和曲线，使用CATextLayer绘制文本，CAGradientLayer绘制渐变 </li><li>列表加载远程图片，直接加载会导致界面卡顿；因为图片资源大，导致加载时间长；在另外的线程中加载图片，在主线程中更新显示内容【SDWebImageView】</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;hr&gt;
+&lt;p&gt;title: iOS篇-页面优化（-）&lt;br&gt;date: 2018-07-04 22:17:22&lt;br&gt;categories: iOS &lt;/p&gt;
+&lt;h2 id=&quot;tags-iOS页面优化&quot;&gt;&lt;a href=&quot;#tags-iOS页面优化&quot; class=&quot;headerlink&quot; title=&quot;tags:[iOS页面优化]&quot;&gt;&lt;/a&gt;tags:[iOS页面优化]&lt;/h2&gt;&lt;p&gt;本文主要涉及到的知识点：  &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;图像显示原理  &lt;/li&gt;
+&lt;li&gt;CPU和GPU的职责&lt;/li&gt;
+&lt;li&gt;UI卡顿掉帧的原因&lt;/li&gt;
+&lt;li&gt;视图的绘制&lt;/li&gt;
+&lt;li&gt;视图的异步绘制&lt;/li&gt;
+&lt;li&gt;离屏渲染&lt;/li&gt;
+&lt;li&gt;性能优化的集合  &lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>生活篇--说说三观</title>
@@ -463,31 +492,6 @@
     
     
       <category term="iOS基础" scheme="http://yoursite.com/tags/iOS%E5%9F%BA%E7%A1%80/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux篇--常用命令</title>
-    <link href="http://yoursite.com/2015/09/08/Linux%E7%AF%87--%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
-    <id>http://yoursite.com/2015/09/08/Linux篇--常用命令/</id>
-    <published>2015-09-08T05:58:07.000Z</published>
-    <updated>2018-06-23T04:07:59.000Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="ls"><a href="#ls" class="headerlink" title="ls"></a>ls</h4><ul><li><code>ls</code> 显示当前目录下所有文件名  </li><li><code>ls -l</code>显示当前目录下所有文件的详细（文件权限、文件所有者，文件修改日期，文件名等）  </li><li><code>ls -a</code>显示当前目录下所有文件名包含隐藏文件  <a id="more"></a>  <h4 id="cd"><a href="#cd" class="headerlink" title="cd"></a>cd</h4></li><li><code>cd dirName or dirPath</code> 切换到指定目录  </li><li><code>cd /</code>切换到根目录  </li><li><code>cd ..</code>切换到上一级目录  </li><li><code>cd ~</code>切换到当前主目录  </li><li><code>cd -</code>返回进入此目录之前所在的目录  </li></ul><h4 id="pwd"><a href="#pwd" class="headerlink" title="pwd"></a>pwd</h4><p><code>pwd</code> 查看当前完整路径  </p><h4 id="mkdir"><a href="#mkdir" class="headerlink" title="mkdir"></a>mkdir</h4><p><code>mkdir dirName</code> 创建一个名称为dirName的文件夹  </p><h4 id="rm"><a href="#rm" class="headerlink" title="rm"></a>rm</h4><ul><li><code>rm filename</code>删除指定文件  </li><li><code>rm -r dirName</code>删除指定目录    </li></ul><h4 id="touch"><a href="#touch" class="headerlink" title="touch"></a>touch</h4><p><code>touch fileName</code> 创建一个不存在的文件  </p><h4 id="cat"><a href="#cat" class="headerlink" title="cat"></a>cat</h4><p><code>cat fileName</code>  查看一个文件  </p><h4 id="mv"><a href="#mv" class="headerlink" title="mv"></a>mv</h4><ul><li><code>mv file1 file2</code> 将文档 file1，更改档名为 file2.  </li><li><code>mv file1 dir1</code> 将文档 file1，移到目录 dir1 下，档名仍为 file1.  </li><li><code>mv dir1 dir2</code> 若目录 dir2 不存在，则将目录 dir1，及其所有档  </li></ul><h4 id="vim"><a href="#vim" class="headerlink" title="vim"></a>vim</h4><ul><li><code>vim hua.txt</code> 没有hua.txt 则创建  </li><li><code>I 键</code> 进入编辑状态  </li><li><code>esc键</code>退出工作状态  </li><li><code>ZZ 键</code>保存并退出  </li><li><code>wq</code>保存并退出  </li><li><a href="http://jingyan.baidu.com/article/48206aeaf07f37216ad6b3a6.html" target="_blank" rel="external">vim 使用详解</a>  </li></ul><h4 id="ping"><a href="#ping" class="headerlink" title="ping"></a>ping</h4><p><code>ping ip地址</code>测试与目标主机的连通性  </p><h4 id="更多"><a href="#更多" class="headerlink" title="更多"></a>更多</h4><p><a href="http://www.cnblogs.com/peida/tag/每日一linux命令/default.html?page=1" target="_blank" rel="external">每日一个linux命令</a></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h4 id=&quot;ls&quot;&gt;&lt;a href=&quot;#ls&quot; class=&quot;headerlink&quot; title=&quot;ls&quot;&gt;&lt;/a&gt;ls&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;ls&lt;/code&gt; 显示当前目录下所有文件名  &lt;/li&gt;
-&lt;li&gt;&lt;code&gt;ls -l&lt;/code&gt;显示当前目录下所有文件的详细（文件权限、文件所有者，文件修改日期，文件名等）  &lt;/li&gt;
-&lt;li&gt;&lt;code&gt;ls -a&lt;/code&gt;显示当前目录下所有文件名包含隐藏文件
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://yoursite.com/categories/Linux/"/>
-    
-    
-      <category term="Linux" scheme="http://yoursite.com/tags/Linux/"/>
     
   </entry>
   
