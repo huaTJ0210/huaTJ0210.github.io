@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-07-05T00:41:25.000Z</updated>
+  <updated>2018-06-23T04:14:36.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,36 +15,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>iOS篇-页面优化（-）</title>
-    <link href="http://yoursite.com/2018/07/04/iOS%E7%AF%87-%E9%A1%B5%E9%9D%A2%E4%BC%98%E5%8C%96%EF%BC%88-%EF%BC%89/"/>
-    <id>http://yoursite.com/2018/07/04/iOS篇-页面优化（-）/</id>
-    <published>2018-07-04T14:57:54.000Z</published>
-    <updated>2018-07-05T00:41:25.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="本文主要涉及到的知识点："><a href="#本文主要涉及到的知识点：" class="headerlink" title="本文主要涉及到的知识点："></a>本文主要涉及到的知识点：</h3><ul><li>图像显示原理  </li><li>CPU和GPU的职责</li><li>UI卡顿掉帧的原因</li><li>视图的绘制</li><li>视图的异步绘制</li><li>离屏渲染</li><li>性能优化的集合  </li></ul><a id="more"></a><h3 id="图像显示原理"><a href="#图像显示原理" class="headerlink" title="图像显示原理"></a>图像显示原理</h3><p>CPU和GPU两个硬件通过总线相连接，CPU负责视图的计算，GPU负责视图渲染，GPU将渲染的位图提交给帧缓冲区（frame buffer），视频控制器接收到VSync信号后将位图在显示器上显示；<br><img src="https://upload-images.jianshu.io/upload_images/117735-1f696b1bc58ad56f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图像显示原理.png">    </p><p><strong>对应具体视图的显示</strong><br><img src="https://upload-images.jianshu.io/upload_images/117735-b1a696a84cd46d7d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕快照 2018-07-04 下午9.39.30.png"></p><h3 id="CPU和GPU的职责"><a href="#CPU和GPU的职责" class="headerlink" title="CPU和GPU的职责"></a>CPU和GPU的职责</h3><p> <strong>CPU的主要职责</strong>    </p><ul><li>Layout -&gt; UI布局【自动布局】、文本计算</li><li>Display -&gt; 绘制【Core Graphics绘制：为了支持对图层内容的任意绘制，Core Animation必须创建一个内存中等大小的寄宿图片。然后一旦绘制结束之后，必须把图片数据通过IPC传到渲染服务器。在此基础上，Core Graphics绘制就会变得十分缓慢】</li><li>Prepare -&gt; 图片的编解码【PNG或者JPEG压缩之后的图片文件会比同质量的位图小得多。但是在图片绘制到屏幕上之前，必须把它扩展成完整的未解压的尺寸;iOS只有在真正绘制的时候才去解压】</li><li>Commit -&gt; 将位图提交给GPU  </li></ul><p><strong>GPU的主要职责</strong>   </p><ul><li>将图层内容渲染到屏幕上   </li></ul><p><strong>影响GPU的操作</strong>    </p><ul><li>太多的几何结构，视图层级复杂</li><li>重绘：由重叠的半透明图层引起 </li><li>离屏绘制：不能直接在屏幕上绘制，必须绘制到离屏图片上下文中  </li><li>过大的图片  </li></ul><h3 id="UI卡顿掉帧的原因"><a href="#UI卡顿掉帧的原因" class="headerlink" title="UI卡顿掉帧的原因"></a>UI卡顿掉帧的原因</h3><p>在页面滑动流畅一般是60FPS，也就是16.7ms要产生一帧的图像渲染出来，如果CPU+GPU在一次VSync信号结束的16.7ms内没有产生一个帧图像在屏幕中显示就会产生卡顿掉帧；<br><img src="https://upload-images.jianshu.io/upload_images/117735-a22f468c86495bbb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕快照 2018-07-04 下午9.44.28.png">  </p><h3 id="视图的绘制"><a href="#视图的绘制" class="headerlink" title="视图的绘制"></a>视图的绘制</h3><p>如下图所示，UIView在接收到setNeedsDisplay的时候并不会直接进行视图的绘制工作，而是等整个流程走完，在当前runloop快结束的时候才会调用setNeedsDisplay标记的视图的drawRect方法<br><img src="https://upload-images.jianshu.io/upload_images/117735-4977b484d21e0045.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕快照 2018-07-04 下午9.54.03.png">  </p><p><img src="https://upload-images.jianshu.io/upload_images/117735-8b1ebc403dec24c4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕快照 2018-07-04 下午10.02.06.png"></p><h3 id="视图的异步绘制"><a href="#视图的异步绘制" class="headerlink" title="视图的异步绘制"></a>视图的异步绘制</h3><p><img src="https://upload-images.jianshu.io/upload_images/117735-52c1e98b800ef016.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕快照 2018-07-04 下午10.06.29.png"></p><h3 id="离屏渲染"><a href="#离屏渲染" class="headerlink" title="离屏渲染"></a>离屏渲染</h3><p><strong>GPU的渲染分为两种</strong>   </p><ul><li>On-Screen Rendering (当前屏幕渲染)：GPU的渲染是在当前用于显示的屏幕缓冲区进行的  </li><li>Off-Screen Rendering（离屏渲染）：GPU在当前屏幕缓冲区以外开辟一个缓存区进行渲染操作</li></ul><p><strong>离屏渲染的坏处</strong>  </p><ul><li>创建新缓冲区：要进行离屏渲染，首先要创建一个新的缓冲区  </li><li>上下文切换：离屏渲染的整个过程，要多次切换上下文，On-Screen -&gt; Off-Screen ,当离屏渲染结束后要将渲染结果显示，需要将上下文再次切换回来，而上下文的切换代价很大  </li></ul><p><strong>会触发离屏渲染的操作</strong>   </p><ul><li>为图层设置遮罩（layer.mask）</li><li>layer.masksToBounds/view.clipsToBounds 设置为true</li><li>layer.opacity小于1.0</li><li>layer.shadow</li><li>layer.cornerRadius</li><li>drawRect中进行绘制  </li></ul><p><strong>如何优化离屏渲染</strong>  </p><ul><li>控件圆角的设置：CAShaperLayer/Core Graphics 结合UIBezierPath 绘制圆角 </li><li>阴影的绘制：设置shadowPath</li><li>使用instrument的Core Animation检测：图层的离屏渲染、图层是否透明</li></ul><h3 id="性能优化的集合"><a href="#性能优化的集合" class="headerlink" title="性能优化的集合"></a>性能优化的集合</h3><ul><li>避免使用CALayerDelegate协议中的-drawLayer:inContext:方法或者UIView中的-drawRect:<br>原因：实现这两个方法中的其中之一就必须需要一个绘制上下文，这个上下文的大小基本和原有图层的内存占有量一致；所以重绘的代价太高 </li><li>对于Core Graphics 可以使用CAShapLayer来替换绘制图形、直线和曲线，使用CATextLayer绘制文本，CAGradientLayer绘制渐变 </li><li>列表加载远程图片，直接加载会导致界面卡顿；因为图片资源大，导致加载时间长；在另外的线程中加载图片，在主线程中更新显示内容【SDWebImageView】</li></ul>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;本文主要涉及到的知识点：&quot;&gt;&lt;a href=&quot;#本文主要涉及到的知识点：&quot; class=&quot;headerlink&quot; title=&quot;本文主要涉及到的知识点：&quot;&gt;&lt;/a&gt;本文主要涉及到的知识点：&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;图像显示原理  &lt;/li&gt;
-&lt;li&gt;CPU和GPU的职责&lt;/li&gt;
-&lt;li&gt;UI卡顿掉帧的原因&lt;/li&gt;
-&lt;li&gt;视图的绘制&lt;/li&gt;
-&lt;li&gt;视图的异步绘制&lt;/li&gt;
-&lt;li&gt;离屏渲染&lt;/li&gt;
-&lt;li&gt;性能优化的集合  &lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="iOS" scheme="http://yoursite.com/categories/iOS/"/>
-    
-    
-      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
-    
-  </entry>
   
   <entry>
     <title>生活篇--说说三观</title>
@@ -492,6 +462,30 @@
     
     
       <category term="KVO" scheme="http://yoursite.com/tags/KVO/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>OC基础之KCV</title>
+    <link href="http://yoursite.com/2015/09/13/OC%E5%9F%BA%E7%A1%80%E4%B9%8BKCV/"/>
+    <id>http://yoursite.com/2015/09/13/OC基础之KCV/</id>
+    <published>2015-09-12T16:00:00.000Z</published>
+    <updated>2018-06-23T04:02:02.000Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="什么是KVC"><a href="#什么是KVC" class="headerlink" title="什么是KVC"></a>什么是KVC</h4><blockquote><p>key value coding：是一种使用字符串标识符间接访问对象属性的机制；  </p></blockquote><a id="more"></a>  <pre><code>NSObject 提供如下方法：     [obj setValue:&lt;#(nullable id)#&gt; forKey:&lt;#(nonnull NSString *)#&gt;];     [obj setValue:&lt;#(nullable id)#&gt; forKeyPath:&lt;#(nonnull NSString *)#&gt;];     [obj setValue:&lt;#(nullable id)#&gt; forUndefinedKey:&lt;#(nonnull NSString *)#&gt;];     [obj setValuesForKeysWithDictionary:&lt;#(nonnull NSDictionary&lt;NSString *,id&gt; *)#&gt;];     [obj valueForKey:&lt;#(nonnull NSString *)#&gt;];     [obj valueForKeyPath:&lt;#(nonnull NSString *)#&gt;];     [obj valueForUndefinedKey:&lt;#(nonnull NSString *)#&gt;];</code></pre><h4 id="如何使用KVC"><a href="#如何使用KVC" class="headerlink" title="如何使用KVC"></a>如何使用KVC</h4><pre><code>KVCObjectTest* kvcTest = [KVCObjectTest new];       // setvalue[kvcTest setValue:@&quot;hua&quot; forKey:@&quot;name&quot;];       // getvalue NSLog(@&quot;name:%@&quot;,[kvcTest valueForKey:@&quot;name&quot;]);</code></pre><h4 id="KVC的优点"><a href="#KVC的优点" class="headerlink" title="KVC的优点"></a>KVC的优点</h4><ul><li>能对对象的成员变量和私有属性进行操作  </li><li>自动拆装箱操作（price为CGFloat）<br><code>[obj setValue:@&quot;20.0&quot; forKey:@&quot;price&quot;];</code>  </li><li>对集合的操作能力<br><code>[obj setValue:objArray forKey:@&quot;relativeObjs&quot;];</code>  </li><li>对于集合的运算（relativeBooks为保存book对象的NSArray数组）  <pre><code>NSLog(@&quot;relativeBooksCount:%@&quot;,[book valueForKeyPath:@&quot;relativeBooks.@count&quot;]);NSLog(@&quot;relativeBooksPrice sum:%@&quot;,[book valueForKeyPath:@&quot;relativeBooks.@sum.price&quot;]);//-价格总和NSLog(@&quot;relativeBooksPrice avg:%@&quot;,[book valueForKeyPath:@&quot;relativeBooks.@avg.price&quot;]);//-价格的平均数NSLog(@&quot;relativeBooksPrice max:%@&quot;,[book //-valueForKeyPath:@&quot;relativeBooks.@max.price&quot;]);NSLog(@&quot;relativeBooksPrice min:%@&quot;,[book valueForKeyPath:@&quot;relativeBooks.@min.price&quot;]);</code></pre></li><li>kvc可以在一个语句中为多个属性赋值(对属性使用字典直接赋值(用字典直接初始化一个对象的成员变量（局限性）字典中的key要和成员变量意义对应)  <pre><code>Book* book1 = [[Book alloc] init];NSDictionary* bookPropertiesDict =@{@&quot;name&quot;:@&quot;OC入门&quot;,@&quot;price&quot;:@&quot;20.8&quot;};[book1 setValuesForKeysWithDictionary:bookPropertiesDict];NSLog(@&quot;%@&quot;,[book1 valueForKeyPath:@&quot;name&quot;]);</code></pre></li></ul><h4 id="KVC的实现"><a href="#KVC的实现" class="headerlink" title="KVC的实现"></a>KVC的实现</h4><ul><li>KVC运用了一个isa-swizzling技术，isa-swizzling就是类型混合指针机制。KVC主要通过isa- swizzling，来实现其内部查找定位的。   </li><li>isa 指针  <pre><code>struct objc_class {               Class isa;//指针，顾名思义，表示是一个什么，               //实例的isa指向类对象，类对象的isa指向元类               #if !__OBJC2__               Class super_class;  //指向父类               const char *name;  //类名               long version;               long info;               long instance_size               struct objc_ivar_list *ivars //成员变量列表               struct objc_method_list **methodLists; //方法列表               struct objc_cache *cache;//缓存               //一种优化，调用过的方法存入缓存列表，下次调用先找缓存               struct objc_protocol_list *protocols //协议列表               #endif           } OBJC2_UNAVAILABLE;</code></pre></li><li>实例代码经过编译器之后  <pre><code>[obj setValue:@&quot;objname&quot; forKey:@&quot;name&quot;]; 就会被编译器处理成： SEL sel = sel_get_uid (&quot;setValue:forKey:&quot;); IMP method = objc_msg_lookup (obj-&gt;isa,sel); method(obj, sel, @&quot;objname&quot;, @&quot;name&quot;);</code></pre></li><li>附加  <ul><li>SEL：选择器，是表示一个方法的selector的指针  <blockquote><p><code>typedef struct objc_selector *SEL;</code><br>Objective-C在编译时，会依据每一个方法的名字、参数序列，生成一个唯一的整型标识(Int类型的地址)，这个标识就是SEL;本质上，SEL只是一个指向方法的指针（准确的说，只是一个根据方法名hash化了的KEY值，能唯一代表一个方法），它的存在只是为了加快方法的查询速度。  </p></blockquote></li><li>IMP：实际上是一个函数指针，指向方法实现的首地址  <blockquote><p>id (*IMP)(id, SEL, …)<br> 参数1：实例方法或者是类方法 分别代表类实例的内存地址或是指向原类的指针   </p></blockquote></li><li>Method ：表示类定义的方法   <pre><code>typedef struct objc_method *Method;                 struct objc_method {                 SEL method_name                 OBJC2_UNAVAILABLE;  // 方法名                 char *method_types                  OBJC2_UNAVAILABLE;                 IMP method_imp                      OBJC2_UNAVAILABLE;  // 方法实现                 }</code></pre></li></ul></li></ul><h4 id="KVC内部的实现：一个对象在调用setValue的时候"><a href="#KVC内部的实现：一个对象在调用setValue的时候" class="headerlink" title="KVC内部的实现：一个对象在调用setValue的时候"></a>KVC内部的实现：一个对象在调用setValue的时候</h4><ul><li>首先根据方法名找到运行方法的时候所需要的环境参数（SEL）。   </li><li>他会从自己isa指针结合环境参数，找到具体的方法实现的接口（IMP）。   </li><li>再直接查找得来的具体的方法实现（method）。</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;什么是KVC&quot;&gt;&lt;a href=&quot;#什么是KVC&quot; class=&quot;headerlink&quot; title=&quot;什么是KVC&quot;&gt;&lt;/a&gt;什么是KVC&lt;/h4&gt;&lt;blockquote&gt;
+&lt;p&gt;key value coding：是一种使用字符串标识符间接访问对象属性的机制；  &lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="iOS" scheme="http://yoursite.com/categories/iOS/"/>
+    
+    
+      <category term="iOS基础" scheme="http://yoursite.com/tags/iOS%E5%9F%BA%E7%A1%80/"/>
     
   </entry>
   
