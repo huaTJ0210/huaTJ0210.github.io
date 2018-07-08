@@ -1,0 +1,110 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> OC基础之分类-Category · 華</title><meta name="description" content="OC基础之分类-Category - 华子"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/timg.jpeg"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="華"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/timg.jpeg" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://weibo.com/huatianjie1" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/huaTJ0210" target="_blank" class="nav-list-link">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">OC基础之分类-Category</h1><div class="post-info">Mar 4, 2017</div><div class="post-content"><h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><p>在Objective-C语言中Category可以在不修改原有类文件的情况下，为类添加方法；在Category文件中所添加的内容包括<strong>方法（实例方法、类方法）</strong>、<strong>协议</strong>、<strong>属性</strong>;其中属性的实现还需要根据关联对象来辅助实现；  </p>
+<h3 id="分类的具体实现原理"><a href="#分类的具体实现原理" class="headerlink" title="分类的具体实现原理"></a>分类的具体实现原理</h3><p> 以下是runtime源码中对于分类具体实现的大致调用顺序   </p>
+<pre><code>  // 加载所有头文件，并从头文件中获取分类列表
+void _read_images(header_info **hList, uint32_t hCount, int totalClasses, int unoptimizedTotalClasses){
+   // 重新调整宿主类的结构，包括：添加方法、属性、协议等
+   remethodizeClass(Class cls) {
+      // 将分类中的内容添加到宿主类中
+      attachCategories(Class cls, category_list *cats, bool flush_caches){
+            // 如何添加的具体实现
+            attachLists(List* const * addedLists, uint32_t addedCount){
+             }
+      }
+  } } 
+</code></pre><h3 id="分类的常见问题"><a href="#分类的常见问题" class="headerlink" title="分类的常见问题"></a>分类的常见问题</h3><ul>
+<li>分类中出现与宿主类同名的方法，会出现什么问题？ ==》宿主中的方法会失效，调用的时候会使用分类的方法，不建议定义相同的名称；</li>
+<li>出现多个分类文件，分类文件中存在相同方法时，调用方法时会出现什么问题？==》最后被编译的分类文件中的方法会生效 ，具体原因查看<code>attachLists</code>的代码实现；  </li>
+</ul>
+<h3 id="分类实现原理的代码解析"><a href="#分类实现原理的代码解析" class="headerlink" title="分类实现原理的代码解析"></a>分类实现原理的代码解析</h3><h4 id="read-images"><a href="#read-images" class="headerlink" title="_read_images()"></a>_read_images()</h4><p>  <code>_read_images()</code> 方法在获取分类时，第一步：遍历加载的.h文件列表，然后获取分类列表；第二部：将分类列表中的方法转换为一个二维数组<code>[[method1,method2,method3],[method4,method5],[method6]]</code>;第三步将二维数组中的每个元素包含的方法再添加到宿主类的<code>method_list</code>中；<strong>分类中的方法是添加在<code>method_list</code>头部</strong>   </p>
+<pre><code>  void _read_images(header_info **hList, uint32_t hCount, int totalClasses, int unoptimizedTotalClasses){
+/*
+   Discover categories.
+   + 遍历所有.h文件，获取分类列表
+   + 将分类列表中的方法通过倒序遍历得到一个二维数组==&gt;[[method1,method2,method3],[method4,method5],[method6]];
+ */
+for (EACH_HEADER) {
+    category_t **catlist =
+    _getObjc2CategoryList(hi, &amp;count);
+    bool hasClassProperties = hi-&gt;info()-&gt;hasCategoryClassProperties();
+
+    for (i = 0; i &lt; count; i++) {
+        category_t *cat = catlist[i];
+        Class cls = remapClass(cat-&gt;cls);
+
+        if (!cls) {
+            // Category&apos;s target class is missing (probably weak-linked).
+            // Disavow any knowledge of this category.
+            catlist[i] = nil;
+            if (PrintConnecting) {
+                _objc_inform(&quot;CLASS: IGNORING category \?\?\?(%s) %p with &quot;
+                             &quot;missing weak-linked target class&quot;,
+                             cat-&gt;name, cat);
+            }
+            continue;
+        }
+
+        /*
+          将二维数组中的每一个数组中的method添加到原生方法列表中
+         */
+        bool classExists = NO;
+        if (cat-&gt;instanceMethods ||  cat-&gt;protocols
+            ||  cat-&gt;instanceProperties)
+        {
+            addUnattachedCategoryForClass(cat, cls, hi);
+            if (cls-&gt;isRealized()) {
+                remethodizeClass(cls);
+                classExists = YES;
+            }
+            if (PrintConnecting) {
+                _objc_inform(&quot;CLASS: found category -%s(%s) %s&quot;,
+                             cls-&gt;nameForLogging(), cat-&gt;name,
+                             classExists ? &quot;on existing class&quot; : &quot;&quot;);
+            }
+        }
+
+        if (cat-&gt;classMethods  ||  cat-&gt;protocols
+            ||  (hasClassProperties &amp;&amp; cat-&gt;_classProperties))
+        {
+            addUnattachedCategoryForClass(cat, cls-&gt;ISA(), hi);
+            if (cls-&gt;ISA()-&gt;isRealized()) {
+                remethodizeClass(cls-&gt;ISA());
+            }
+            if (PrintConnecting) {
+                _objc_inform(&quot;CLASS: found category +%s(%s)&quot;,
+                             cls-&gt;nameForLogging(), cat-&gt;name);
+            }
+        }
+    }
+}
+
+ts.log(&quot;IMAGE TIMES: discover categories&quot;);
+
+// Category discovery MUST BE LAST to avoid potential races
+// when other threads call the new category code before
+}   #undef EACH_HEADER}   
+</code></pre><h4 id="remethodizeClass-Class-cls"><a href="#remethodizeClass-Class-cls" class="headerlink" title="remethodizeClass(Class cls)"></a>remethodizeClass(Class cls)</h4><p><code>remethodizeClass(Class cls)</code> 重新调整class，利用<code>attachCategories</code>将分类内容添加到宿主类中   </p>
+<pre><code>static void remethodizeClass(Class cls){
+category_list *cats;
+bool isMeta;
+
+runtimeLock.assertWriting();
+
+isMeta = cls-&gt;isMetaClass();
+
+// Re-methodizing: check for more categories
+if ((cats = unattachedCategoriesForClass(cls, false/*not realizing*/))) {
+    if (PrintConnecting) {
+        _objc_inform(&quot;CLASS: attaching categories to class &apos;%s&apos; %s&quot;, 
+                     cls-&gt;nameForLogging(), isMeta ? &quot;(meta)&quot; : &quot;&quot;);
+    }
+    // 
+    attachCategories(cls, cats, true /*flush caches*/);        
+    free(cats);
+}}      
+</code></pre><hr>
+<h4 id="attachCategories"><a href="#attachCategories" class="headerlink" title="attachCategories"></a>attachCategories</h4><p><code>attachCategories(Class cls, category_list *cats, bool flush_caches)</code>  将分类中的方法、属性、协议添加到宿主类中       </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"> static void attachCategories(Class cls, category_list *cats, bool flush_caches)&#123;</div><div class="line">if (!cats) return;</div><div class="line">if (PrintReplacedMethods) printReplacements(cls, cats);</div><div class="line">bool isMeta = cls-&gt;isMetaClass();</div><div class="line">// fixme rearrange to remove these intermediate allocations</div><div class="line">method_list_t **mlists = (method_list_t **)</div><div class="line">    malloc(cats-&gt;count * sizeof(*mlists));</div><div class="line">property_list_t **proplists = (property_list_t **)</div><div class="line">    malloc(cats-&gt;count * sizeof(*proplists));</div><div class="line">protocol_list_t **protolists = (protocol_list_t **)</div><div class="line">    malloc(cats-&gt;count * sizeof(*protolists));</div><div class="line">// Count backwards through cats to get newest categories first</div><div class="line">int mcount = 0;</div><div class="line">int propcount = 0;</div><div class="line">int protocount = 0;</div><div class="line">int i = cats-&gt;count;</div><div class="line">bool fromBundle = NO;</div><div class="line">while (i--) &#123;</div><div class="line">    auto&amp; entry = cats-&gt;list[i];</div><div class="line">    method_list_t *mlist = entry.cat-&gt;methodsForMeta(isMeta);</div><div class="line">    if (mlist) &#123;</div><div class="line">        mlists[mcount++] = mlist;</div><div class="line">        fromBundle |= entry.hi-&gt;isBundle();</div><div class="line">    &#125;</div><div class="line">    property_list_t *proplist = </div><div class="line">        entry.cat-&gt;propertiesForMeta(isMeta, entry.hi);</div><div class="line">    if (proplist) &#123;</div><div class="line">        proplists[propcount++] = proplist;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    protocol_list_t *protolist = entry.cat-&gt;protocols;</div><div class="line">    if (protolist) &#123;</div><div class="line">        protolists[protocount++] = protolist;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">auto rw = cls-&gt;data();</div><div class="line">prepareMethodLists(cls, mlists, mcount, NO, fromBundle);</div><div class="line">// 添加方法</div><div class="line">rw-&gt;methods.attachLists(mlists, mcount);</div><div class="line">free(mlists);</div><div class="line">if (flush_caches  &amp;&amp;  mcount &gt; 0) flushCaches(cls);</div><div class="line">// 添加属性</div><div class="line">rw-&gt;properties.attachLists(proplists, propcount);</div><div class="line">free(proplists);</div><div class="line">// 添加协议</div><div class="line">rw-&gt;protocols.attachLists(protolists, protocount);</div><div class="line">free(protolists);</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<h4 id="attachLists"><a href="#attachLists" class="headerlink" title="attachLists"></a>attachLists</h4><p><code>void attachLists(List* const * addedLists, uint32_t addedCount)</code>主要是将分类中的内容添加到宿主类中；以method为例；第一步<br>扩充宿主元素的method_list得容量，具体扩充多少，由 要添加多少新方法来决定；第二步将宿主方法列表中的元素向后移动位置；第三步：将分类中的方法一次填充到宿主元素的methodList中；   </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">void attachLists(List* const * addedLists, uint32_t addedCount) &#123;</div><div class="line">    if (addedCount == 0) return;</div><div class="line">    if (hasArray()) &#123;</div><div class="line">        // many lists -&gt; many lists</div><div class="line">        uint32_t oldCount = array()-&gt;count;</div><div class="line">        uint32_t newCount = oldCount + addedCount;</div><div class="line">        setArray((array_t *)realloc(array(), array_t::byteSize(newCount)));</div><div class="line">        array()-&gt;count = newCount;</div><div class="line">        memmove(array()-&gt;lists + addedCount, array()-&gt;lists, </div><div class="line">                oldCount * sizeof(array()-&gt;lists[0]));</div><div class="line">        memcpy(array()-&gt;lists, addedLists, </div><div class="line">               addedCount * sizeof(array()-&gt;lists[0]));</div><div class="line">    &#125;</div><div class="line">    else if (!list  &amp;&amp;  addedCount == 1) &#123;</div><div class="line">        // 0 lists -&gt; 1 list</div><div class="line">        list = addedLists[0];</div><div class="line">    &#125; </div><div class="line">    else &#123;</div><div class="line">        // 1 list -&gt; many lists</div><div class="line">        List* oldList = list;</div><div class="line">        uint32_t oldCount = oldList ? 1 : 0;</div><div class="line">        uint32_t newCount = oldCount + addedCount;</div><div class="line">        setArray((array_t *)malloc(array_t::byteSize(newCount)));</div><div class="line">        array()-&gt;count = newCount;</div><div class="line">        if (oldList) array()-&gt;lists[addedCount] = oldList;</div><div class="line">        memcpy(array()-&gt;lists, addedLists, </div><div class="line">               addedCount * sizeof(array()-&gt;lists[0]));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>文章参照  <a href="http://blog.leichunfeng.com/blog/2015/05/18/objective-c-category-implementation-principle/" target="_blank" rel="external">Objective-C Category 的实现原理</a></p>
+</div></article></div></main><footer><div class="paginator"><a href="/2017/06/04/生活篇--说说三观/" class="prev">上一篇</a><a href="/2016/12/12/JAVA多线程初识-一/" class="next">下一篇</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">华子</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
