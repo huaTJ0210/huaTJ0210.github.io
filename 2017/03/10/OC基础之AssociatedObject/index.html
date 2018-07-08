@@ -3,7 +3,7 @@
 <li>给对象存储信息，通常会创建对象所属类的子类；但某些情况下无法创建子类（分类），只能通过关联属性值的方式</li>
 <li>关联属性值可能会出现循环引用问题</li>
 </ul>
-<h3 id="AssociatedObject实现原理"><a href="#AssociatedObject实现原理" class="headerlink" title="AssociatedObject实现原理"></a>AssociatedObject实现原理</h3><p> 通过objc_setAssociatedObject给分类创建的属性放在了一个全局的AssociationManager中；<br> 通过对象的地址找到AssociationManager中的hashMap，然后通过属性的Key来获取属性的value；   </p>
+<h3 id="AssociatedObject的本质"><a href="#AssociatedObject的本质" class="headerlink" title="AssociatedObject的本质"></a>AssociatedObject的本质</h3><p> 通过objc_setAssociatedObject给分类创建的属性放在了一个全局的AssociationManager中；<br> 通过对象的地址找到AssociationManager中的hashMap，然后通过属性的Key来获取属性的value；   </p>
 <h3 id="AssociatedObject具体使用"><a href="#AssociatedObject具体使用" class="headerlink" title="AssociatedObject具体使用"></a>AssociatedObject具体使用</h3><pre><code>    #import &quot;AssociatedObject.h&quot;
 #import &lt;objc/runtime.h&gt;
 @implementation AssociatedObject
