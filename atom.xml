@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-07-08T04:45:28.000Z</updated>
+  <updated>2018-07-21T07:48:23.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="http://yoursite.com/2018/07/21/IntelliJ-IDEA-%E5%AE%89%E8%A3%85/"/>
+    <id>http://yoursite.com/2018/07/21/IntelliJ-IDEA-安装/</id>
+    <published>2018-07-21T07:47:47.000Z</published>
+    <updated>2018-07-21T07:48:23.000Z</updated>
+    
+    <content type="html"><![CDATA[<hr><p>title: IntelliJ IDEA 安装<br>date: 2018-07-21 15:47:47</p><h2 id="tags"><a href="#tags" class="headerlink" title="tags:"></a>tags:</h2><h3 id="IntelliJ-IDEA"><a href="#IntelliJ-IDEA" class="headerlink" title="IntelliJ IDEA"></a>IntelliJ IDEA</h3><p><a href="https://confluence.jetbrains.com/display/IDEADEV/IDEA+2018.1+EAP" target="_blank" rel="external">download</a>   </p><h3 id="license-server-address"><a href="#license-server-address" class="headerlink" title="license server address"></a>license server address</h3><p><a href="http://idea.java.sx/" target="_blank" rel="external">http://idea.java.sx/</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;hr&gt;
+&lt;p&gt;title: IntelliJ IDEA 安装&lt;br&gt;date: 2018-07-21 15:47:47&lt;/p&gt;
+&lt;h2 id=&quot;tags&quot;&gt;&lt;a href=&quot;#tags&quot; class=&quot;headerlink&quot; title=&quot;tags:&quot;&gt;&lt;/a&gt;tags:&lt;/h
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>iOS篇-页面优化（-）</title>
@@ -474,28 +497,6 @@ void _read_images(header_info **hList, uint32_t hCount, int totalClasses, int un
     <summary type="html">
     
       &lt;p&gt;新版本app上架提交审核，苹果方面返回审核结果说是应用安装后icloud的存储空间会增加8M(app中会解压一个zip压缩包)左右，这个违反了上架的规则；在网上查询得到的信息是NSDocumentDirectory下的数据能不备份到icloud的尽量不要备份，貌似最大的支持备份到5M之内；解决方案有两个；&lt;br&gt;
-    
-    </summary>
-    
-      <category term="iOS" scheme="http://yoursite.com/categories/iOS/"/>
-    
-    
-      <category term="iOS基础" scheme="http://yoursite.com/tags/iOS%E5%9F%BA%E7%A1%80/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>OC基础之NSCache</title>
-    <link href="http://yoursite.com/2015/10/01/OC%E5%9F%BA%E7%A1%80%E4%B9%8BNSCache/"/>
-    <id>http://yoursite.com/2015/10/01/OC基础之NSCache/</id>
-    <published>2015-10-01T05:30:00.000Z</published>
-    <updated>2018-06-23T04:03:12.000Z</updated>
-    
-    <content type="html"><![CDATA[<h5 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h5><p>需要在项目运行时在内存里缓存某些对象，该如何操作？<br><a id="more"></a></p><h5 id="NSMutableDictionary实现需求"><a href="#NSMutableDictionary实现需求" class="headerlink" title="NSMutableDictionary实现需求"></a>NSMutableDictionary实现需求</h5><ul><li>问题一：当缓存的对象较多，系统抛出memory warning需要手动处理；</li><li>问题二：线程问题，根据key存储或者获取值的时候要考虑线程安全</li></ul><h5 id="NSCache"><a href="#NSCache" class="headerlink" title="NSCache"></a>NSCache</h5><blockquote><p>An NSCache object is a collection-like container, or cache, that stores key-value pairs, similar to the NSDictionary class. Developers often incorporate caches to temporarily store objects with transient data that are expensive to create. Reusing these objects can provide performance benefits, because their values do not have to be recalculated. However, the objects are not critical to the application and can be discarded if memory is tight. If discarded, their values will have to be recomputed again when needed.  </p><p>NSCache对象是一个类似于NSDictionary存储键值对的容器或缓存。开发人员通常会缓存那些临时创建昂贵的对象，对象的再次被利用能够提升性能;  </p></blockquote><pre><code> #import &lt;Foundation/NSObject.h&gt;@class NSString;@protocol NSCacheDelegate;NS_ASSUME_NONNULL_BEGINNS_CLASS_AVAILABLE(10_6, 4_0)@interface NSCache &lt;KeyType, ObjectType&gt; : NSObject {@private    id _delegate;    void *_private[5];    void *_reserved;}@property (copy) NSString *name;@property (nullable, assign) id&lt;NSCacheDelegate&gt; delegate;- (nullable ObjectType)objectForKey:(KeyType)key;- (void)setObject:(ObjectType)obj forKey:(KeyType)key; // 0 cost- (void)setObject:(ObjectType)obj forKey:(KeyType)key cost:(NSUInteger)g;- (void)removeObjectForKey:(KeyType)key;- (void)removeAllObjects;@property NSUInteger totalCostLimit;    // limits are imprecise/not strict@property NSUInteger countLimit;    // limits are imprecise/not strict@property BOOL evictsObjectsWithDiscardedContent;@end@protocol NSCacheDelegate &lt;NSObject&gt;@optional- (void)cache:(NSCache *)cache willEvictObject:(id)obj;@end</code></pre><h5 id="NSCache与NSMutableDictionary的对比"><a href="#NSCache与NSMutableDictionary的对比" class="headerlink" title="NSCache与NSMutableDictionary的对比"></a>NSCache与NSMutableDictionary的对比</h5><p>从头文件中可以看出NSCache的API和NSMutableDictionary的基本相似；但从苹果的官方上介绍NSCache的优点：（1）会自动移除对象来释放内存；（2）线程操作安全；（3）键对象不会像NSMutableDictionary中那样被复制；  </p><h5 id="NSCache解析"><a href="#NSCache解析" class="headerlink" title="NSCache解析"></a>NSCache解析</h5><ul><li>countLimit和totalCostLimit来现在cache的数量或者限制cost，cost是指对象在内存中占有的字节数；通常设置为0；</li><li><code>- (void)cache:(NSCache *)cache willEvictObject:(id)obj;</code> 缓存对象将要被移除的时候才会调用该方法。</li></ul><h5 id="SDWebImage-开源框架中的使用"><a href="#SDWebImage-开源框架中的使用" class="headerlink" title="SDWebImage 开源框架中的使用"></a>SDWebImage 开源框架中的使用</h5><p>在SDWebImage中就使用了NScache将image对象在内存中缓存，key就是图片的远程地址；  </p><hr><p>参考<a href="http://nshipster.cn/nscache/" target="_blank" rel="external">NSCache</a></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h5 id=&quot;需求&quot;&gt;&lt;a href=&quot;#需求&quot; class=&quot;headerlink&quot; title=&quot;需求&quot;&gt;&lt;/a&gt;需求&lt;/h5&gt;&lt;p&gt;需要在项目运行时在内存里缓存某些对象，该如何操作？&lt;br&gt;
     
     </summary>
     
