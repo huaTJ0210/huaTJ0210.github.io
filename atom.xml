@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-07-21T07:48:23.000Z</updated>
+  <updated>2018-07-21T09:53:28.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,25 +17,27 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title></title>
+    <title>IntelliJ IDEA</title>
     <link href="http://yoursite.com/2018/07/21/IntelliJ-IDEA-%E5%AE%89%E8%A3%85/"/>
     <id>http://yoursite.com/2018/07/21/IntelliJ-IDEA-安装/</id>
-    <published>2018-07-21T07:47:47.000Z</published>
-    <updated>2018-07-21T07:48:23.000Z</updated>
+    <published>2018-07-21T07:57:54.000Z</published>
+    <updated>2018-07-21T09:53:28.000Z</updated>
     
-    <content type="html"><![CDATA[<hr><p>title: IntelliJ IDEA 安装<br>date: 2018-07-21 15:47:47</p><h2 id="tags"><a href="#tags" class="headerlink" title="tags:"></a>tags:</h2><h3 id="IntelliJ-IDEA"><a href="#IntelliJ-IDEA" class="headerlink" title="IntelliJ IDEA"></a>IntelliJ IDEA</h3><p><a href="https://confluence.jetbrains.com/display/IDEADEV/IDEA+2018.1+EAP" target="_blank" rel="external">download</a>   </p><h3 id="license-server-address"><a href="#license-server-address" class="headerlink" title="license server address"></a>license server address</h3><p><a href="http://idea.java.sx/" target="_blank" rel="external">http://idea.java.sx/</a></p>]]></content>
+    <content type="html"><![CDATA[<h3 id="IntelliJ-IDEA"><a href="#IntelliJ-IDEA" class="headerlink" title="IntelliJ IDEA"></a>IntelliJ IDEA</h3><p><a href="https://confluence.jetbrains.com/display/IDEADEV/IDEA+2018.1+EAP" target="_blank" rel="external">download</a>   </p><h3 id="license-server-address"><a href="#license-server-address" class="headerlink" title="license server address"></a>license server address</h3><p>失效可以更换其他的地址 </p><ul><li><a href="http://idea.java.sx/" target="_blank" rel="external">http://idea.java.sx/</a></li><li><a href="http://idea.congm.in/" target="_blank" rel="external">http://idea.congm.in/</a></li><li><a href="http://idea.toocruel.net" target="_blank" rel="external">http://idea.toocruel.net</a></li></ul>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;hr&gt;
-&lt;p&gt;title: IntelliJ IDEA 安装&lt;br&gt;date: 2018-07-21 15:47:47&lt;/p&gt;
-&lt;h2 id=&quot;tags&quot;&gt;&lt;a href=&quot;#tags&quot; class=&quot;headerlink&quot; title=&quot;tags:&quot;&gt;&lt;/a&gt;tags:&lt;/h
+        &lt;h3 id=&quot;IntelliJ-IDEA&quot;&gt;&lt;a href=&quot;#IntelliJ-IDEA&quot; class=&quot;headerlink&quot; title=&quot;IntelliJ IDEA&quot;&gt;&lt;/a&gt;IntelliJ IDEA&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;https://confluenc
       
     
     </summary>
     
+      <category term="IDE" scheme="http://yoursite.com/categories/IDE/"/>
+    
+    
+      <category term="IDE" scheme="http://yoursite.com/tags/IDE/"/>
     
   </entry>
   
