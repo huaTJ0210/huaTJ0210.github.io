@@ -761,10 +761,9 @@
 
       
         
-          
-            <p><a href="https://techblog.toutiao.com/2017/01/17/iosspeed/" target="_blank" rel="external">今日头条iOS客户端启动速度优化</a>  </p>
-<p><a href="http://www.cocoachina.com/ios/20170816/20267.html" target="_blank" rel="external">贝聊APP启动优化</a></p>
-<p>app从点击icon到展示具体的页面可以分为两个部分：main()函数调用前、main()函数执行到第一个视图控制去完全展示,所以app的启动优化可以从这两个方面来做调整；  </p>
+          <p><a href="https://techblog.toutiao.com/2017/01/17/iosspeed/">今日头条iOS客户端启动速度优化</a>  </p>
+<p><a href="http://www.cocoachina.com/ios/20170816/20267.html">贝聊APP启动优化</a></p>
+<p>app从点击icon到展示具体的页面可以分为两个部分：main()函数调用前、main()函数执行到第一个视图控制去完全展示,所以app的启动优化可以从这两个方面来做调整； </p>
 <h2 id="main-函数调用前系统都做了哪些操作"><a href="#main-函数调用前系统都做了哪些操作" class="headerlink" title="main()函数调用前系统都做了哪些操作"></a>main()函数调用前系统都做了哪些操作</h2><pre><code>App启动 ==&gt; Load所有的可执行文件（*.o）==&gt; 加载dyld（动态连接器）
                                                      |
                                                      |
@@ -791,40 +790,13 @@
 <li>清除一些不使用的动态链接库</li>
 <li>移除不使用的类文件、方法、三方库  </li>
 </ul>
-<h2 id="main-函数的执行做了哪些操作"><a href="#main-函数的执行做了哪些操作" class="headerlink" title="main()函数的执行做了哪些操作"></a>main()函数的执行做了哪些操作</h2><pre><code>                                  加载info.plist
-                                         |④
-                               ①，       |                  ③
-App----执行-&gt; main() ---call--&gt; UIApplicationMain()------AppDelegate
-                                          |②
-                      ⑤，create&amp;manage    | create
-              Runloop &lt;--------------- UIApplication
-                                           |
-                                           |
-                                           V
-                             didFinishLaunchingWithOptions
-                                           |
-                                           |
-                                           V
-                          create  window&amp;rootViewController
-</code></pre><h3 id="main-函数执行之后可以优化的地方"><a href="#main-函数执行之后可以优化的地方" class="headerlink" title="main()函数执行之后可以优化的地方"></a>main()函数执行之后可以优化的地方</h3><ul>
-<li><p>didFinishLaunchingWithOptions </p>
-<ul>
-<li>初始化三方SDK，</li>
-<li>IO操作，</li>
-<li>加载（本地、远程）资源 </li>
-</ul>
-</li>
-</ul>
-<h4 id="具体-【头条做法】"><a href="#具体-【头条做法】" class="headerlink" title="具体 【头条做法】"></a>具体 【头条做法】</h4><p>  （1） 纯代码方式而不是storyboard加载首页UI。<br>  （2） 对didFinishLaunching里的函数考虑能否挖掘可以延迟加载或者懒加载，需要与各个业务方pm和rd共同check 对于一些已经下线的业务，删减冗余代码。<br>  （3） 对于一些与UI展示无关的业务，如微博认证过期检查、图片最大缓存空间设置等做延迟加载  </p>
-<h4 id="贝聊的优化"><a href="#贝聊的优化" class="headerlink" title="贝聊的优化"></a>贝聊的优化</h4><p>   (1）    日志、统计等必须在 APP 一起动就最先配置的事件属于必须一启动就加载的<br>     (2)    项目配置、环境配置、用户信息的初始化 、推送、IM等事件选择合适的时机加载，【如展示广告页】<br>     (3)  其他 SDK 和配置事件在第一个控制器执行viewDidAppear中加载<br>     (4）展示的第一个视图控制器优化可以先展示空壳UI，然后在viewDidAppear中进行数据请求和数据解析，然后再做UI更新操作</p>
-<h4 id="现有项目的启动具体优化"><a href="#现有项目的启动具体优化" class="headerlink" title="现有项目的启动具体优化"></a>现有项目的启动具体优化</h4><ul>
-<li>首次安装解压zip资源包放在异步线程中；</li>
-<li>基于session的网络传输替换，避免同步请求；使用token机制</li>
-<li>launchScreen使用的图片用tinyPNG进行压缩处理</li>
-<li>将不必要的网络请求延后处理；</li>
-</ul>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/01/18/iOS篇-App启动优化/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
