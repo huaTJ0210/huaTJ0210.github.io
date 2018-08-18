@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-07-21T09:53:28.000Z</updated>
+  <updated>2018-08-18T02:03:08.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,16 +21,16 @@
     <link href="http://yoursite.com/2018/07/21/IntelliJ-IDEA-%E5%AE%89%E8%A3%85/"/>
     <id>http://yoursite.com/2018/07/21/IntelliJ-IDEA-安装/</id>
     <published>2018-07-21T07:57:54.000Z</published>
-    <updated>2018-07-21T09:53:28.000Z</updated>
+    <updated>2018-08-18T02:03:08.000Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="IntelliJ-IDEA"><a href="#IntelliJ-IDEA" class="headerlink" title="IntelliJ IDEA"></a>IntelliJ IDEA</h3><p><a href="https://confluence.jetbrains.com/display/IDEADEV/IDEA+2018.1+EAP" target="_blank" rel="external">download</a>   </p><h3 id="license-server-address"><a href="#license-server-address" class="headerlink" title="license server address"></a>license server address</h3><p>失效可以更换其他的地址 </p><ul><li><a href="http://idea.java.sx/" target="_blank" rel="external">http://idea.java.sx/</a></li><li><a href="http://idea.congm.in/" target="_blank" rel="external">http://idea.congm.in/</a></li><li><a href="http://idea.toocruel.net" target="_blank" rel="external">http://idea.toocruel.net</a></li></ul>]]></content>
+    <content type="html"><![CDATA[<h3 id="IntelliJ-IDEA"><a href="#IntelliJ-IDEA" class="headerlink" title="IntelliJ IDEA"></a>IntelliJ IDEA</h3><blockquote><p>IDEA 全称 IntelliJ IDEA，是java编程语言开发的集成环境。IntelliJ在业界被公认为最好的java开发工具之一，尤其在智能代码助手、代码自动提示、重构、J2EE支持、各类版本工具(git、svn等)、JUnit、CVS整合、代码分析、 创新的GUI设计等方面的功能可以说是超常的。IDEA是JetBrains公司的产品，这家公司总部位于捷克共和国的首都布拉格，开发人员以严谨著称的东欧程序员为主。它的旗舰版本还支持HTML，CSS，PHP，MySQL，Python等。免费版只支持Java等少数语言。  </p></blockquote><p><a href="https://confluence.jetbrains.com/display/IDEADEV/IDEA+2018.1+EAP" target="_blank" rel="external">download</a>    </p><a id="more"></a> <h3 id="license-server-address"><a href="#license-server-address" class="headerlink" title="license server address"></a>license server address</h3><p>失效可以更换其他的地址 </p><ul><li><a href="http://idea.java.sx/" target="_blank" rel="external">http://idea.java.sx/</a></li><li><a href="http://idea.congm.in/" target="_blank" rel="external">http://idea.congm.in/</a></li><li><a href="http://idea.toocruel.net" target="_blank" rel="external">http://idea.toocruel.net</a></li></ul>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;h3 id=&quot;IntelliJ-IDEA&quot;&gt;&lt;a href=&quot;#IntelliJ-IDEA&quot; class=&quot;headerlink&quot; title=&quot;IntelliJ IDEA&quot;&gt;&lt;/a&gt;IntelliJ IDEA&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;https://confluenc
-      
+      &lt;h3 id=&quot;IntelliJ-IDEA&quot;&gt;&lt;a href=&quot;#IntelliJ-IDEA&quot; class=&quot;headerlink&quot; title=&quot;IntelliJ IDEA&quot;&gt;&lt;/a&gt;IntelliJ IDEA&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;IDEA 全称 IntelliJ IDEA，是java编程语言开发的集成环境。IntelliJ在业界被公认为最好的java开发工具之一，尤其在智能代码助手、代码自动提示、重构、J2EE支持、各类版本工具(git、svn等)、JUnit、CVS整合、代码分析、 创新的GUI设计等方面的功能可以说是超常的。IDEA是JetBrains公司的产品，这家公司总部位于捷克共和国的首都布拉格，开发人员以严谨著称的东欧程序员为主。它的旗舰版本还支持HTML，CSS，PHP，MySQL，Python等。免费版只支持Java等少数语言。  &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://confluence.jetbrains.com/display/IDEADEV/IDEA+2018.1+EAP&quot;&gt;download&lt;/a&gt;    &lt;/p&gt;
     
     </summary>
     
@@ -101,16 +101,18 @@
     <link href="http://yoursite.com/2017/03/10/OC%E5%9F%BA%E7%A1%80%E4%B9%8BAssociatedObject/"/>
     <id>http://yoursite.com/2017/03/10/OC基础之AssociatedObject/</id>
     <published>2017-03-10T05:55:00.000Z</published>
-    <updated>2018-07-08T06:56:38.000Z</updated>
+    <updated>2018-08-18T02:05:42.000Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="AssociatedObject-关联对象"><a href="#AssociatedObject-关联对象" class="headerlink" title="AssociatedObject(关联对象)"></a>AssociatedObject(关联对象)</h3><p> 在既有类中使用关联对象存放自定义数据，分类中添加属性也会用到   </p><ul><li>给对象存储信息，通常会创建对象所属类的子类；但某些情况下无法创建子类（分类），只能通过关联属性值的方式</li><li>关联属性值可能会出现循环引用问题</li></ul><h3 id="AssociatedObject的本质"><a href="#AssociatedObject的本质" class="headerlink" title="AssociatedObject的本质"></a>AssociatedObject的本质</h3><p> 通过objc_setAssociatedObject给分类创建的属性放在了一个全局的AssociationManager中；<br> 通过对象的地址找到AssociationManager中的hashMap，然后通过属性的Key来获取属性的value；   </p><h3 id="AssociatedObject具体使用"><a href="#AssociatedObject具体使用" class="headerlink" title="AssociatedObject具体使用"></a>AssociatedObject具体使用</h3><pre><code>    #import &quot;AssociatedObject.h&quot;#import &lt;objc/runtime.h&gt;@implementation AssociatedObjectstatic void* associatedObjectKey = &quot;associatedObjectKey&quot;;-(void)askQuestion{    void (^block)(NSInteger index)= ^(NSInteger index){        if (0 == index) {            [self confrim];        }else if (1 == index){            [self cancel];        }    };    objc_setAssociatedObject(self, associatedObjectKey, block, OBJC_ASSOCIATION_COPY_NONATOMIC);}-(void)associated:(AssociatedObject*)associated index:(NSInteger)index{    void (^block)(NSInteger index) = objc_getAssociatedObject(associated, associatedObjectKey);    block(index);}-(void)confrim{  // Class test_class = [NSString class];}-(void)cancel{}@end</code></pre><p> 文章参考：<br> <a href="http://blog.leichunfeng.com/blog/2015/06/26/objective-c-associated-objects-implementation-principle/" target="_blank" rel="external">Objective-C Associated Objects 的实现原理</a></p>]]></content>
+    <content type="html"><![CDATA[<h3 id="AssociatedObject-关联对象"><a href="#AssociatedObject-关联对象" class="headerlink" title="AssociatedObject(关联对象)"></a>AssociatedObject(关联对象)</h3><p> 在既有类中使用关联对象存放自定义数据，分类中添加属性也会用到   </p><ul><li>给对象存储信息，通常会创建对象所属类的子类；但某些情况下无法创建子类（分类），只能通过关联属性值的方式</li><li>关联属性值可能会出现循环引用问题</li></ul><h3 id="AssociatedObject的本质"><a href="#AssociatedObject的本质" class="headerlink" title="AssociatedObject的本质"></a>AssociatedObject的本质</h3><p> 通过objc_setAssociatedObject给分类创建的属性放在了一个全局的AssociationManager中；<br> 通过对象的地址找到AssociationManager中的hashMap，然后通过属性的Key来获取属性的value；   </p><a id="more"></a><h3 id="AssociatedObject具体使用"><a href="#AssociatedObject具体使用" class="headerlink" title="AssociatedObject具体使用"></a>AssociatedObject具体使用</h3><pre><code>    #import &quot;AssociatedObject.h&quot;#import &lt;objc/runtime.h&gt;@implementation AssociatedObjectstatic void* associatedObjectKey = &quot;associatedObjectKey&quot;;-(void)askQuestion{    void (^block)(NSInteger index)= ^(NSInteger index){        if (0 == index) {            [self confrim];        }else if (1 == index){            [self cancel];        }    };    objc_setAssociatedObject(self, associatedObjectKey, block, OBJC_ASSOCIATION_COPY_NONATOMIC);}-(void)associated:(AssociatedObject*)associated index:(NSInteger)index{    void (^block)(NSInteger index) = objc_getAssociatedObject(associated, associatedObjectKey);    block(index);}-(void)confrim{  // Class test_class = [NSString class];}-(void)cancel{}@end</code></pre><p> 文章参考：<br> <a href="http://blog.leichunfeng.com/blog/2015/06/26/objective-c-associated-objects-implementation-principle/" target="_blank" rel="external">Objective-C Associated Objects 的实现原理</a></p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;h3 id=&quot;AssociatedObject-关联对象&quot;&gt;&lt;a href=&quot;#AssociatedObject-关联对象&quot; class=&quot;headerlink&quot; title=&quot;AssociatedObject(关联对象)&quot;&gt;&lt;/a&gt;AssociatedObject(关联对象)
-      
+      &lt;h3 id=&quot;AssociatedObject-关联对象&quot;&gt;&lt;a href=&quot;#AssociatedObject-关联对象&quot; class=&quot;headerlink&quot; title=&quot;AssociatedObject(关联对象)&quot;&gt;&lt;/a&gt;AssociatedObject(关联对象)&lt;/h3&gt;&lt;p&gt; 在既有类中使用关联对象存放自定义数据，分类中添加属性也会用到   &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;给对象存储信息，通常会创建对象所属类的子类；但某些情况下无法创建子类（分类），只能通过关联属性值的方式&lt;/li&gt;
+&lt;li&gt;关联属性值可能会出现循环引用问题&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;AssociatedObject的本质&quot;&gt;&lt;a href=&quot;#AssociatedObject的本质&quot; class=&quot;headerlink&quot; title=&quot;AssociatedObject的本质&quot;&gt;&lt;/a&gt;AssociatedObject的本质&lt;/h3&gt;&lt;p&gt; 通过objc_setAssociatedObject给分类创建的属性放在了一个全局的AssociationManager中；&lt;br&gt; 通过对象的地址找到AssociationManager中的hashMap，然后通过属性的Key来获取属性的value；   &lt;/p&gt;
     
     </summary>
     

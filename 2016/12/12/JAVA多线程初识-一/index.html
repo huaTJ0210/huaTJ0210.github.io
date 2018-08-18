@@ -1,4 +1,360 @@
-<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> JAVA多线程初识(一) · 華</title><meta name="description" content="JAVA多线程初识(一) - 华子"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/timg.jpeg"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="華"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/timg.jpeg" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://weibo.com/huatianjie1" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/huaTJ0210" target="_blank" class="nav-list-link">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">JAVA多线程初识(一)</h1><div class="post-info">Dec 12, 2016</div><div class="post-content"><h4 id="线程是什么"><a href="#线程是什么" class="headerlink" title="线程是什么"></a>线程是什么</h4><blockquote>
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JAVA基础," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="華" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="线程是什么
+线程是操作系统能够进行运算调度的最小单位。它被包含在进程之中，是进程中的实际运作单位。一条线程指的是进程中一个单一顺序的控制流;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JAVA多线程初识(一)">
+<meta property="og:url" content="http://yoursite.com/2016/12/12/JAVA多线程初识-一/index.html">
+<meta property="og:site_name" content="華">
+<meta property="og:description" content="线程是什么
+线程是操作系统能够进行运算调度的最小单位。它被包含在进程之中，是进程中的实际运作单位。一条线程指的是进程中一个单一顺序的控制流;">
+<meta property="og:updated_time" content="2017-02-21T03:48:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JAVA多线程初识(一)">
+<meta name="twitter:description" content="线程是什么
+线程是操作系统能够进行运算调度的最小单位。它被包含在进程之中，是进程中的实际运作单位。一条线程指的是进程中一个单一顺序的控制流;">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/12/12/JAVA多线程初识-一/"/>
+
+
+
+
+
+  <title> JAVA多线程初识(一) | 華 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">華</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/12/JAVA多线程初识-一/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="华子">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://tva2.sinaimg.cn/crop.0.0.639.639.180/8e8e3b1bjw8evv5nqax26j20hs0hrwf5.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="華">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JAVA多线程初识(一)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-12T13:58:17+08:00">
+                2016-12-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="线程是什么"><a href="#线程是什么" class="headerlink" title="线程是什么"></a>线程是什么</h4><blockquote>
 <p>线程是操作系统能够进行运算调度的最小单位。它被包含在进程之中，是进程中的实际运作单位。一条线程指的是进程中一个单一顺序的控制流;<br><a id="more"></a></p>
 </blockquote>
 <h4 id="如何实现在一个单独的线程中执行一个任务"><a href="#如何实现在一个单独的线程中执行一个任务" class="headerlink" title="如何实现在一个单独的线程中执行一个任务"></a>如何实现在一个单独的线程中执行一个任务</h4><h5 id="（1）创建执行task的类实现Runnable接口的run方法"><a href="#（1）创建执行task的类实现Runnable接口的run方法" class="headerlink" title="（1）创建执行task的类实现Runnable接口的run方法"></a>（1）创建执行task的类实现Runnable接口的run方法</h5><pre><code>package Test.Thread;
@@ -314,4 +670,367 @@ protected Integer compute(){
 </code></pre><blockquote>
 <p>文章内容来源 <a href="http://www.infoq.com/cn/author/%E6%96%B9%E8%85%BE%E9%A3%9E" target="_blank" rel="external">聊聊并发（七）——Java中的阻塞队列</a> ;<a href="http://www.infoq.com/cn/articles/fork-join-introduction" target="_blank" rel="external">Fork/Join框架介绍</a>《JAVA核心技术 卷1》</p>
 </blockquote>
-</div></article></div></main><footer><div class="paginator"><a href="/2017/03/04/OC基础之分类-Category/" class="prev">PREV</a><a href="/2016/10/26/源码阅读篇--SDWebImage/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">华子</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JAVA基础/" rel="tag"># JAVA基础</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/26/源码阅读篇--SDWebImage/" rel="next" title="源码阅读篇--SDWebImage">
+                <i class="fa fa-chevron-left"></i> 源码阅读篇--SDWebImage
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/04/OC基础之分类-Category/" rel="prev" title="OC基础之分类-Category">
+                OC基础之分类-Category <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://tva2.sinaimg.cn/crop.0.0.639.639.180/8e8e3b1bjw8evv5nqax26j20hs0hrwf5.jpg"
+               alt="华子" />
+          <p class="site-author-name" itemprop="name">华子</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#线程是什么"><span class="nav-number">1.</span> <span class="nav-text">线程是什么</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何实现在一个单独的线程中执行一个任务"><span class="nav-number">2.</span> <span class="nav-text">如何实现在一个单独的线程中执行一个任务</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）创建执行task的类实现Runnable接口的run方法"><span class="nav-number">2.1.</span> <span class="nav-text">（1）创建执行task的类实现Runnable接口的run方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-调用端创建Thread实例对象调用start方法"><span class="nav-number">2.2.</span> <span class="nav-text">(2)调用端创建Thread实例对象调用start方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何中断线程"><span class="nav-number">3.</span> <span class="nav-text">如何中断线程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#线程的状态"><span class="nav-number">4.</span> <span class="nav-text">线程的状态</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#新创建线程"><span class="nav-number">4.1.</span> <span class="nav-text">新创建线程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#可运行状态"><span class="nav-number">4.2.</span> <span class="nav-text">可运行状态</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#被阻塞线程和等待线程"><span class="nav-number">4.3.</span> <span class="nav-text">被阻塞线程和等待线程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#被终止的线程"><span class="nav-number">4.4.</span> <span class="nav-text">被终止的线程</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#线程属性"><span class="nav-number">5.</span> <span class="nav-text">线程属性</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#线程优先级"><span class="nav-number">5.1.</span> <span class="nav-text">线程优先级</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#守护线程"><span class="nav-number">5.2.</span> <span class="nav-text">守护线程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#未捕获异常处理器"><span class="nav-number">5.3.</span> <span class="nav-text">未捕获异常处理器</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#同步"><span class="nav-number">6.</span> <span class="nav-text">同步</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#锁对象"><span class="nav-number">6.1.</span> <span class="nav-text">锁对象</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#条件对象"><span class="nav-number">6.2.</span> <span class="nav-text">条件对象</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#synchronized-关键字"><span class="nav-number">6.3.</span> <span class="nav-text">synchronized 关键字</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Volatile域"><span class="nav-number">6.4.</span> <span class="nav-text">Volatile域</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#阻塞队列"><span class="nav-number">7.</span> <span class="nav-text">阻塞队列</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#什么是阻塞队列"><span class="nav-number">7.1.</span> <span class="nav-text">什么是阻塞队列</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#JAVA中提供的阻塞队列"><span class="nav-number">7.2.</span> <span class="nav-text">JAVA中提供的阻塞队列</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Callable-与-Future"><span class="nav-number">8.</span> <span class="nav-text">Callable 与 Future</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#执行器"><span class="nav-number">9.</span> <span class="nav-text">执行器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#什么是线程池，以及线程池有什么作用？"><span class="nav-number">9.1.</span> <span class="nav-text">什么是线程池，以及线程池有什么作用？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Fork-Join框架"><span class="nav-number">9.2.</span> <span class="nav-text">Fork/Join框架</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#使用Fork-Join框架"><span class="nav-number">9.2.1.</span> <span class="nav-text">使用Fork/Join框架</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">华子</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
