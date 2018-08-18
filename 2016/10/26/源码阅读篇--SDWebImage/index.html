@@ -1,20 +1,28 @@
-<!doctype html>
+<!DOCTYPE html>
 
 
 
   
 
 
-<html class="theme-next mist use-motion" lang="zh-Hans">
+<html class="theme-next muse use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
 
 
 
 <meta http-equiv="Cache-Control" content="no-transform" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
+
 
 
 
@@ -37,38 +45,27 @@
 
 
 
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
 
 
 
 <link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
 
 
   <meta name="keywords" content="iOS开源代码阅读," />
@@ -78,11 +75,6 @@
 
 
   <link rel="alternate" href="/atom.xml" title="華" type="application/atom+xml" />
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
 
 
 
@@ -105,7 +97,7 @@ app内存吃紧的状态下移除缓存的内容">
 app内存吃紧的状态下移除缓存的内容">
 <meta property="og:image" content="https://raw.githubusercontent.com/rs/SDWebImage/master/Docs/SDWebImageSequenceDiagram.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/rs/SDWebImage/master/SDWebImage_logo.png">
-<meta property="og:updated_time" content="2018-06-23T04:06:41.000Z">
+<meta property="og:updated_time" content="2018-08-18T02:24:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="源码阅读篇--SDWebImage">
 <meta name="twitter:description" content="SDWebImage提供的简洁的获取远程URL图片的API；平时开发中使用最多场景就是列表中的cell中要显示远程图片的需求，在具体的实现中要避免加载图片造成的界面卡顿，列表卡顿等现象的出现；所以需要编码实现如下功能：  
@@ -121,10 +113,12 @@ app内存吃紧的状态下移除缓存的内容">
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
-    motion: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
       author: '博主'
@@ -147,11 +141,7 @@ app内存吃紧的状态下移除缓存的内容">
 
 
 
-  <title> 源码阅读篇--SDWebImage | 華 </title>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
+  <title>源码阅读篇--SDWebImage | 華</title>
   
 
 
@@ -161,18 +151,16 @@ app内存吃紧的状态下移除缓存的内容">
 
 
 
+</head>
 
-
-
-
-
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
     
   
 
-  <div class="container sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -218,32 +206,12 @@ app内存吃紧的状态下移除缓存的内容">
         </li>
       
         
-        <li class="menu-item menu-item-categories">
-          <a href="/categories" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
+          <a href="/archives/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
             归档
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
           </a>
         </li>
       
@@ -275,7 +243,11 @@ app内存吃紧的状态下移除缓存的内容">
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/26/源码阅读篇--SDWebImage/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -293,14 +265,7 @@ app内存吃紧的状态下移除缓存的内容">
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                源码阅读篇--SDWebImage
-              
-            
-          </h1>
+          <h1 class="post-title" itemprop="name headline">源码阅读篇--SDWebImage</h1>
         
 
         <div class="post-meta">
@@ -309,6 +274,8 @@ app内存吃紧的状态下移除缓存的内容">
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
+              
+                <span class="post-meta-item-text">发表于</span>
               
               <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-26T17:49:27+08:00">
                 2016-10-26
@@ -328,6 +295,8 @@ app内存吃紧的状态下移除缓存的内容">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
+              
+                <span class="post-meta-item-text">分类于</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -359,7 +328,9 @@ app内存吃紧的状态下移除缓存的内容">
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -374,7 +345,10 @@ app内存吃紧的状态下移除缓存的内容">
 </ul>
 <a id="more"></a>    
 <p><strong>对于上述的需求SDWebImage已经完全优雅的实现，并且提供了更多简洁的API供开发者使用</strong>   </p>
-<h4 id="github上一个关于SDWebImage的时序图"><a href="#github上一个关于SDWebImage的时序图" class="headerlink" title="github上一个关于SDWebImage的时序图"></a>github上一个关于SDWebImage的时序图</h4><div align="center"><br><img src="https://raw.githubusercontent.com/rs/SDWebImage/master/Docs/SDWebImageSequenceDiagram.png" width="800" height="300" alt="SDWebImage浅析"><br></div>      
+<h4 id="SDWebImage的框架结构"><a href="#SDWebImage的框架结构" class="headerlink" title="SDWebImage的框架结构"></a>SDWebImage的框架结构</h4><pre><code>    【UIImageView + WebCache】
+      【SDWebImageManager】
+【SDImageCache】 【SDWebImageDownloader】 
+</code></pre><h4 id="github上一个关于SDWebImage的时序图"><a href="#github上一个关于SDWebImage的时序图" class="headerlink" title="github上一个关于SDWebImage的时序图"></a>github上一个关于SDWebImage的时序图</h4><div align="center"><br><img src="https://raw.githubusercontent.com/rs/SDWebImage/master/Docs/SDWebImageSequenceDiagram.png" width="800" height="300" alt="SDWebImage浅析"><br></div>      
 
 <p>上述的时序图大致介绍了SDWebImage的工作流程，而SDWebImage框架的构成是由多个组件构成，下面就一一介绍SDWebImage提供的便利组件；</p>
 <h4 id="SDImageCache"><a href="#SDImageCache" class="headerlink" title="SDImageCache"></a>SDImageCache</h4><p>SDImageCache这个类主要的任务就是对图像进行存储；内存缓存，本地磁盘缓存，使用处理后的URL作为key，便于查找，删除，存储操作；SDImageCache提供了如下API</p>
@@ -406,12 +380,13 @@ SDImageCacheTypeMemory
 <li>SD对于磁盘存储同样开放自定义存储路径  </li>
 <li>SD创建了一个serial queue 来异步执行耗时的磁盘存储任务；将NSData写到指定目录，同时默认不执行iCloud同步  </li>
 </ul>
-<h4 id="SDWebImageDecoder"><a href="#SDWebImageDecoder" class="headerlink" title="SDWebImageDecoder"></a>SDWebImageDecoder</h4><p><strong>记得一道面试题问道SD为什么要对图片进行解压缩？</strong>  </p>
+<h4 id="SDWebImageDecoder"><a href="#SDWebImageDecoder" class="headerlink" title="SDWebImageDecoder"></a>SDWebImageDecoder</h4><p><strong>一道面试题问道SD为什么要对图片进行解压缩？</strong>  </p>
 <blockquote>
 <p>“解压图片 - PNG或者JPEG压缩之后的图片文件会比同质量的位图小得多。但是在图片绘制到屏幕上之前，必须把它扩展成完整的未解压的尺寸（通常等同于图片宽 x 长 x 4个字节）。为了节省内存，iOS通常直到真正绘制的时候才去解码图片。根据你加载图片的方式，第一次对图层内容赋值的时候（直接或者间接使用UIImageView）或者把它绘制到Core Graphics中，都需要对它解压，这样的话，对于一个较大的图片，都会占用一定的时间”  </p>
 </blockquote>
 <p><strong>在图片解压操作中SD的一些优化处理</strong> </p>
-<p>在下载大量图片时产生了 the bitmap context，为了避免管理内存 SD自创建autoreleasepool来管理；解压的过程实质是创建一个适合的画布将压缩的image对象绘制到画布上然后返回绘制的image对象   </p>
+<p>在下载大量图片时产生了 the bitmap context，为了避免管理内存 SD自创建autoreleasepool来管理；解压的过程实质是创建一个适合的画布将压缩的image对象绘制到画布上然后返回绘制的image对象  </p>
+<p><strong>阿尔法通道(Alpha Channel)是指一张图片的透明和半透明度</strong> </p>
 <h4 id="SDWebImageManager"><a href="#SDWebImageManager" class="headerlink" title="SDWebImageManager"></a>SDWebImageManager</h4><p>SDWebImageManager这个类负责了整个框架API的调用；（1）图片从缓存中获取（2）图片从服务端获取 （3）图片下载之后的缓存 （4）图片的解码 （5）未下载完成图片operation的取消 这些操作统一由 SDWebImageManager来调用各个组件进行完成；     </p>
 <p>SDWebImageManager提供下面的API来完成图片的获取操作  </p>
 <pre><code>- (id &lt;SDWebImageOperation&gt;)downloadImageWithURL:(NSURL *)url
@@ -446,10 +421,7 @@ operations = [NSMutableDictionary dictionary];
 objc_setAssociatedObject(self, &amp;loadOperationKey, operations, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 return operations;
 }
-</code></pre><blockquote>
-<p>以上是对SD的简单解析，框架中的具体代码还需要更详细的理解才能完成在这个框架中获取编程上的提升</p>
-</blockquote>
-<div align="center"><br><img src="https://raw.githubusercontent.com/rs/SDWebImage/master/SDWebImage_logo.png" width="300" height="100" alt="SDWebImage浅析"><br></div>
+</code></pre><div align="center"><br><img src="https://raw.githubusercontent.com/rs/SDWebImage/master/SDWebImage_logo.png" width="300" height="100" alt="SDWebImage浅析"><br></div>
 
 
 
@@ -460,27 +432,15 @@ return operations;
 
       
     </div>
+    
+    
+    
 
-    <div>
-      
-        
+    
 
-      
-    </div>
+    
 
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
+    
 
     <footer class="post-footer">
       
@@ -492,7 +452,7 @@ return operations;
       
 
       
-        
+      
       
 
       
@@ -520,6 +480,10 @@ return operations;
       
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -535,9 +499,9 @@ return operations;
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
+
+  
+
 
 
         </div>
@@ -553,88 +517,91 @@ return operations;
   </div>
 
   <aside id="sidebar" class="sidebar">
+    
     <div class="sidebar-inner">
 
       
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
             文章目录
           </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
             站点概览
           </li>
         </ul>
       
 
-      <section class="site-overview sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="http://tva2.sinaimg.cn/crop.0.0.639.639.180/8e8e3b1bjw8evv5nqax26j20hs0hrwf5.jpg"
-               alt="华子" />
-          <p class="site-author-name" itemprop="name">华子</p>
-           
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://tva2.sinaimg.cn/crop.0.0.639.639.180/8e8e3b1bjw8evv5nqax26j20hs0hrwf5.jpg"
+                alt="华子" />
+            
+              <p class="site-author-name" itemprop="name">华子</p>
               <p class="site-description motion-element" itemprop="description"></p>
-          
-        </div>
-        <nav class="site-state motion-element">
-
-          
-            <div class="site-state-item site-state-posts">
-              <a href="/archives">
-                <span class="site-state-item-count">41</span>
-                <span class="site-state-item-name">日志</span>
-              </a>
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-categories">
-              <a href="/categories/index.html">
-                <span class="site-state-item-count">7</span>
-                <span class="site-state-item-name">分类</span>
-              </a>
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-tags">
-              <a href="/tags/index.html">
-                <span class="site-state-item-count">15</span>
-                <span class="site-state-item-name">标签</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-          <div class="feed-link motion-element">
-            <a href="/atom.xml" rel="alternate">
-              <i class="fa fa-rss"></i>
-              RSS
-            </a>
           </div>
-        
 
-        <div class="links-of-author motion-element">
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
           
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
         </div>
-
-        
-        
-
-        
-        
-
-        
-
-
       </section>
 
       
@@ -647,7 +614,7 @@ return operations;
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#github上一个关于SDWebImage的时序图"><span class="nav-number">1.</span> <span class="nav-text">github上一个关于SDWebImage的时序图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SDImageCache"><span class="nav-number">2.</span> <span class="nav-text">SDImageCache</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#SDImageCacheType"><span class="nav-number">2.1.</span> <span class="nav-text">SDImageCacheType</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#内存缓存"><span class="nav-number">2.2.</span> <span class="nav-text">内存缓存</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#磁盘存储"><span class="nav-number">2.3.</span> <span class="nav-text">磁盘存储</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SDWebImageDecoder"><span class="nav-number">3.</span> <span class="nav-text">SDWebImageDecoder</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SDWebImageManager"><span class="nav-number">4.</span> <span class="nav-text">SDWebImageManager</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SDWebImageDownloader"><span class="nav-number">5.</span> <span class="nav-text">SDWebImageDownloader</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SDWebImageDownloaderOperation"><span class="nav-number">6.</span> <span class="nav-text">SDWebImageDownloaderOperation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#当某一个UIImageView执行下载图片但是它有下载任务还未完成该如何操作？"><span class="nav-number">7.</span> <span class="nav-text">当某一个UIImageView执行下载图片但是它有下载任务还未完成该如何操作？</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#SDWebImage的框架结构"><span class="nav-number">1.</span> <span class="nav-text">SDWebImage的框架结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#github上一个关于SDWebImage的时序图"><span class="nav-number">2.</span> <span class="nav-text">github上一个关于SDWebImage的时序图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SDImageCache"><span class="nav-number">3.</span> <span class="nav-text">SDImageCache</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#SDImageCacheType"><span class="nav-number">3.1.</span> <span class="nav-text">SDImageCacheType</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#内存缓存"><span class="nav-number">3.2.</span> <span class="nav-text">内存缓存</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#磁盘存储"><span class="nav-number">3.3.</span> <span class="nav-text">磁盘存储</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SDWebImageDecoder"><span class="nav-number">4.</span> <span class="nav-text">SDWebImageDecoder</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SDWebImageManager"><span class="nav-number">5.</span> <span class="nav-text">SDWebImageManager</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SDWebImageDownloader"><span class="nav-number">6.</span> <span class="nav-text">SDWebImageDownloader</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SDWebImageDownloaderOperation"><span class="nav-number">7.</span> <span class="nav-text">SDWebImageDownloaderOperation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#当某一个UIImageView执行下载图片但是它有下载任务还未完成该如何操作？"><span class="nav-number">8.</span> <span class="nav-text">当某一个UIImageView执行下载图片但是它有下载任务还未完成该如何操作？</span></a></li></ol></div>
             
 
           </div>
@@ -667,30 +634,36 @@ return operations;
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
-    <i class="fa fa-"></i>
+    <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">华子</span>
+
+  
 </div>
 
 
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
-</div>
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Mist
-  </a>
-</div>
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
 
 
         
+
+
+
+
+
+
 
         
       </div>
@@ -701,6 +674,8 @@ return operations;
         <i class="fa fa-arrow-up"></i>
         
       </div>
+    
+
     
 
   </div>
@@ -728,47 +703,65 @@ return operations;
 
 
 
-  
-  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
 
-  
 
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
 
 
 
   
   
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
-
-
-
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
   
 
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
 
 
 
@@ -798,19 +791,26 @@ return operations;
 
 
 
+
+
+
+
+
+
+
   
 
 
 
 
 
+  
 
   
 
+  
 
-
-
-
+  
   
 
   
