@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-08-19T11:11:20.843Z</updated>
+  <updated>2018-08-18T12:30:08.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,32 +15,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title></title>
-    <link href="http://yoursite.com/2018/08/19/iOS%E7%AF%87-weak%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
-    <id>http://yoursite.com/2018/08/19/iOS篇-weak的实现原理/</id>
-    <published>2018-08-19T10:40:29.023Z</published>
-    <updated>2018-08-19T11:11:20.843Z</updated>
-    
-    <content type="html"><![CDATA[<hr><p>title: iOS篇-weak的实现原理<br>date: 2018-04-10 10:32:59<br>categories: iOS </p><h2 id="tags-iOS"><a href="#tags-iOS" class="headerlink" title="tags: [iOS]"></a>tags: [iOS]</h2><p>实际开发过程中使用weak关键字来修饰对象是为了避免引用循环（delegate等）；<br>同时weak指针在对象被释放后还会自动置为nil，接下来我们看一下系统是如何实现weak操作的；</p><p><code>id __weak weakObj = obj</code>经过编译器会成如下：  </p><pre><code>{  id weakObj;  objc_initWeak(&amp;weakObj,obj);}  </code></pre><p>通过查看源码，函数的调用顺序如下 <code>objc_initWeak()</code> ===&gt;<code>storeWeak（）</code>  ===&gt; <code>weak_register_no_lock()</code><br><a id="more"></a><br>将weakObj插入到弱引用表的流程如下：  </p><ul><li>iOS内存管理的一种方式是采取散列表（SideTables），通过obj对象在SideTables中找到存储obj内存管理相关信息的SideTable</li><li>获取在SideTable的弱引用表（weak_table_t * weak_table）</li><li><p>通过hash函数（hash(obj)）在弱引用表中找到对象存储的弱引用数组（如果没有，则创建一个新的），然后将weakObj插入；  </p><h3 id="对象释放后，weak指针自动置为nil；"><a href="#对象释放后，weak指针自动置为nil；" class="headerlink" title="对象释放后，weak指针自动置为nil；"></a>对象释放后，weak指针自动置为nil；</h3><p>其中的实现原理类似将weak指针插入到弱引用数组中，首先获取弱引用数组，然后使用for循环将数组中的所有weak指针置为nil；</p></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      &lt;hr&gt;
-&lt;p&gt;title: iOS篇-weak的实现原理&lt;br&gt;date: 2018-04-10 10:32:59&lt;br&gt;categories: iOS &lt;/p&gt;
-&lt;h2 id=&quot;tags-iOS&quot;&gt;&lt;a href=&quot;#tags-iOS&quot; class=&quot;headerlink&quot; title=&quot;tags: [iOS]&quot;&gt;&lt;/a&gt;tags: [iOS]&lt;/h2&gt;&lt;p&gt;实际开发过程中使用weak关键字来修饰对象是为了避免引用循环（delegate等）；&lt;br&gt;同时weak指针在对象被释放后还会自动置为nil，接下来我们看一下系统是如何实现weak操作的；&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;id __weak weakObj = obj&lt;/code&gt;经过编译器会成如下：  &lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;{
-  id weakObj;
-  objc_initWeak(&amp;amp;weakObj,obj);
-}  
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;通过查看源码，函数的调用顺序如下 &lt;code&gt;objc_initWeak()&lt;/code&gt; ===&amp;gt;&lt;code&gt;storeWeak（）&lt;/code&gt;  ===&amp;gt; &lt;code&gt;weak_register_no_lock()&lt;/code&gt;&lt;br&gt;
-    
-    </summary>
-    
-    
-  </entry>
   
   <entry>
     <title>读书笔记-《软技能》事业篇</title>
@@ -118,6 +92,35 @@
 &lt;li&gt;离屏渲染&lt;/li&gt;
 &lt;li&gt;性能优化的集合  &lt;/li&gt;
 &lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="iOS" scheme="http://yoursite.com/categories/iOS/"/>
+    
+    
+      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>iOS篇-weak的实现原理</title>
+    <link href="http://yoursite.com/2018/04/19/iOS%E7%AF%87-weak%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
+    <id>http://yoursite.com/2018/04/19/iOS篇-weak的实现原理/</id>
+    <published>2018-04-19T10:32:59.000Z</published>
+    <updated>2018-08-19T11:18:44.409Z</updated>
+    
+    <content type="html"><![CDATA[<p>这篇文章主要讲述weak指针如何被插入到弱引用数组和在所指对象被释放有事如何被置为nil的：</p><p>实际开发过程中使用weak关键字来修饰对象是为了避免引用循环（delegate等）；<br>同时weak指针在对象被释放后还会自动置为nil，接下来我们看一下系统是如何实现weak操作的；</p><p><code>id __weak weakObj = obj</code>经过编译器会成如下：  </p><pre><code>{  id weakObj;  objc_initWeak(&amp;weakObj,obj);}  </code></pre><p>通过查看源码，函数的调用顺序如下 <code>objc_initWeak()</code> ===&gt;<code>storeWeak（）</code>  ===&gt; <code>weak_register_no_lock()</code><br><a id="more"></a><br>将weakObj插入到弱引用表的流程如下：  </p><ul><li>iOS内存管理的一种方式是采取散列表（SideTables），通过obj对象在SideTables中找到存储obj内存管理相关信息的SideTable</li><li>获取在SideTable的弱引用表（weak_table_t * weak_table）</li><li><p>通过hash函数（hash(obj)）在弱引用表中找到对象存储的弱引用数组（如果没有，则创建一个新的），然后将weakObj插入；  </p><h3 id="对象释放后，weak指针自动置为nil；"><a href="#对象释放后，weak指针自动置为nil；" class="headerlink" title="对象释放后，weak指针自动置为nil；"></a>对象释放后，weak指针自动置为nil；</h3><p>其中的实现原理类似将weak指针插入到弱引用数组中，首先获取弱引用数组，然后使用for循环将数组中的所有weak指针置为nil；</p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这篇文章主要讲述weak指针如何被插入到弱引用数组和在所指对象被释放有事如何被置为nil的：&lt;/p&gt;
+&lt;p&gt;实际开发过程中使用weak关键字来修饰对象是为了避免引用循环（delegate等）；&lt;br&gt;同时weak指针在对象被释放后还会自动置为nil，接下来我们看一下系统是如何实现weak操作的；&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;id __weak weakObj = obj&lt;/code&gt;经过编译器会成如下：  &lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{
+  id weakObj;
+  objc_initWeak(&amp;amp;weakObj,obj);
+}  
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;通过查看源码，函数的调用顺序如下 &lt;code&gt;objc_initWeak()&lt;/code&gt; ===&amp;gt;&lt;code&gt;storeWeak（）&lt;/code&gt;  ===&amp;gt; &lt;code&gt;weak_register_no_lock()&lt;/code&gt;&lt;br&gt;
     
     </summary>
     
