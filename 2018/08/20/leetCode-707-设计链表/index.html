@@ -81,22 +81,19 @@
 
 
 
-<meta name="description" content="title: iOS篇-weak的实现原理date: 2018-04-10 10:32:59categories: iOS 
-tags: [iOS]实际开发过程中使用weak关键字来修饰对象是为了避免引用循环（delegate等）；同时weak指针在对象被释放后还会自动置为nil，接下来我们看一下系统是如何实现weak操作的；
-id __weak weakObj = obj经过编译器会成如下：">
+<meta name="description" content="title: leetCode-707-设计链表date: 2018-08-20 20:56:17categories: 数据结构
+tags: [数据结构]题目描述：设计链表的实现。您可以选择使用单链表或双链表。单链表中的节点应该具有两个属性：val 和 next。val 是当前节点的值，next 是指向下一个节点的指针/引用。如果要使用双向链表，则还需要一个属性 prev 以指示链表中的上一个">
 <meta property="og:type" content="article">
 <meta property="og:title" content="華">
-<meta property="og:url" content="http://yoursite.com/2018/08/19/iOS篇-weak的实现原理/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/08/20/leetCode-707-设计链表/index.html">
 <meta property="og:site_name" content="華">
-<meta property="og:description" content="title: iOS篇-weak的实现原理date: 2018-04-10 10:32:59categories: iOS 
-tags: [iOS]实际开发过程中使用weak关键字来修饰对象是为了避免引用循环（delegate等）；同时weak指针在对象被释放后还会自动置为nil，接下来我们看一下系统是如何实现weak操作的；
-id __weak weakObj = obj经过编译器会成如下：">
-<meta property="og:updated_time" content="2018-08-19T11:11:20.843Z">
+<meta property="og:description" content="title: leetCode-707-设计链表date: 2018-08-20 20:56:17categories: 数据结构
+tags: [数据结构]题目描述：设计链表的实现。您可以选择使用单链表或双链表。单链表中的节点应该具有两个属性：val 和 next。val 是当前节点的值，next 是指向下一个节点的指针/引用。如果要使用双向链表，则还需要一个属性 prev 以指示链表中的上一个">
+<meta property="og:updated_time" content="2018-08-20T13:00:47.515Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="華">
-<meta name="twitter:description" content="title: iOS篇-weak的实现原理date: 2018-04-10 10:32:59categories: iOS 
-tags: [iOS]实际开发过程中使用weak关键字来修饰对象是为了避免引用循环（delegate等）；同时weak指针在对象被释放后还会自动置为nil，接下来我们看一下系统是如何实现weak操作的；
-id __weak weakObj = obj经过编译器会成如下：">
+<meta name="twitter:description" content="title: leetCode-707-设计链表date: 2018-08-20 20:56:17categories: 数据结构
+tags: [数据结构]题目描述：设计链表的实现。您可以选择使用单链表或双链表。单链表中的节点应该具有两个属性：val 和 next。val 是当前节点的值，next 是指向下一个节点的指针/引用。如果要使用双向链表，则还需要一个属性 prev 以指示链表中的上一个">
 
 
 
@@ -126,7 +123,7 @@ id __weak weakObj = obj经过编译器会成如下：">
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/08/19/iOS篇-weak的实现原理/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/08/20/leetCode-707-设计链表/"/>
 
 
 
@@ -239,7 +236,7 @@ id __weak weakObj = obj经过编译器会成如下：">
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/19/iOS篇-weak的实现原理/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/20/leetCode-707-设计链表/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="华子">
@@ -268,8 +265,8 @@ id __weak weakObj = obj经过编译器会成如下：">
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-19T18:40:29+08:00">
-                2018-08-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-20T20:56:17+08:00">
+                2018-08-20
               </time>
             
 
@@ -307,21 +304,16 @@ id __weak weakObj = obj经过编译器会成如下：">
 
       
         <hr>
-<p>title: iOS篇-weak的实现原理<br>date: 2018-04-10 10:32:59<br>categories: iOS </p>
-<h2 id="tags-iOS"><a href="#tags-iOS" class="headerlink" title="tags: [iOS]"></a>tags: [iOS]</h2><p>实际开发过程中使用weak关键字来修饰对象是为了避免引用循环（delegate等）；<br>同时weak指针在对象被释放后还会自动置为nil，接下来我们看一下系统是如何实现weak操作的；</p>
-<p><code>id __weak weakObj = obj</code>经过编译器会成如下：  </p>
-<pre><code>{
-  id weakObj;
-  objc_initWeak(&amp;weakObj,obj);
-}  
-</code></pre><p>通过查看源码，函数的调用顺序如下 <code>objc_initWeak()</code> ===&gt;<code>storeWeak（）</code>  ===&gt; <code>weak_register_no_lock()</code><br><a id="more"></a><br>将weakObj插入到弱引用表的流程如下：  </p>
+<p>title: leetCode-707-设计链表<br>date: 2018-08-20 20:56:17<br>categories: 数据结构</p>
+<h2 id="tags-数据结构"><a href="#tags-数据结构" class="headerlink" title="tags: [数据结构]"></a>tags: [数据结构]</h2><p>题目描述：<br>设计链表的实现。您可以选择使用单链表或双链表。单链表中的节点应该具有两个属性：val 和 next。val 是当前节点的值，next 是指向下一个节点的指针/引用。如果要使用双向链表，则还需要一个属性 prev 以指示链表中的上一个节点。假设链表中的所有节点都是 0-index 的。<br>在链表类中实现这些功能：  </p>
 <ul>
-<li>iOS内存管理的一种方式是采取散列表（SideTables），通过obj对象在SideTables中找到存储obj内存管理相关信息的SideTable</li>
-<li>获取在SideTable的弱引用表（weak_table_t * weak_table）</li>
-<li><p>通过hash函数（hash(obj)）在弱引用表中找到对象存储的弱引用数组（如果没有，则创建一个新的），然后将weakObj插入；  </p>
-<h3 id="对象释放后，weak指针自动置为nil；"><a href="#对象释放后，weak指针自动置为nil；" class="headerlink" title="对象释放后，weak指针自动置为nil；"></a>对象释放后，weak指针自动置为nil；</h3><p>其中的实现原理类似将weak指针插入到弱引用数组中，首先获取弱引用数组，然后使用for循环将数组中的所有weak指针置为nil；</p>
-</li>
+<li>get(index)：获取链表中第 index 个节点的值。如果索引无效，则返回-1。</li>
+<li>addAtHead(val)：在链表的第一个元素之前添加一个值为 val 的节点。插入后，新节点将成为链表的第一个节点。</li>
+<li>addAtTail(val)：将值为 val 的节点追加到链表的最后一个元素。</li>
+<li>addAtIndex(index,val)：在链表中的第 index 个节点之前添加值为 val  的节点。如果 index 等于链表的长度，则该节点将附加到链表的末尾。如果 index 大于链表长度，则不会插入节点。</li>
+<li>deleteAtIndex(index)：如果索引 index 有效，则删除链表中的第 index 个节点。   </li>
 </ul>
+<figure class="highlight plain"><figcaption><span>class MyLinkedList &#123;</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">  private class LinkNode&#123;</div><div class="line">      public int val;</div><div class="line">      public LinkNode next;</div><div class="line">      public LinkNode(int val,LinkNode next)&#123;</div><div class="line">          this.val = val;</div><div class="line">          this.next = next;</div><div class="line">      &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  private LinkNode dummyHeader;//虚拟头结点</div><div class="line">  private int size; // 链表当前存储个数</div><div class="line"></div><div class="line">  /** Initialize your data structure here. */</div><div class="line">  public MyLinkedList() &#123;</div><div class="line">      this.size = 0;</div><div class="line">      this.dummyHeader = new LinkNode(0,null);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  /** Get the value of the index-th node in the linked list. If the index is invalid, return -1. */</div><div class="line">  public int get(int index) &#123;</div><div class="line">      if(index &lt; 0 || index &gt;= size )&#123;</div><div class="line">          return -1;</div><div class="line">      &#125;else&#123;</div><div class="line">          LinkNode cur =  dummyHeader.next;</div><div class="line">          for(int i = 0; i &lt; index; i++)&#123;</div><div class="line">              cur = cur.next;</div><div class="line">          &#125;</div><div class="line">          return cur.val;</div><div class="line">      &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  /** Add a node of value val before the first element of the linked list. After the insertion, the new node will be the first node of the linked list. */</div><div class="line">  public void addAtHead(int val) &#123;</div><div class="line">      addAtIndex(0,val);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  /** Append a node of value val to the last element of the linked list. */</div><div class="line">  public void addAtTail(int val) &#123;</div><div class="line">      addAtIndex(size,val);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  /** Add a node of value val before the index-th node in the linked list. If index equals to the length of linked list, the node will be appended to the end of linked list. If index is greater than the length, the node will not be inserted. */</div><div class="line">  public void addAtIndex(int index, int val) &#123;</div><div class="line">      if(index &lt; 0 || index &gt; size)&#123;</div><div class="line">         // throw new IllegalArgumentException(&quot;index is illegal&quot;);</div><div class="line">      &#125;else&#123;</div><div class="line">            LinkNode pre =  dummyHeader;</div><div class="line">              for(int i = 0; i&lt; index; i++)&#123;</div><div class="line">                   pre = pre.next;</div><div class="line">              &#125;</div><div class="line">            LinkNode insertNode = new  LinkNode(val,null);</div><div class="line">            insertNode.next = pre.next;</div><div class="line">            pre.next =  insertNode;</div><div class="line">          size++;</div><div class="line">      &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  /** Delete the index-th node in the linked list, if the index is valid. */</div><div class="line">  public void deleteAtIndex(int index) &#123;</div><div class="line">      if(index &lt; 0 || index &gt;=size || size == 0)&#123;</div><div class="line">         // throw new IllegalArgumentException(&quot;index is illegal&quot;);</div><div class="line">          return;</div><div class="line">      &#125;</div><div class="line">      LinkNode pre =  dummyHeader;</div><div class="line">      for(int i = 0; i &lt; index; i++)&#123;</div><div class="line">          pre = pre.next;</div><div class="line">      &#125;</div><div class="line">      LinkNode delNode = pre.next;</div><div class="line">      pre.next = delNode.next;</div><div class="line">      delNode = null;</div><div class="line">      size--;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -435,7 +427,7 @@ id __weak weakObj = obj经过编译器会成如下：">
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-count">46</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -497,7 +489,7 @@ id __weak weakObj = obj经过编译器会成如下：">
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#tags-iOS"><span class="nav-number">1.</span> <span class="nav-text">tags: [iOS]</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#对象释放后，weak指针自动置为nil；"><span class="nav-number">1.1.</span> <span class="nav-text">对象释放后，weak指针自动置为nil；</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#tags-数据结构"><span class="nav-number">1.</span> <span class="nav-text">tags: [数据结构]</span></a></li></ol></div>
             
 
           </div>
