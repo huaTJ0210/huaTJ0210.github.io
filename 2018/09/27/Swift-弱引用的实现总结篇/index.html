@@ -81,31 +81,19 @@
 
 
 
-<meta name="description" content="这篇文章主要讲述以下几个问题：  
-
-AutoreleasePool的实现原理
-AutoreleasePool的嵌套
-AutoreleasePool在MRC和ARC下的区别【待】
-Autorelease的实现原理">
+<meta name="description" content="在知识小集上读到一篇Swift GG 团队翻译Mike Ash的Swift 4 弱引用实现，其中提及到对象的内存存储、引用计数的存储、关联对象的存储、Side Table等内容，特做一下笔记记录并把模糊的概念梳理清楚；  
+Swift弱引用旧实现Swift对象有两个引用计数：强引用计数和弱引用计数；当强引用计数为0时，系统会将对象清理；但是此时若弱引用计数不为0则对象所在的内存空间不会被清理，造成">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS篇-AutoreleasePool的实现原理">
-<meta property="og:url" content="http://yoursite.com/2018/04/19/iOS篇-AutoreleasePool的实现原理/index.html">
+<meta property="og:title" content="Swift-Swift4弱引用的实现总结篇">
+<meta property="og:url" content="http://yoursite.com/2018/09/27/Swift-弱引用的实现总结篇/index.html">
 <meta property="og:site_name" content="華">
-<meta property="og:description" content="这篇文章主要讲述以下几个问题：  
-
-AutoreleasePool的实现原理
-AutoreleasePool的嵌套
-AutoreleasePool在MRC和ARC下的区别【待】
-Autorelease的实现原理">
-<meta property="og:updated_time" content="2018-08-20T13:10:10.099Z">
+<meta property="og:description" content="在知识小集上读到一篇Swift GG 团队翻译Mike Ash的Swift 4 弱引用实现，其中提及到对象的内存存储、引用计数的存储、关联对象的存储、Side Table等内容，特做一下笔记记录并把模糊的概念梳理清楚；  
+Swift弱引用旧实现Swift对象有两个引用计数：强引用计数和弱引用计数；当强引用计数为0时，系统会将对象清理；但是此时若弱引用计数不为0则对象所在的内存空间不会被清理，造成">
+<meta property="og:updated_time" content="2018-09-27T07:45:14.884Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS篇-AutoreleasePool的实现原理">
-<meta name="twitter:description" content="这篇文章主要讲述以下几个问题：  
-
-AutoreleasePool的实现原理
-AutoreleasePool的嵌套
-AutoreleasePool在MRC和ARC下的区别【待】
-Autorelease的实现原理">
+<meta name="twitter:title" content="Swift-Swift4弱引用的实现总结篇">
+<meta name="twitter:description" content="在知识小集上读到一篇Swift GG 团队翻译Mike Ash的Swift 4 弱引用实现，其中提及到对象的内存存储、引用计数的存储、关联对象的存储、Side Table等内容，特做一下笔记记录并把模糊的概念梳理清楚；  
+Swift弱引用旧实现Swift对象有两个引用计数：强引用计数和弱引用计数；当强引用计数为0时，系统会将对象清理；但是此时若弱引用计数不为0则对象所在的内存空间不会被清理，造成">
 
 
 
@@ -135,13 +123,13 @@ Autorelease的实现原理">
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/04/19/iOS篇-AutoreleasePool的实现原理/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/09/27/Swift-弱引用的实现总结篇/"/>
 
 
 
 
 
-  <title>iOS篇-AutoreleasePool的实现原理 | 華</title>
+  <title>Swift-Swift4弱引用的实现总结篇 | 華</title>
   
 
 
@@ -268,7 +256,7 @@ Autorelease的实现原理">
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/19/iOS篇-AutoreleasePool的实现原理/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/27/Swift-弱引用的实现总结篇/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="华子">
@@ -285,7 +273,7 @@ Autorelease的实现原理">
 
         
         
-          <h1 class="post-title" itemprop="name headline">iOS篇-AutoreleasePool的实现原理</h1>
+          <h1 class="post-title" itemprop="name headline">Swift-Swift4弱引用的实现总结篇</h1>
         
 
         <div class="post-meta">
@@ -297,8 +285,8 @@ Autorelease的实现原理">
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-19T18:32:59+08:00">
-                2018-04-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-27T15:01:14+08:00">
+                2018-09-27
               </time>
             
 
@@ -357,60 +345,20 @@ Autorelease的实现原理">
       
 
       
-        <p>这篇文章主要讲述以下几个问题：  </p>
-<ul>
-<li>AutoreleasePool的实现原理</li>
-<li>AutoreleasePool的嵌套</li>
-<li>AutoreleasePool在MRC和ARC下的区别【待】</li>
-<li>Autorelease的实现原理</li>
+        <p>在<code>知识小集</code>上读到一篇Swift GG 团队翻译Mike Ash的Swift 4 弱引用实现，其中提及到<code>对象的内存存储</code>、<code>引用计数的存储</code>、<code>关联对象的存储</code>、<code>Side Table</code>等内容，特做一下笔记记录并把模糊的概念梳理清楚；  </p>
+<h4 id="Swift弱引用旧实现"><a href="#Swift弱引用旧实现" class="headerlink" title="Swift弱引用旧实现"></a>Swift弱引用旧实现</h4><p>Swift对象有两个引用计数：强引用计数和弱引用计数；当强引用计数为0时，系统会将对象清理；但是此时若弱引用计数不为0则对象所在的内存空间不会被清理，造成僵尸对象的存在；<br>再次使用弱引用指针时，如果检测指向的为僵尸对象，则将弱引用-1，直至弱引用为0的时候才会将僵尸对象清理；这种实现机制会造成内存空间的浪费；另外一个缺陷是并发读取非线程安全。</p>
+<h4 id="信息存储"><a href="#信息存储" class="headerlink" title="信息存储"></a>信息存储</h4><ul>
+<li>源码中可以直接访问的存储属性</li>
+<li>对象的类信息</li>
+<li>各种引用计数信息</li>
+<li>Objective-C运行时存储的辅助信息（弱引用表和关联对象）</li>
 </ul>
-<a id="more"></a>    
-<h3 id="AutoreleasePool的实现原理"><a href="#AutoreleasePool的实现原理" class="headerlink" title="AutoreleasePool的实现原理"></a>AutoreleasePool的实现原理</h3><p>AutoreleasePool的实现是以AutoreleasePoolPage（栈结构）为结点通过双向链表的形式组合而成的；</p>
-<p>在ARC下使用<code>@autoreleasePool{}</code>编译器会将代码改写为如下：  </p>
-<pre><code>void* ctx = objc_autoreleasePoolPush();
-// 业务代码
-objc_autoreleasePoolPop(ctx);   
-</code></pre><p><code>objc_autoreleasePoolPush()</code>和<code>objc_autoreleasePoolPop()</code>实际调用了AutoreleasePoolPage的<code>push()</code>和<code>pop()</code>方法；   </p>
-<p>首先看一下AutoreleasePoolPage的数据结构：   </p>
-<pre><code>{
-  id *next;
-  AutoreleasePoolPage* const parent;
-  AutoreleasePoolPage* const child;
-  pthread_t const thread;
-}
-
-      栈顶【          】 &lt;-低地址
-         【 ...      】
- next -&gt; 【待插入的Autorelease对象的位置          】
-          【nil(哨兵)】 &lt;- AutoreleasePoolPage::push()
-         【 id obj2  】
- 栈底部 -&gt;【 id obj1  】
-         【 AutoreleasePoolPage 自身占用的地址 】&lt;-  高地址
-</code></pre><h4 id="AutoreleasePoolPage执行push-操作"><a href="#AutoreleasePoolPage执行push-操作" class="headerlink" title="AutoreleasePoolPage执行push()操作"></a>AutoreleasePoolPage执行push()操作</h4><p>AutoreleasePoolPage执行<code>push()</code>操作会创建一个自动释放池，并在next指针的位置插入一个哨兵对象，用来标记新创建的AutoreleasePool的边界；</p>
-<h3 id="Autorelease的实现原理"><a href="#Autorelease的实现原理" class="headerlink" title="Autorelease的实现原理"></a>Autorelease的实现原理</h3><p>向对象发送autorelease消息，系统首先会判断next指针是否指向了栈顶，如果没有会将对象指针存储在next指针位置，并且会把next指针向后移动；如果next指针指向了栈顶，就会增加一个栈结点；然后再进行对象指针的存储和next指针后移的操作；</p>
-<h4 id="AutoreleasePoolPage执行pop-操作"><a href="#AutoreleasePoolPage执行pop-操作" class="headerlink" title="AutoreleasePoolPage执行pop()操作"></a>AutoreleasePoolPage执行pop()操作</h4><p>AutoreleasePoolPage执行<code>pop()</code>操作,会进行如下操作  </p>
-<ul>
-<li>根据哨兵对象（AutoreleasePoolPage执行<code>push()</code>操作返回的对象）找到相应位置</li>
-<li>给上次<code>push()</code>操作之后的添加的对象依次发送release消息</li>
-<li>回退next指针到正确的位置</li>
-</ul>
-<h3 id="AutoreleasePool在MRC和ARC下的区别-？"><a href="#AutoreleasePool在MRC和ARC下的区别-？" class="headerlink" title="AutoreleasePool在MRC和ARC下的区别  ？"></a>AutoreleasePool在MRC和ARC下的区别  ？</h3><h4 id="AutoreleasePool为什么会以双向链表的方式实现"><a href="#AutoreleasePool为什么会以双向链表的方式实现" class="headerlink" title="AutoreleasePool为什么会以双向链表的方式实现"></a>AutoreleasePool为什么会以双向链表的方式实现</h4><pre><code>// Pool1
-@autoreleasePool{
-  // Pool2
-   @autoreleasePool{
-
-   } 
-} 
-// Pool3
-@autoreleasePool{
-
-}  
-</code></pre><p>Pool的创建顺序：Pool 1 —&gt; Pool 2 —&gt; Pool 3，drain顺序是Pool 2 —&gt; Pool 1 —&gt;Pool 3，如果要想实现这种顺序，采取FIFO做不到，普通的栈也不行。如果用链表操作可以做到，因为涉及到链表的首（Pool 2）或尾（Pool 3）插入，应该用双向链表来管理才合适</p>
-<h3 id="资料参考"><a href="#资料参考" class="headerlink" title="资料参考"></a>资料参考</h3><ul>
-<li><a href="https://blog.csdn.net/lizitao/article/details/56485100" target="_blank" rel="external">Autorelease Pool的实现原理总结</a></li>
-<li><a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmAutoreleasePools.html#//apple_ref/doc/uid/20000047-CJBFBEDI" target="_blank" rel="external">Using Autorelease Pool Blocks</a></li>
-<li><a href="http://www.cocoachina.com/ios/20150610/12093.html" target="_blank" rel="external">Objective-C Autorelease Pool 的实现原理</a></li>
-</ul>
+<p>以上四类其中类信息和存储属性内联在对象内存中，辅助类信息存在外部表中；关联对象较为特殊它存在一个全局的哈希表中；而引用计数又会根据操作系统和CPU架构的使用 <code>TaggedPointer</code>、 <code>NONPOINTER_ISA</code> 、<code>散列表</code>等进行存储<br><a id="more"></a></p>
+<h4 id="Side-Tables"><a href="#Side-Tables" class="headerlink" title="Side Tables"></a>Side Tables</h4><p>在Swift弱引用的新版实现中引入了Side Tables ，把弱引用指针由指向原对象改为指向Side Table；这样就解决了强引用计数为0时，存储对象的内存空间能被及时的释放；    </p>
+<blockquote>
+<p>资料来源  </p>
+</blockquote>
+<p><a href="https://mp.weixin.qq.com/s/PWDbya8sa_ltnD1EG8UXiA" target="_blank" rel="external">Swift 4 弱引用实现</a></p>
 
       
     </div>
@@ -441,8 +389,8 @@ objc_autoreleasePoolPop(ctx);
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/11/LeetCode-单链表查找环问题/" rel="next" title="leetCode-单链表查找环问题">
-                <i class="fa fa-chevron-left"></i> leetCode-单链表查找环问题
+              <a href="/2018/08/18/读《软技能》/" rel="next" title="读书笔记-《软技能》事业篇">
+                <i class="fa fa-chevron-left"></i> 读书笔记-《软技能》事业篇
               </a>
             
           </div>
@@ -450,10 +398,6 @@ objc_autoreleasePoolPop(ctx);
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/04/19/iOS篇-weak的实现原理/" rel="prev" title="iOS篇-weak的实现原理">
-                iOS篇-weak的实现原理 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -596,7 +540,7 @@ objc_autoreleasePoolPop(ctx);
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#AutoreleasePool的实现原理"><span class="nav-number">1.</span> <span class="nav-text">AutoreleasePool的实现原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AutoreleasePoolPage执行push-操作"><span class="nav-number">1.1.</span> <span class="nav-text">AutoreleasePoolPage执行push()操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Autorelease的实现原理"><span class="nav-number">2.</span> <span class="nav-text">Autorelease的实现原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AutoreleasePoolPage执行pop-操作"><span class="nav-number">2.1.</span> <span class="nav-text">AutoreleasePoolPage执行pop()操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AutoreleasePool在MRC和ARC下的区别-？"><span class="nav-number">3.</span> <span class="nav-text">AutoreleasePool在MRC和ARC下的区别  ？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AutoreleasePool为什么会以双向链表的方式实现"><span class="nav-number">3.1.</span> <span class="nav-text">AutoreleasePool为什么会以双向链表的方式实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#资料参考"><span class="nav-number">4.</span> <span class="nav-text">资料参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Swift弱引用旧实现"><span class="nav-number">1.</span> <span class="nav-text">Swift弱引用旧实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#信息存储"><span class="nav-number">2.</span> <span class="nav-text">信息存储</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Side-Tables"><span class="nav-number">3.</span> <span class="nav-text">Side Tables</span></a></li></ol></div>
             
 
           </div>
