@@ -89,7 +89,7 @@ Swift弱引用旧实现Swift对象有两个引用计数：强引用计数和弱�
 <meta property="og:site_name" content="華">
 <meta property="og:description" content="在知识小集上读到一篇Swift GG 团队翻译Mike Ash的Swift 4 弱引用实现，其中提及到对象的内存存储、引用计数的存储、关联对象的存储、Side Table等内容，特做一下笔记记录并把模糊的概念梳理清楚；  
 Swift弱引用旧实现Swift对象有两个引用计数：强引用计数和弱引用计数；当强引用计数为0时，系统会将对象清理；但是此时若弱引用计数不为0则对象所在的内存空间不会被清理，造成">
-<meta property="og:updated_time" content="2018-09-27T07:45:14.884Z">
+<meta property="og:updated_time" content="2018-09-27T14:11:30.660Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift-Swift4弱引用的实现总结篇">
 <meta name="twitter:description" content="在知识小集上读到一篇Swift GG 团队翻译Mike Ash的Swift 4 弱引用实现，其中提及到对象的内存存储、引用计数的存储、关联对象的存储、Side Table等内容，特做一下笔记记录并把模糊的概念梳理清楚；  
@@ -346,15 +346,15 @@ Swift弱引用旧实现Swift对象有两个引用计数：强引用计数和弱�
 
       
         <p>在<code>知识小集</code>上读到一篇Swift GG 团队翻译Mike Ash的Swift 4 弱引用实现，其中提及到<code>对象的内存存储</code>、<code>引用计数的存储</code>、<code>关联对象的存储</code>、<code>Side Table</code>等内容，特做一下笔记记录并把模糊的概念梳理清楚；  </p>
-<h4 id="Swift弱引用旧实现"><a href="#Swift弱引用旧实现" class="headerlink" title="Swift弱引用旧实现"></a>Swift弱引用旧实现</h4><p>Swift对象有两个引用计数：强引用计数和弱引用计数；当强引用计数为0时，系统会将对象清理；但是此时若弱引用计数不为0则对象所在的内存空间不会被清理，造成僵尸对象的存在；<br>再次使用弱引用指针时，如果检测指向的为僵尸对象，则将弱引用-1，直至弱引用为0的时候才会将僵尸对象清理；这种实现机制会造成内存空间的浪费；另外一个缺陷是并发读取非线程安全。</p>
+<h4 id="Swift弱引用旧实现"><a href="#Swift弱引用旧实现" class="headerlink" title="Swift弱引用旧实现"></a>Swift弱引用旧实现</h4><p>Swift对象有两个引用计数：强引用计数和弱引用计数；当强引用计数为0时，系统会将对象清理；但是此时若弱引用计数不为0则对象所在的内存空间不会被清理，造成僵尸对象的存在；<br>再次使用弱引用指针时，如果检测指向的为僵尸对象，则将弱引用-1，直至弱引用为0的时候才会将僵尸对象清理；这种实现机制会造成内存空间的浪费；另外一个缺陷是并发读取非线程安全。<br><a id="more"></a></p>
 <h4 id="信息存储"><a href="#信息存储" class="headerlink" title="信息存储"></a>信息存储</h4><ul>
 <li>源码中可以直接访问的存储属性</li>
 <li>对象的类信息</li>
 <li>各种引用计数信息</li>
 <li>Objective-C运行时存储的辅助信息（弱引用表和关联对象）</li>
 </ul>
-<p>以上四类其中类信息和存储属性内联在对象内存中，辅助类信息存在外部表中；关联对象较为特殊它存在一个全局的哈希表中；而引用计数又会根据操作系统和CPU架构的使用 <code>TaggedPointer</code>、 <code>NONPOINTER_ISA</code> 、<code>散列表</code>等进行存储<br><a id="more"></a></p>
-<h4 id="Side-Tables"><a href="#Side-Tables" class="headerlink" title="Side Tables"></a>Side Tables</h4><p>在Swift弱引用的新版实现中引入了Side Tables ，把弱引用指针由指向原对象改为指向Side Table；这样就解决了强引用计数为0时，存储对象的内存空间能被及时的释放；    </p>
+<p>以上四类其中类信息和存储属性内联在对象内存中，辅助类信息存在外部表中；关联对象较为特殊它存在一个全局的哈希表中；而引用计数又会根据操作系统和CPU架构的使用 <code>TaggedPointer</code>、 <code>NONPOINTER_ISA</code> 、<code>散列表</code>等进行存储</p>
+<h4 id="Side-Tables"><a href="#Side-Tables" class="headerlink" title="Side Tables"></a>Side Tables</h4><p>在Swift弱引用的新版实现中引入了Side Tables ，把弱引用指针由指向原对象改为指向Side Table；这样就解决了强引用计数为0时，存储对象的内存空间未能被及时的释放的问题；    </p>
 <blockquote>
 <p>资料来源  </p>
 </blockquote>
