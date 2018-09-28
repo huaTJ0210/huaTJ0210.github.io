@@ -81,16 +81,46 @@
 
 
 
-<meta name="description" content="对于异步执行技术GCD的API已经非常简单高效，但对于某些task之间存在依赖或是监测task的执行状态等需求GCD就显得不那么高效；因此cocoa框架中就提供了一个使用面向对象思想来解决异步操作的NSOperation,同时结合NSOperationQueue会使得异步操作更加简单高效；">
+<meta name="description" content="Swift中结构体和类的相同点
+均可以定义属性和方法
+使用构造函数来初始化成员变量
+使用扩展来增加自身功能
+遵守协议
+
+Swift中结构体和类的不同点
+结构体是值类型，赋值时是值拷贝
+类是引用类型，赋值只是指针拷贝，但指向的还是同一块内存地址
+类能够通过继承扩展自身功能，结构体不可以
+结构体有默认的初始化每一个成员变量的初始化函数，类没有">
 <meta property="og:type" content="article">
-<meta property="og:title" content="OC基础之NSOperation">
-<meta property="og:url" content="http://yoursite.com/2015/12/01/OC基础之NSOperation/index.html">
+<meta property="og:title" content="Swift-类和结构">
+<meta property="og:url" content="http://yoursite.com/2017/09/28/Swift-类和结构体/index.html">
 <meta property="og:site_name" content="華">
-<meta property="og:description" content="对于异步执行技术GCD的API已经非常简单高效，但对于某些task之间存在依赖或是监测task的执行状态等需求GCD就显得不那么高效；因此cocoa框架中就提供了一个使用面向对象思想来解决异步操作的NSOperation,同时结合NSOperationQueue会使得异步操作更加简单高效；">
-<meta property="og:updated_time" content="2018-06-23T04:02:50.000Z">
+<meta property="og:description" content="Swift中结构体和类的相同点
+均可以定义属性和方法
+使用构造函数来初始化成员变量
+使用扩展来增加自身功能
+遵守协议
+
+Swift中结构体和类的不同点
+结构体是值类型，赋值时是值拷贝
+类是引用类型，赋值只是指针拷贝，但指向的还是同一块内存地址
+类能够通过继承扩展自身功能，结构体不可以
+结构体有默认的初始化每一个成员变量的初始化函数，类没有">
+<meta property="og:updated_time" content="2018-09-28T09:27:34.248Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="OC基础之NSOperation">
-<meta name="twitter:description" content="对于异步执行技术GCD的API已经非常简单高效，但对于某些task之间存在依赖或是监测task的执行状态等需求GCD就显得不那么高效；因此cocoa框架中就提供了一个使用面向对象思想来解决异步操作的NSOperation,同时结合NSOperationQueue会使得异步操作更加简单高效；">
+<meta name="twitter:title" content="Swift-类和结构">
+<meta name="twitter:description" content="Swift中结构体和类的相同点
+均可以定义属性和方法
+使用构造函数来初始化成员变量
+使用扩展来增加自身功能
+遵守协议
+
+Swift中结构体和类的不同点
+结构体是值类型，赋值时是值拷贝
+类是引用类型，赋值只是指针拷贝，但指向的还是同一块内存地址
+类能够通过继承扩展自身功能，结构体不可以
+结构体有默认的初始化每一个成员变量的初始化函数，类没有">
 
 
 
@@ -120,13 +150,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2015/12/01/OC基础之NSOperation/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/09/28/Swift-类和结构体/"/>
 
 
 
 
 
-  <title>OC基础之NSOperation | 華</title>
+  <title>Swift-类和结构 | 華</title>
   
 
 
@@ -253,7 +283,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/12/01/OC基础之NSOperation/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/28/Swift-类和结构体/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="华子">
@@ -270,7 +300,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">OC基础之NSOperation</h1>
+          <h1 class="post-title" itemprop="name headline">Swift-类和结构</h1>
         
 
         <div class="post-meta">
@@ -282,8 +312,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-01T14:01:55+08:00">
-                2015-12-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-28T15:57:54+08:00">
+                2017-09-28
               </time>
             
 
@@ -342,106 +372,135 @@
       
 
       
-        <p>对于异步执行技术GCD的API已经非常简单高效，但对于某些task之间存在依赖或是监测task的执行状态等需求GCD就显得不那么高效；因此cocoa框架中就提供了一个使用面向对象思想来解决异步操作的NSOperation,同时结合NSOperationQueue会使得异步操作更加简单高效；  </p>
+        <h3 id="Swift中结构体和类的相同点"><a href="#Swift中结构体和类的相同点" class="headerlink" title="Swift中结构体和类的相同点"></a>Swift中结构体和类的相同点</h3><ul>
+<li>均可以定义属性和方法</li>
+<li>使用构造函数来初始化成员变量</li>
+<li>使用扩展来增加自身功能</li>
+<li>遵守协议</li>
+</ul>
+<h3 id="Swift中结构体和类的不同点"><a href="#Swift中结构体和类的不同点" class="headerlink" title="Swift中结构体和类的不同点"></a>Swift中结构体和类的不同点</h3><ul>
+<li>结构体是值类型，赋值时是值拷贝</li>
+<li>类是引用类型，赋值只是指针拷贝，但指向的还是同一块内存地址</li>
+<li>类能够通过继承扩展自身功能，结构体不可以</li>
+<li><p>结构体有默认的初始化每一个成员变量的初始化函数，类没有</p>
 <a id="more"></a>
-<h4 id="NSOperation"><a href="#NSOperation" class="headerlink" title="NSOperation"></a>NSOperation</h4><p>NSOperation是一个抽象基类，只能实例化子类才能使用；开发框架中已经存在了两个实例NSBlockOperation和NSInvocationOperation  </p>
-<h5 id="NSBlockOperation"><a href="#NSBlockOperation" class="headerlink" title="NSBlockOperation"></a>NSBlockOperation</h5><p>NSBlockOperation实例化操作可以在block中执行task，并且当task只有一个的时候task在主线程中执行，当task增加时会另外创建线程执行task；</p>
-<p>NSBlockOperation 在调用start方法时所有添加的task会hold住主线程，也就是所有的task执行完毕后才继续执行主线程的其他操作</p>
-<p>NSBlockOperation 中添加多个task时，各个task的执行顺序不一定，但是第添加的task一定会在主线程中被执行</p>
-<pre><code>NSBlockOperation* blockOperation = [NSBlockOperation blockOperationWithBlock:^{
-    NSLog(@&quot;blockOp1:%@&quot;,[NSThread currentThread]);
-}];
-[blockOperation addExecutionBlock:^{
-    NSLog(@&quot;blockOp2:%@&quot;,[NSThread currentThread]);
-}];
-[blockOperation addExecutionBlock:^{
-    NSLog(@&quot;blockOp3:%@&quot;,[NSThread currentThread]);
-}];
-[blockOperation addExecutionBlock:^{
-    [NSThread sleepForTimeInterval:3.0f];
-    NSLog(@&quot;blockOp4:%@&quot;,[NSThread currentThread]);
-}];
-blockOperation.completionBlock = ^{
-    NSLog(@&quot;blockOperation over!&quot;);
-};
-[blockOperation start];
-NSLog(@&quot;run over!!!:%@&quot;,[NSThread currentThread]);
-/*
-  HZFoundation[46406:1977543] blockOp3:&lt;NSThread: 0x100700110&gt;{number = 2, name = (null)}
-  HZFoundation[46406:1977541] blockOp2:&lt;NSThread: 0x1001037c0&gt;{number = 3, name = (null)}
-  HZFoundation[46406:1977517] blockOp1:&lt;NSThread: 0x100502e50&gt;{number = 1, name = main}
-  HZFoundation[46406:1977542] blockOp4:&lt;NSThread: 0x100700150&gt;{number = 4, name = (null)}
-  HZFoundation[46406:1977517] run over!!!:&lt;NSThread: 0x100502e50&gt;{number = 1, name = main}
- */
-</code></pre><p> <strong>根据上述log的输出可用GCD模拟一下NSBlockOperation内部实现</strong>  </p>
-<pre><code>  -(void)implementationBlockOperation{
-// 添加task
-OperationBlock block1=^{
-    NSLog(@&quot;block1%@&quot;,[NSThread currentThread]);
-};
-OperationBlock block2=^{
-    NSLog(@&quot;block2%@&quot;,[NSThread currentThread]);
-};
-OperationBlock block3=^{
-    NSLog(@&quot;block3%@&quot;,[NSThread currentThread]);
-};
-OperationBlock block4=^{
-    NSLog(@&quot;block4%@&quot;,[NSThread currentThread]);
-};
-OperationBlock block5=^{
-    [NSThread sleepForTimeInterval:3.0f];
-    NSLog(@&quot;block5%@&quot;,[NSThread currentThread]);
-};
-// 所有执行task的集合
-NSArray* operationBlcoks = [NSArray arrayWithObjects:block1,block2,block3,block4,block5,nil];
-//根据上面打印的block执行线程名称可以看到，线程名称各不相同，由此推测block的执行在一个并发队列中
-dispatch_queue_t concurrentQueue = dispatch_queue_create(&quot;com.*.implementationBlockOperation&quot;, DISPATCH_QUEUE_CONCURRENT);
-//打印的内容可以看到NSOperation是block住主线程的，也就是所有的任务执行完毕后才继续执行task，能够执行此操作的dispatch_group最合适
-dispatch_group_t dispatchGroup = dispatch_group_create();
-for (NSInteger index=0; index&lt;operationBlcoks.count; index++) {
-    // 此处的状态判断是由于打印线程名称看到每次第一个任务的执行线程总是在主线程中完成的
-    if (index==0) {
-        // 此处处理和原设计相违背，虽然是在主线程中执行但是执行的顺序每次都是最先添加的被执行
-        OperationBlock block = operationBlcoks[0];
-        block();
-    }else{
-        dispatch_group_async(dispatchGroup, concurrentQueue, ^{
-            OperationBlock block = operationBlcoks[index];
-            block();
-        });
+</li>
+</ul>
+<h3 id="Swift的基本数据类型多是值类型"><a href="#Swift的基本数据类型多是值类型" class="headerlink" title="Swift的基本数据类型多是值类型"></a>Swift的基本数据类型多是值类型</h3><p><code>String</code> <code>Array</code> <code>Dictionary</code>以及基本的整型、浮点型、布尔型都是值类型，底层都是结构体实现的   </p>
+<h3 id="恒等运算符"><a href="#恒等运算符" class="headerlink" title="恒等运算符"></a>恒等运算符</h3><p>如果希望检测两个常量或者变量是否引用同一个实例可以使用恒等运算符：</p>
+<ul>
+<li>等价于（ === ）</li>
+<li>不等价于 ( !== ) </li>
+</ul>
+<h3 id="结构体和类的选择原则"><a href="#结构体和类的选择原则" class="headerlink" title="结构体和类的选择原则"></a>结构体和类的选择原则</h3><p>在实际项目中如何选择结构体或类的使用呢，可以将下列情况作为选择结构体的依据： </p>
+<ul>
+<li>定义的数据结构是用来封装少量相关简单数据值的</li>
+<li>数据结构实例被赋值或传递，封装的数据只是被拷贝而不是引用传递</li>
+<li>数据结构中存储的也是值类型的属性</li>
+<li>数据结构不需要去继承另一个既有类型的属性或者行为</li>
+</ul>
+<h3 id="属性篇"><a href="#属性篇" class="headerlink" title="属性篇"></a>属性篇</h3><pre><code>class Person1 {
+    // 存储属性
+    var firstName : String?
+    var lastName : String?
+    /*
+      实例属性：属于一个特定类型的实例持有
+      类型属性：某个类型所有实例共享的数据，使用static关键字修饰
+    */ 
+    static var commonID : String?
+    //计算属性：不直接存储值，而是提供一个 getter 和一个可选的 setter，来间接获取和设置其他属性或变量的值
+    var name : String{
+        get{
+           return firstName! + lastName!
+        }
+        set(newName){
+           // 更改属性的值
+        }
+    }
+    // 属性观察器
+    var weight : Float = 0.0{
+        willSet(newValue){
+
+        }
+        didSet{
+            print(oldValue)
+        } 
+     }
+     // 拥有私有 Setter 的公共属性,本类中可以设置，
+     public private(set) var area: Double = 0
+
+     // 懒加载属性 
+         lazy var testString: String = {
+        print(&quot;about to initialize the property&quot;)
+        return &quot;TestString&quot;
+    }()
+
+     // 全局变量：在函数、方法、闭包或任何类型之外定义的变量
+     // 局部变量：在函数、方法或闭包内部定义的变量
+}  
+</code></pre><h3 id="方法篇"><a href="#方法篇" class="headerlink" title="方法篇"></a>方法篇</h3><pre><code>class Methods: NSObject {
+  var count:Int = 0
+  // 实例方法
+  func increment(){
+      count += 1
+  }
+  func incrementBy(_ amount:Int){
+      count += amount
+  }
+  func reset(){
+      count = 0
+  }
+  // 类型方法【静态方法】
+  class func sum() -&gt; Void{
+
+  }  
+ }  
+</code></pre><h3 id="下标（subscript）"><a href="#下标（subscript）" class="headerlink" title="下标（subscript）"></a>下标（subscript）</h3><pre><code>class Subscripts: NSObject {
+   // 下标
+    func testFunc(){
+        let threeTimeTable = TimesTable(multiplier: 3)
+        print(threeTimeTable[6])
     }
 }
-dispatch_group_wait(dispatchGroup, DISPATCH_TIME_FOREVER);
-NSLog(@&quot;implementationBlockOperation over!%@&quot;,[NSThread currentThread]);
-}    
-</code></pre><p>上述实现代码唯一的不足时第一task执行顺序会影响其他task，因为它总是第一个被执行，目前还没有考虑出合适的实现方法；   </p>
-<h5 id="NSInvocationOperation"><a href="#NSInvocationOperation" class="headerlink" title="NSInvocationOperation"></a>NSInvocationOperation</h5><p>NSInvocationOperation的使用和UIControl的使用模式很相似  </p>
-<pre><code>-(void)operationInvocation{
-   NSInvocationOperation* operation1 = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(operationAction) object:nil];
-[operation1 start];
+
+struct TimesTable {
+    let multiplier:Int
+    subscript(index:Int)-&gt;Int{
+      return multiplier * index
+    }
+}
+</code></pre><h3 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h3><pre><code>class Vehicle {
+    var currentFeed = 0.0
+    var description:String{
+      return &quot;traveling at \(currentFeed)miles per hour&quot;
+    }
+    func makeNoise(){
+
+    }
+
+    // 防止重写
+    可以通过把方法，属性或下标标记为final来防止它们被重写
 }
 
--(void)operationAction{
-    NSLog(@&quot;%@---&gt;&quot;,[NSThread currentThread]);
+class Bicycle: Vehicle {
+    let hasBasket = false
+    // 重写方法
+    override func makeNoise() {
+        print(&quot;子类重写父类的方法！！！&quot;)
+    }
 }
-</code></pre><h4 id="NSOperationQueue"><a href="#NSOperationQueue" class="headerlink" title="NSOperationQueue"></a>NSOperationQueue</h4><pre><code>  // 创建operation
-NSBlockOperation* blockOperation = [NSBlockOperation blockOperationWithBlock:^{
-    NSLog(@&quot;blockOp1:%@&quot;,[NSThread currentThread]);
-}];
-NSBlockOperation* blockOperation1 = [NSBlockOperation blockOperationWithBlock:^{
-    NSLog(@&quot;blockOp2:%@&quot;,[NSThread currentThread]);
-}];
-// 创建operationQueue
-NSOperationQueue* operationQueue = [[NSOperationQueue alloc] init];
-[operationQueue addOperation:blockOperation];
-[operationQueue addOperation:blockOperation1];  
-[operationQueue setMaxConcurrentOperationCount:4]; // 设置task最大执行并发数
-[blockOperation addDependency:blockOperation1];// operation之间添加依赖关系
-[operationQueue waitUntilAllOperationsAreFinished];// 等待所有的operation执行完毕后
-[operationQueue cancelAllOperations];//取消所有operation操作  
+
+class Car: Vehicle {
+    var gear = 1
+    // 重写属性
+    override var description:String{
+       return super.description + &quot;in gear \(gear)&quot;
+    }
+}
 </code></pre><blockquote>
-<p>资料来源 <a href="http://nshipster.cn/nsoperation/" target="_blank" rel="external">NShipster之NSOperation</a> </p>
+<p>资料来源  （update date 20180928）</p>
 </blockquote>
+<p> <a href="https://mp.weixin.qq.com/s/iDRru2bH2gUPfXE6W3FfWw" target="_blank" rel="external">SwiftGG翻译组-Swift 中的属性</a><br> <a href="http://wiki.jikexueyuan.com/project/swift/chapter2/10_Properties.html" target="_blank" rel="external">属性</a><br> <a href="http://wiki.jikexueyuan.com/project/swift/chapter2/09_Classes_and_Structures.html" target="_blank" rel="external">类和结构体</a></p>
 
       
     </div>
@@ -472,8 +531,8 @@ NSOperationQueue* operationQueue = [[NSOperationQueue alloc] init];
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/10/25/iOS篇-动画/" rel="next" title="iOS篇-动画">
-                <i class="fa fa-chevron-left"></i> iOS篇-动画
+              <a href="/2017/09/27/Swift-闭包/" rel="next" title="Swift-闭包">
+                <i class="fa fa-chevron-left"></i> Swift-闭包
               </a>
             
           </div>
@@ -482,8 +541,8 @@ NSOperationQueue* operationQueue = [[NSOperationQueue alloc] init];
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/12/03/OC基础之GCD/" rel="prev" title="OC基础之GCD">
-                OC基础之GCD <i class="fa fa-chevron-right"></i>
+              <a href="/2018/01/18/iOS篇-App启动优化/" rel="prev" title="iOS篇-App启动优化">
+                iOS篇-App启动优化 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -627,7 +686,7 @@ NSOperationQueue* operationQueue = [[NSOperationQueue alloc] init];
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#NSOperation"><span class="nav-number">1.</span> <span class="nav-text">NSOperation</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#NSBlockOperation"><span class="nav-number">1.1.</span> <span class="nav-text">NSBlockOperation</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#NSInvocationOperation"><span class="nav-number">1.2.</span> <span class="nav-text">NSInvocationOperation</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NSOperationQueue"><span class="nav-number">2.</span> <span class="nav-text">NSOperationQueue</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Swift中结构体和类的相同点"><span class="nav-number">1.</span> <span class="nav-text">Swift中结构体和类的相同点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Swift中结构体和类的不同点"><span class="nav-number">2.</span> <span class="nav-text">Swift中结构体和类的不同点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Swift的基本数据类型多是值类型"><span class="nav-number">3.</span> <span class="nav-text">Swift的基本数据类型多是值类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#恒等运算符"><span class="nav-number">4.</span> <span class="nav-text">恒等运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结构体和类的选择原则"><span class="nav-number">5.</span> <span class="nav-text">结构体和类的选择原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性篇"><span class="nav-number">6.</span> <span class="nav-text">属性篇</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法篇"><span class="nav-number">7.</span> <span class="nav-text">方法篇</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下标（subscript）"><span class="nav-number">8.</span> <span class="nav-text">下标（subscript）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继承"><span class="nav-number">9.</span> <span class="nav-text">继承</span></a></li></ol></div>
             
 
           </div>
