@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://smnh.me/images/hit-test-view-hierarchy.png">
 <meta property="og:image" content="http://zhoon.github.io/img/artical/ios_event/iosevent_4.png">
 <meta property="og:image" content="http://zhoon.github.io/img/artical/ios_event/iosevent_5.png">
-<meta property="og:updated_time" content="2018-06-23T03:58:02.000Z">
+<meta property="og:updated_time" content="2018-10-09T06:13:31.611Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="UIKIT-UIButton事件解析">
 <meta name="twitter:description" content="一个UIButton对象从被点击到执行对应的target action method的过程到底经历了哪些？">
@@ -367,8 +367,8 @@
 - (void)touchesMoved:(NSSet&lt;UITouch *&gt; *)touches withEvent:(nullable UIEvent *)event;
 - (void)touchesEnded:(NSSet&lt;UITouch *&gt; *)touches withEvent:(nullable UIEvent *)event;
 - (void)touchesCancelled:(NSSet&lt;UITouch *&gt; *)touches withEvent:(nullable UIEvent *)event;  
-</code></pre><h4 id="响应者链的产生"><a href="#响应者链的产生" class="headerlink" title="响应者链的产生"></a>响应者链的产生</h4><p>由于视图继承自UIResponder，因此他有一个nextResponder属性，结合视图的层次结构这样一个响应者链就产生了；子视图的nextResponder指向的是父视图；事件在传递的过程中根据nextResponder指针完成树状图的遍历直到有视图处理此次事件，否则就放弃事件的响应；  </p>
-<h4 id="查找响应者"><a href="#查找响应者" class="headerlink" title="查找响应者"></a>查找响应者</h4><p>屏幕中点击了一个按钮，事件由UIApplication从runloop的事件队列中取出通过[UIApplication sendEvent:]传递给UIWindow；此时会触发Hit-Testing View也就是触发UIWindow中的<code>- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event;</code>和<code>- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event;</code>方法；那么Hit-Testing View的过程是什么呢？</p>
+</code></pre><h4 id="响应者链（Responder-Chain）的产生"><a href="#响应者链（Responder-Chain）的产生" class="headerlink" title="响应者链（Responder Chain）的产生"></a>响应者链（Responder Chain）的产生</h4><p>由于视图继承自UIResponder，因此他有一个nextResponder属性，结合视图的层次结构这样一个响应者链就产生了；子视图的nextResponder指向的是父视图；事件在传递的过程中根据nextResponder指针完成树状图的遍历直到有视图处理此次事件，否则就放弃事件的响应；  </p>
+<h4 id="查找响应者-（Responder-Object）"><a href="#查找响应者-（Responder-Object）" class="headerlink" title="查找响应者 （Responder Object）"></a>查找响应者 （Responder Object）</h4><p>屏幕中点击了一个按钮，事件由UIApplication从runloop的事件队列中取出通过[UIApplication sendEvent:]传递给UIWindow；此时会触发Hit-Testing View也就是触发UIWindow中的<code>- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event;</code>和<code>- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event;</code>方法；那么Hit-Testing View的过程是什么呢？</p>
 <h5 id="Hit-Testing-View的过程"><a href="#Hit-Testing-View的过程" class="headerlink" title="Hit-Testing View的过程"></a>Hit-Testing View的过程</h5><p>Hit-Testing View实际是递归的使用<code>- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event;</code>和<code>- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event;</code>方法来找到<em>触摸点</em>所在的最上层视图然后返回；如下图所示： </p>
 <center><br><img src="http://zhoon.github.io/img/artical/ios_event/iosevent_4.png" alt="图片来自网络"><br></center>  
 
@@ -570,7 +570,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#视图的树状结构"><span class="nav-number">1.</span> <span class="nav-text">视图的树状结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UIResponder"><span class="nav-number">2.</span> <span class="nav-text">UIResponder</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#响应者链的产生"><span class="nav-number">3.</span> <span class="nav-text">响应者链的产生</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查找响应者"><span class="nav-number">4.</span> <span class="nav-text">查找响应者</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Hit-Testing-View的过程"><span class="nav-number">4.1.</span> <span class="nav-text">Hit-Testing View的过程</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#视图的树状结构"><span class="nav-number">1.</span> <span class="nav-text">视图的树状结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UIResponder"><span class="nav-number">2.</span> <span class="nav-text">UIResponder</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#响应者链（Responder-Chain）的产生"><span class="nav-number">3.</span> <span class="nav-text">响应者链（Responder Chain）的产生</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查找响应者-（Responder-Object）"><span class="nav-number">4.</span> <span class="nav-text">查找响应者 （Responder Object）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Hit-Testing-View的过程"><span class="nav-number">4.1.</span> <span class="nav-text">Hit-Testing View的过程</span></a></li></ol></li></ol></div>
             
 
           </div>
