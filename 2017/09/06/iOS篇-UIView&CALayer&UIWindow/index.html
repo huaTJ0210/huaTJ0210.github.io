@@ -111,7 +111,7 @@ UI事件传递&amp;amp;响应
 UIView和CALayer">
 <meta property="og:image" content="http://zhoon.github.io/img/artical/ios_event/iosevent_4.png">
 <meta property="og:image" content="http://zhoon.github.io/img/artical/ios_event/iosevent_5.png">
-<meta property="og:updated_time" content="2018-10-09T06:41:51.842Z">
+<meta property="og:updated_time" content="2018-10-10T02:53:22.236Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS篇-视图对象">
 <meta name="twitter:description" content="在web开发中经常使用标签div来进行页面的布局，而在iOS开发中界面可视化元素基本都是UIView或是其子类元素构成，本文主要介绍如下内容： 
@@ -427,10 +427,24 @@ UIView和CALayer">
 </li>
 <li>设置UIWindowLevel<br>通过将UIWindow的UIWindowLevel设置的更高，可以将UIWindow盖在所有的应用界面之上；这个在做遮罩的时候可以选择做一个自定义的UIWindow显示在界面上；  </li>
 </ul>
-<h4 id="视图的绘制过程"><a href="#视图的绘制过程" class="headerlink" title="视图的绘制过程"></a>视图的绘制过程</h4><ul>
-<li>层次结构（UIwindow-xxUIView-xxsubViews）中的视图会分别绘制自己，视图会将自己绘制到图层(layer)上，每个UIView对象所拥有的layer属性，指向一个CALayer类的对象 ；</li>
-<li>所有视图的图层组合成一幅图像，绘制到屏幕上；</li>
+<h4 id="视图的绘制过程"><a href="#视图的绘制过程" class="headerlink" title="视图的绘制过程"></a>视图的绘制过程</h4><p> <code>UIView</code>从Draw到Render主要包含过程如下:  </p>
+<ul>
+<li><code>UIView</code>包含一个<code>CALayer</code>属性，<code>CALayer</code>中包含一个<code>content</code>指针指向缓存块<em>backing store</em></li>
+<li><code>UIView</code>的绘制和渲染是两个过程，当<code>UIView</code>被绘制时，CPU会执行drawRect，通过context将数据写入backing store</li>
+<li>backing store写完后，通过render server交给GPU去渲染，将backing store中的bitMap数据显示在屏幕上</li>
+<li>CPU绘制后把内容放入到缓存里，GPU负责从缓存里读取数据然后渲染到屏幕上。</li>
 </ul>
+<p>GPU的操作涉及多个View的拼接（Compositing），纹理（Texture）的渲染等最后显示到屏幕上。GPU将纹理渲染到屏幕主要涉及到一下几个问题：  </p>
+<ul>
+<li>合成（Compositing）: 将多个纹理拼到一起的过程，对应UIKIT，是指处理多个View合到一起的情况，如果View没有叠加GPU只需要做普通的渲染即可，如果多个View之间有叠加部分，GPU需要做混合操作</li>
+<li>尺寸(Size) ：主要是image 大图直接填充到小尺寸的imageView中，不做处理，那么GPU就需要额外的操作，计算量会飙升</li>
+<li>渲染分为当前屏幕渲染和离屏渲染   <ul>
+<li>On-Screen Rendering即GPU的渲染操作是在当前屏幕缓冲区进行的</li>
+<li>Off-Screen Rendering即离屏渲染，指的是GPU的渲染是在当前屏幕缓冲区以外进行渲染操作，涉及上下文的切换，造成性能损失</li>
+</ul>
+</li>
+</ul>
+<p>为什么需要离屏渲染？<br>图形属性的混合体（圆角、阴影、遮罩）被指定为在未预合成之前不能再屏幕上绘制，即当主屏的还会被绘制好的时候，就需要在屏幕外渲染</p>
 <h4 id="视图的基本属性"><a href="#视图的基本属性" class="headerlink" title="视图的基本属性"></a>视图的基本属性</h4><h5 id="frame和bounds-属性"><a href="#frame和bounds-属性" class="headerlink" title="frame和bounds 属性"></a>frame和bounds 属性</h5><ul>
 <li>frame:保存视图的大小和相对父视图的位置；</li>
 <li>bounds：用于确定绘制区域，避免绘制到图层之外 ，修改bounds的origin会影响它子视图的布局 </li>
@@ -471,7 +485,7 @@ UIView和CALayer">
 <p>当一个触摸事件产生后，事件传递链由UIApplication -&gt; UIWindow -&gt; UIView -&gt; subViews -&gt; lastView[hitTest-view];然后判断当前视图是否有处理事件的方法，如果没有则根据nextResponder指针将事件向上传递给父视图，如果一直没有找到则丢弃；</p>
 <hr>
 <blockquote>
-<p>内容来自iOS高级编程（第4版）视图与层次结构</p>
+<p>内容来自iOS高级编程（第4版）视图与层次结构<br><a href="https://www.cnblogs.com/feng9exe/p/8848663.html" target="_blank" rel="external">理解UIView的绘制</a></p>
 </blockquote>
 
       
