@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="iOS 测试," />
+  <meta name="keywords" content="计算机基础," />
 
 
 
@@ -81,20 +81,37 @@
 
 
 
-<meta name="description" content="Xcode中集成XCTest框架进行简单的单元测试；在创建App工程时默认创建UnitTest和UITest；UnitTest可以很方便的自定义Method验证项目中某一个业务逻辑单元，UITest则通过录制操作步骤生成代码，然后再执行可以起到自动化测试界面的效果。">
+<meta name="description" content="在计算机内部数据和信息是使用二进制来存储的，那么二进制是如何表示信息以及它的运算机制是怎么样的呢？如下有几个问题可以思考一下？  
+
+32位是几个字节
+二进制01011100转化为十进制是多少
+二进制数00001111左移两位，会变成原来的几倍
+补码形式表示的8位二进制数11111111，用十进制表示的话是多少
+补码形式表示的8位二进制数10101010，用16位的二进制表示的话是多少
+反转部分图">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS篇-测试">
-<meta property="og:url" content="http://yoursite.com/2016/03/20/iOS篇-测试/index.html">
+<meta property="og:title" content="程序如何运行-二进制">
+<meta property="og:url" content="http://yoursite.com/2018/10/29/计算机-二进制/index.html">
 <meta property="og:site_name" content="華">
-<meta property="og:description" content="Xcode中集成XCTest框架进行简单的单元测试；在创建App工程时默认创建UnitTest和UITest；UnitTest可以很方便的自定义Method验证项目中某一个业务逻辑单元，UITest则通过录制操作步骤生成代码，然后再执行可以起到自动化测试界面的效果。">
-<meta property="og:image" content="http://ofldf2gv9.bkt.clouddn.com/HZTestProject.png">
-<meta property="og:image" content="http://ofldf2gv9.bkt.clouddn.com/TestList.png">
-<meta property="og:image" content="http://ofldf2gv9.bkt.clouddn.com/excuteTest.png">
-<meta property="og:updated_time" content="2018-06-23T04:08:59.000Z">
+<meta property="og:description" content="在计算机内部数据和信息是使用二进制来存储的，那么二进制是如何表示信息以及它的运算机制是怎么样的呢？如下有几个问题可以思考一下？  
+
+32位是几个字节
+二进制01011100转化为十进制是多少
+二进制数00001111左移两位，会变成原来的几倍
+补码形式表示的8位二进制数11111111，用十进制表示的话是多少
+补码形式表示的8位二进制数10101010，用16位的二进制表示的话是多少
+反转部分图">
+<meta property="og:updated_time" content="2018-10-29T05:48:05.427Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS篇-测试">
-<meta name="twitter:description" content="Xcode中集成XCTest框架进行简单的单元测试；在创建App工程时默认创建UnitTest和UITest；UnitTest可以很方便的自定义Method验证项目中某一个业务逻辑单元，UITest则通过录制操作步骤生成代码，然后再执行可以起到自动化测试界面的效果。">
-<meta name="twitter:image" content="http://ofldf2gv9.bkt.clouddn.com/HZTestProject.png">
+<meta name="twitter:title" content="程序如何运行-二进制">
+<meta name="twitter:description" content="在计算机内部数据和信息是使用二进制来存储的，那么二进制是如何表示信息以及它的运算机制是怎么样的呢？如下有几个问题可以思考一下？  
+
+32位是几个字节
+二进制01011100转化为十进制是多少
+二进制数00001111左移两位，会变成原来的几倍
+补码形式表示的8位二进制数11111111，用十进制表示的话是多少
+补码形式表示的8位二进制数10101010，用16位的二进制表示的话是多少
+反转部分图">
 
 
 
@@ -124,13 +141,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/03/20/iOS篇-测试/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/10/29/计算机-二进制/"/>
 
 
 
 
 
-  <title>iOS篇-测试 | 華</title>
+  <title>程序如何运行-二进制 | 華</title>
   
 
 
@@ -257,7 +274,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/20/iOS篇-测试/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/29/计算机-二进制/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="华子">
@@ -274,7 +291,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">iOS篇-测试</h1>
+          <h1 class="post-title" itemprop="name headline">程序如何运行-二进制</h1>
         
 
         <div class="post-meta">
@@ -286,8 +303,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-20T14:40:33+08:00">
-                2016-03-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-29T11:30:12+08:00">
+                2018-10-29
               </time>
             
 
@@ -309,8 +326,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
+                  <a href="/categories/程序如何运行/" itemprop="url" rel="index">
+                    <span itemprop="name">程序如何运行</span>
                   </a>
                 </span>
 
@@ -346,130 +363,50 @@
       
 
       
-        <p> Xcode中集成XCTest框架进行简单的单元测试；在创建App工程时默认创建UnitTest和UITest；UnitTest可以很方便的自定义Method验证项目中某一个业务逻辑单元，UITest则通过录制操作步骤生成代码，然后再执行可以起到自动化测试界面的效果。  </p>
-<a id="more"></a>
-<h4 id="UnitTest的使用"><a href="#UnitTest的使用" class="headerlink" title="UnitTest的使用"></a>UnitTest的使用</h4><p><strong>如何写一个简单的验证api的单元测试</strong><br>创建一个single view application的项目如下图所示  </p>
-<div align="center"><br><img src="http://ofldf2gv9.bkt.clouddn.com/HZTestProject.png" width="500" height="280" alt="iOS核心动画思维导图"><br></div><br>Unit Tests和UI Tests都是默认选中的，然后再项目中找到XXTests.m（我的项目中是HZTestTests.m）文件;<br><div align="center"><br><img src="http://ofldf2gv9.bkt.clouddn.com/TestList.png" width="200" height="400" alt="iOS核心动画思维导图"><br></div> 
-
-<h5 id="XXTests-m详解"><a href="#XXTests-m详解" class="headerlink" title="XXTests.m详解"></a>XXTests.m详解</h5><p>首先看一下文件中的几个自动生成Method；    </p>
-<pre><code>#import &lt;XCTest/XCTest.h&gt;
-@interface HZTestTests : XCTestCase
-
-@end
-
-@implementation HZTestTests
-
-- (void)setUp {
-    [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-}
-
-- (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
-}
-
-- (void)testExample {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
-}
-@end   
-</code></pre><h6 id="void-setUp"><a href="#void-setUp" class="headerlink" title="- (void)setUp"></a>- (void)setUp</h6><p>如果有一些初始代码需要在调用其他测试类的方法之前调用可以写在这个方法中；  </p>
-<h6 id="void-tearDown"><a href="#void-tearDown" class="headerlink" title="- (void)tearDown"></a>- (void)tearDown</h6><p>关于测试的方法调用完毕之后会调用   </p>
-<h6 id="void-testExample"><a href="#void-testExample" class="headerlink" title="- (void)testExample"></a>- (void)testExample</h6><p>测试的业务逻辑代码可以写在这个方法中；通常是自己创建已test开头的方法类似-(void)testLogin;来验证逻辑   </p>
-<h5 id="自定义测试方法并执行"><a href="#自定义测试方法并执行" class="headerlink" title="自定义测试方法并执行"></a>自定义测试方法并执行</h5><p><strong>如下图所示在左侧有空心菱形点击就可以直接执行相应的代码；没有菱形的可以command+b 一下</strong>  </p>
-<div align="center"><br><img src="http://ofldf2gv9.bkt.clouddn.com/excuteTest.png" width="600" height="400" alt="iOS核心动画思维导图"><br></div>     
-
-<p><strong>测试一个API的耗时时间可以直接调用measureBlock在控制台就可以看到具体的执行时间</strong>   </p>
-<pre><code>#pragma mark- 性能测试的耗时操作
-- (void)testExcuteTime{
-    // This is an example of a performance test case.
-    __block NSInteger sum;
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-        for (NSInteger index=0; index&lt;10000; index++)
-            sum +=index;
-    }];
-}    
-</code></pre><p><strong>异步回调判断超时时间，创建XCTestExpectation对象，使用waitForExpectationsWithTimeout监测超时错误，使用[expectation fulfill]告知异步请求完成</strong>     </p>
-<pre><code>#pragma mark- 异步请求回调测试 
--(void)testAsyncRequest{
-    XCTestExpectation * expectation = [self expectationWithDescription:@&quot;test async&quot;];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        sleep(4);
-        XCTAssert(YES,&quot;call back success!&quot;);
-        [expectation fulfill];
-    });
-    [self waitForExpectationsWithTimeout:5 handler:^(NSError *error) {
-        //Do something when time out
-        NSLog(@&quot;%@&quot;,[error localizedDescription]);
-    }];
-}
-</code></pre><h5 id="断言的使用"><a href="#断言的使用" class="headerlink" title="断言的使用"></a>断言的使用</h5><pre><code>#pragma mark-  系统提供的断言 
-
-  XCTAssert(expression, format...)
-  XCTAssertTrue(expression, format...)
-  XCTAssertFalse(expression, format...)
-  XCTAssertEqual(expression1, expression2, format...)
-  XCTAssertNotEqual(expression1, expression2, format...)
-  XCTAssertEqualWithAccuracy(expression1, expression2, accuracy, format...)
-  XCTAssertNotEqualWithAccuracy(expression1, expression2, accuracy, format...)
-  XCTAssertNil(expression, format...)
-  XCTAssertNotNil(expression, format...)   
-  XCTFail(format...)   
-</code></pre><h4 id="UITest的使用"><a href="#UITest的使用" class="headerlink" title="UITest的使用"></a>UITest的使用</h4><p><strong>HZTestUITests.m中系统会生成一些方法</strong></p>
-<pre><code>#import &lt;XCTest/XCTest.h&gt;
-
-@interface HZTestUITests : XCTestCase
-
-@end
-
-@implementation HZTestUITests
-
-- (void)setUp {
-    [super setUp];
-
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-
-    // In UI tests it is usually best to stop immediately when a failure occurs.
-    self.continueAfterFailure = NO;
-    // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
-    [[[XCUIApplication alloc] init] launch];
-
-    // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
-}
-
-- (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
-}
-
-- (void)testExample {
-    // Use recording to get started writing UI tests.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
-}
-</code></pre><p><strong>如何使用UITest</strong>  </p>
+        <p>在计算机内部数据和信息是使用二进制来存储的，那么二进制是如何表示信息以及它的运算机制是怎么样的呢？如下有几个问题可以思考一下？  </p>
 <ul>
-<li>定义一个跳转场景viewController中点击一个button跳转到fristViewController </li>
-<li>在HZTestUITests.m定义一个-(void)testUI{}的方法； </li>
-<li>将光标放在 -(void)testUI{}的大括号中；点击下边的红色record；</li>
-<li>根据你的操作 系统会自动生成代码  </li>
+<li>32位是几个字节</li>
+<li>二进制01011100转化为十进制是多少</li>
+<li>二进制数00001111左移两位，会变成原来的几倍</li>
+<li>补码形式表示的8位二进制数11111111，用十进制表示的话是多少</li>
+<li>补码形式表示的8位二进制数10101010，用16位的二进制表示的话是多少</li>
+<li>反转部分图形模式，使用的是什么逻辑  </li>
 </ul>
-<p>下面是系统自动生成的代码详细  </p>
-<pre><code>  -(void)testUI{
- XCUIApplication *app = [[XCUIApplication alloc] init];
- XCUIElement *nextvcButton = app.buttons[@&quot;nextVC&quot;];
- [nextvcButton tap];
-
- XCUIElement *backButton = [[[app.navigationBars[@&quot;HZFristView&quot;] childrenMatchingType:XCUIElementTypeButton] matchingIdentifier:@&quot;Back&quot;] elementBoundByIndex:0];
- [backButton tap];
- [nextvcButton tap];
- [backButton tap];
-} 
-</code></pre><p>执行自动UI跳转可以点击左侧的空心菱形进行操作！   </p>
+<p>以上问题如果不能清晰的回答那么就需要了解一下二进制的基础知识了。<br><a id="more"></a></p>
+<h4 id="二进制表示计算机信息的原因"><a href="#二进制表示计算机信息的原因" class="headerlink" title="二进制表示计算机信息的原因"></a>二进制表示计算机信息的原因</h4><p>二进制<strong>计算技术中广泛采用的一种数制。二进制数据是用0和1两个数码来表示的数。它的基数为2，进位规则是“逢二进一”，借位规则是“借一当二”</strong><br>由于计算机内部是由<em>集成电路（integrated circuit)</em>这种电子部件构成，IC只有两种状态，0V和5V，即有电流和无电流两种模式； 计算机处理信息最小的单元是位，二进制的位数一般是8位、16位、32位、也就是8的倍数，8位二进制数被称为一个字节， 内存和磁盘都是以字节单位来存储和读写数据的，因此字节是信息的基本单位。  </p>
+<h4 id="二进制如何同十进制之间进行转化"><a href="#二进制如何同十进制之间进行转化" class="headerlink" title="二进制如何同十进制之间进行转化"></a>二进制如何同十进制之间进行转化</h4><p>先要了解一下位权的概念，首先了解十进制的位权，例如39十位上3的位权是10，个位9的位权是1，那么39的表示就是3x10+9x1 = 39；同样的二进制也是，例如101从右侧向左 1x2^0 + 0x2^1 + 1x2^1。这样二进制转化为十进制，只需要各个数位上的数字与位权相乘然后相加即可。<br>十进制转化为二进制，根据逢<code>二进一</code>的原则，利用短除法求余数的方式可以转化。 </p>
+<h4 id="移位运算和乘除运算的关系"><a href="#移位运算和乘除运算的关系" class="headerlink" title="移位运算和乘除运算的关系"></a>移位运算和乘除运算的关系</h4><p>移位运算指的是将二进制数的各个数位进行左移或右移的操作。其中左移运算符<code>&lt;&lt;</code>,右移的运算符<code>&gt;&gt;</code>,移位运算代替乘除法，十进制左移会变成原来10倍、100倍、1000倍…同样在不考虑符号位的情况下二进制左移后会变成原来的2倍、4倍、8倍，相反右侧移动会变成1/2、1/4、1/8…</p>
+<h4 id="便于计算机处理的补数-补码"><a href="#便于计算机处理的补数-补码" class="headerlink" title="便于计算机处理的补数(补码)"></a>便于计算机处理的补数(补码)</h4><p>二进制表示负数时会把最高位作为符号位来使用，因此最高位也被称为符号位，符号位为0表示正数，符号位为1表示负数；计算机中进行减法操作其实也是按照加法操作进行的；那么如何使用8位二进制来表示-1呢：  </p>
+<pre><code>如何用二进制表示负数
+-1
+第一步： 取1的8位二进制表示 ： 00000001
+第二步：按位取反：   11111110
+第三步：执行+1操作： 11111111
+得到的11111111就是-1的8位二进制
+</code></pre><h4 id="逻辑右移和算术右移的区别"><a href="#逻辑右移和算术右移的区别" class="headerlink" title="逻辑右移和算术右移的区别"></a>逻辑右移和算术右移的区别</h4><p>关于逻辑右移：右移后左侧空位用0填充，而算术右移动：空出来的高位用符号位上的数字填充，下面看一下-4右移2位得到-1；</p>
+<pre><code>-4 ：11111100 
+ 先右移2位得到111111，高位使用符号位数字填充11，就得到了
+-1 ：11111111
+</code></pre><p>关于符号扩充：保持值不变的情况下，将8位二进制准话为16位或是32位，不管正数还是负数都使用符号位上的数字去扩充高位即可。</p>
+<h4 id="掌握逻辑运算的窍门"><a href="#掌握逻辑运算的窍门" class="headerlink" title="掌握逻辑运算的窍门"></a>掌握逻辑运算的窍门</h4><p>逻辑运算包含如下几种：  </p>
+<ul>
+<li>逻辑非 NOT ： 0变成1，1变成0</li>
+<li>逻辑与  AND：两个都为1才是1，否则为0</li>
+<li>逻辑或  OR ： 至少有一方为1，结果为1，其他为0 </li>
+<li>逻辑异或 XOR： 排斥相同数值的运算，相同为0，不同为1  </li>
+</ul>
+<h4 id="对为文章开头问题的解答"><a href="#对为文章开头问题的解答" class="headerlink" title="对为文章开头问题的解答"></a>对为文章开头问题的解答</h4><ul>
+<li>32位是几个字节 ：8个</li>
+<li>二进制01011100转化为十进制是多少 ： 92</li>
+<li>二进制数00001111左移两位，会变成原来的几倍 ： 4倍</li>
+<li>补码形式表示的8位二进制数11111111，用十进制表示的话是多少 ： -1</li>
+<li>补码形式表示的8位二进制数10101010，用16位的二进制表示的话是多少 ： 1111111110101010</li>
+<li>反转部分图形模式，使用的是什么逻辑  ：XOR（异或）  </li>
+</ul>
 <blockquote>
-<p>简单的介绍XCTests框架的使用，如何将测试框架应用到实际项目还需要更多的探索！</p>
+<p>资料来源  </p>
 </blockquote>
+<p> <strong>程序是怎么跑起来的–《数据是用二进制表示的》</strong></p>
 
       
     </div>
@@ -487,7 +424,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/iOS-测试/" rel="tag"># iOS 测试</a>
+            <a href="/tags/计算机基础/" rel="tag"># 计算机基础</a>
           
         </div>
       
@@ -500,8 +437,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/15/OC基础之Runloop/" rel="next" title="OC基础之Runloop">
-                <i class="fa fa-chevron-left"></i> OC基础之Runloop
+              <a href="/2018/10/28/计算机-cpu简述/" rel="next" title="程序如何运行-cpu简述">
+                <i class="fa fa-chevron-left"></i> 程序如何运行-cpu简述
               </a>
             
           </div>
@@ -509,10 +446,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/09/08/网络之HTTP和HTTPS/" rel="prev" title="网络之HTTP和HTTPS">
-                网络之HTTP和HTTPS <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -655,7 +588,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#UnitTest的使用"><span class="nav-number">1.</span> <span class="nav-text">UnitTest的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#XXTests-m详解"><span class="nav-number">1.1.</span> <span class="nav-text">XXTests.m详解</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#void-setUp"><span class="nav-number">1.1.1.</span> <span class="nav-text">- (void)setUp</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#void-tearDown"><span class="nav-number">1.1.2.</span> <span class="nav-text">- (void)tearDown</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#void-testExample"><span class="nav-number">1.1.3.</span> <span class="nav-text">- (void)testExample</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#自定义测试方法并执行"><span class="nav-number">1.2.</span> <span class="nav-text">自定义测试方法并执行</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#断言的使用"><span class="nav-number">1.3.</span> <span class="nav-text">断言的使用</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UITest的使用"><span class="nav-number">2.</span> <span class="nav-text">UITest的使用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#二进制表示计算机信息的原因"><span class="nav-number">1.</span> <span class="nav-text">二进制表示计算机信息的原因</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二进制如何同十进制之间进行转化"><span class="nav-number">2.</span> <span class="nav-text">二进制如何同十进制之间进行转化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#移位运算和乘除运算的关系"><span class="nav-number">3.</span> <span class="nav-text">移位运算和乘除运算的关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#便于计算机处理的补数-补码"><span class="nav-number">4.</span> <span class="nav-text">便于计算机处理的补数(补码)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#逻辑右移和算术右移的区别"><span class="nav-number">5.</span> <span class="nav-text">逻辑右移和算术右移的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#掌握逻辑运算的窍门"><span class="nav-number">6.</span> <span class="nav-text">掌握逻辑运算的窍门</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对为文章开头问题的解答"><span class="nav-number">7.</span> <span class="nav-text">对为文章开头问题的解答</span></a></li></ol></div>
             
 
           </div>

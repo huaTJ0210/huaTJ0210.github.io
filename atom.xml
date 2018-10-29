@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-10-29T01:21:37.888Z</updated>
+  <updated>2018-10-29T05:48:05.427Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,11 +17,42 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>计算机-cpu简述</title>
+    <title>程序如何运行-二进制</title>
+    <link href="http://yoursite.com/2018/10/29/%E8%AE%A1%E7%AE%97%E6%9C%BA-%E4%BA%8C%E8%BF%9B%E5%88%B6/"/>
+    <id>http://yoursite.com/2018/10/29/计算机-二进制/</id>
+    <published>2018-10-29T03:30:12.000Z</published>
+    <updated>2018-10-29T05:48:05.427Z</updated>
+    
+    <content type="html"><![CDATA[<p>在计算机内部数据和信息是使用二进制来存储的，那么二进制是如何表示信息以及它的运算机制是怎么样的呢？如下有几个问题可以思考一下？  </p><ul><li>32位是几个字节</li><li>二进制01011100转化为十进制是多少</li><li>二进制数00001111左移两位，会变成原来的几倍</li><li>补码形式表示的8位二进制数11111111，用十进制表示的话是多少</li><li>补码形式表示的8位二进制数10101010，用16位的二进制表示的话是多少</li><li>反转部分图形模式，使用的是什么逻辑  </li></ul><p>以上问题如果不能清晰的回答那么就需要了解一下二进制的基础知识了。<br><a id="more"></a></p><h4 id="二进制表示计算机信息的原因"><a href="#二进制表示计算机信息的原因" class="headerlink" title="二进制表示计算机信息的原因"></a>二进制表示计算机信息的原因</h4><p>二进制<strong>计算技术中广泛采用的一种数制。二进制数据是用0和1两个数码来表示的数。它的基数为2，进位规则是“逢二进一”，借位规则是“借一当二”</strong><br>由于计算机内部是由<em>集成电路（integrated circuit)</em>这种电子部件构成，IC只有两种状态，0V和5V，即有电流和无电流两种模式； 计算机处理信息最小的单元是位，二进制的位数一般是8位、16位、32位、也就是8的倍数，8位二进制数被称为一个字节， 内存和磁盘都是以字节单位来存储和读写数据的，因此字节是信息的基本单位。  </p><h4 id="二进制如何同十进制之间进行转化"><a href="#二进制如何同十进制之间进行转化" class="headerlink" title="二进制如何同十进制之间进行转化"></a>二进制如何同十进制之间进行转化</h4><p>先要了解一下位权的概念，首先了解十进制的位权，例如39十位上3的位权是10，个位9的位权是1，那么39的表示就是3x10+9x1 = 39；同样的二进制也是，例如101从右侧向左 1x2^0 + 0x2^1 + 1x2^1。这样二进制转化为十进制，只需要各个数位上的数字与位权相乘然后相加即可。<br>十进制转化为二进制，根据逢<code>二进一</code>的原则，利用短除法求余数的方式可以转化。 </p><h4 id="移位运算和乘除运算的关系"><a href="#移位运算和乘除运算的关系" class="headerlink" title="移位运算和乘除运算的关系"></a>移位运算和乘除运算的关系</h4><p>移位运算指的是将二进制数的各个数位进行左移或右移的操作。其中左移运算符<code>&lt;&lt;</code>,右移的运算符<code>&gt;&gt;</code>,移位运算代替乘除法，十进制左移会变成原来10倍、100倍、1000倍…同样在不考虑符号位的情况下二进制左移后会变成原来的2倍、4倍、8倍，相反右侧移动会变成1/2、1/4、1/8…</p><h4 id="便于计算机处理的补数-补码"><a href="#便于计算机处理的补数-补码" class="headerlink" title="便于计算机处理的补数(补码)"></a>便于计算机处理的补数(补码)</h4><p>二进制表示负数时会把最高位作为符号位来使用，因此最高位也被称为符号位，符号位为0表示正数，符号位为1表示负数；计算机中进行减法操作其实也是按照加法操作进行的；那么如何使用8位二进制来表示-1呢：  </p><pre><code>如何用二进制表示负数-1第一步： 取1的8位二进制表示 ： 00000001第二步：按位取反：   11111110第三步：执行+1操作： 11111111得到的11111111就是-1的8位二进制</code></pre><h4 id="逻辑右移和算术右移的区别"><a href="#逻辑右移和算术右移的区别" class="headerlink" title="逻辑右移和算术右移的区别"></a>逻辑右移和算术右移的区别</h4><p>关于逻辑右移：右移后左侧空位用0填充，而算术右移动：空出来的高位用符号位上的数字填充，下面看一下-4右移2位得到-1；</p><pre><code>-4 ：11111100  先右移2位得到111111，高位使用符号位数字填充11，就得到了-1 ：11111111</code></pre><p>关于符号扩充：保持值不变的情况下，将8位二进制准话为16位或是32位，不管正数还是负数都使用符号位上的数字去扩充高位即可。</p><h4 id="掌握逻辑运算的窍门"><a href="#掌握逻辑运算的窍门" class="headerlink" title="掌握逻辑运算的窍门"></a>掌握逻辑运算的窍门</h4><p>逻辑运算包含如下几种：  </p><ul><li>逻辑非 NOT ： 0变成1，1变成0</li><li>逻辑与  AND：两个都为1才是1，否则为0</li><li>逻辑或  OR ： 至少有一方为1，结果为1，其他为0 </li><li>逻辑异或 XOR： 排斥相同数值的运算，相同为0，不同为1  </li></ul><h4 id="对为文章开头问题的解答"><a href="#对为文章开头问题的解答" class="headerlink" title="对为文章开头问题的解答"></a>对为文章开头问题的解答</h4><ul><li>32位是几个字节 ：8个</li><li>二进制01011100转化为十进制是多少 ： 92</li><li>二进制数00001111左移两位，会变成原来的几倍 ： 4倍</li><li>补码形式表示的8位二进制数11111111，用十进制表示的话是多少 ： -1</li><li>补码形式表示的8位二进制数10101010，用16位的二进制表示的话是多少 ： 1111111110101010</li><li>反转部分图形模式，使用的是什么逻辑  ：XOR（异或）  </li></ul><blockquote><p>资料来源  </p></blockquote><p> <strong>程序是怎么跑起来的–《数据是用二进制表示的》</strong></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在计算机内部数据和信息是使用二进制来存储的，那么二进制是如何表示信息以及它的运算机制是怎么样的呢？如下有几个问题可以思考一下？  &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;32位是几个字节&lt;/li&gt;
+&lt;li&gt;二进制01011100转化为十进制是多少&lt;/li&gt;
+&lt;li&gt;二进制数00001111左移两位，会变成原来的几倍&lt;/li&gt;
+&lt;li&gt;补码形式表示的8位二进制数11111111，用十进制表示的话是多少&lt;/li&gt;
+&lt;li&gt;补码形式表示的8位二进制数10101010，用16位的二进制表示的话是多少&lt;/li&gt;
+&lt;li&gt;反转部分图形模式，使用的是什么逻辑  &lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;以上问题如果不能清晰的回答那么就需要了解一下二进制的基础知识了。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="程序如何运行" scheme="http://yoursite.com/categories/%E7%A8%8B%E5%BA%8F%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C/"/>
+    
+    
+      <category term="计算机基础" scheme="http://yoursite.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>程序如何运行-cpu简述</title>
     <link href="http://yoursite.com/2018/10/28/%E8%AE%A1%E7%AE%97%E6%9C%BA-cpu%E7%AE%80%E8%BF%B0/"/>
     <id>http://yoursite.com/2018/10/28/计算机-cpu简述/</id>
     <published>2018-10-28T03:03:08.000Z</published>
-    <updated>2018-10-29T01:21:37.888Z</updated>
+    <updated>2018-10-29T05:45:05.816Z</updated>
     
     <content type="html"><![CDATA[<p>在日常使用高级编程语言进行编程时，是否考虑过以下问题：   </p><ul><li>程序是什么</li><li>程序的组成部分</li><li>什么是机器语言</li><li>运行的程序在计算机中的存储位置</li><li>内存地址是什么</li><li>负责程序解析和运行的是哪个</li></ul><a id="more"></a>  <p>如果以上的概念不能很清楚的描述出来，那么就需要了解一下对程序员来讲CPU是什么了。<br>对于CPU的解析首先需要知道程序的运行流程：使用一些高级语言<code>C</code>、<code>JAVA</code>、<code>Objective-C</code>等编写的程序 —-&gt; 编译器会将源码编译为机器语言的可执行文件 —-&gt; 程序运行后会将可执行文件加载到内存中形成副本 —-&gt; CPU解释并执行程序内容 【转化成的机器语言其实是由CPU中的寄存器来处理的】；例如 a = 1 + 2 这样的运算，转化为机器语言后是通过寄存器进行相加运算和存储的。  </p><h4 id="CPU的组成部分"><a href="#CPU的组成部分" class="headerlink" title="CPU的组成部分"></a>CPU的组成部分</h4><p>CPU是中央处理器，负责计算机的控制和运算，它主要包含以下4个部分： </p><ul><li>寄存器：暂时存储指令、数据处理对象【一个CPU会包含20~100个寄存器】</li><li>控制器：把内存上的指令、数据读入寄存器，并根据指令的执行结果来控制计算机【控制器的控制内容：控制键盘、鼠标和内存媒介的输入输出】</li><li>运算器：负责把从内存读到寄存器中的指令和数据进行运算</li><li>时钟： 负责发出CPU开始计时的时钟信号</li></ul><h4 id="程序运行机制中CPU的各部分都起到了哪些作用"><a href="#程序运行机制中CPU的各部分都起到了哪些作用" class="headerlink" title="程序运行机制中CPU的各部分都起到了哪些作用"></a>程序运行机制中CPU的各部分都起到了哪些作用</h4><p>程序启动 —&gt; 根据时钟信号 —&gt; 控制器从内存中读取指令和数据【对指令进行解释和执行】—&gt; 运算器对指令进行运算 —&gt; 控制器根据运算结果控制计算器 </p><h4 id="寄存器简介"><a href="#寄存器简介" class="headerlink" title="寄存器简介"></a>寄存器简介</h4><p>寄存器用来存储指令、数据处理对象，按照使用功能的不同大致分为8类：  </p><ul><li>累加寄存器：负责存储运算数据和运算的结果数据</li><li>基址寄存器：存储数据内存的起始地址</li><li>标志寄存器： 存储运算处理后的CPU的状态</li><li>指令寄存器 ：存储指令</li><li>栈寄存器  ： 存储栈区域的起始地址</li><li>通用寄存器 ： 存储任意数据</li><li>变址寄存器 ： 存储基地址寄存器的相对地址</li><li>程序计数器：存储下一条指令所在的内存地址</li></ul><h4 id="决定程序流程-–-程序计数器"><a href="#决定程序流程-–-程序计数器" class="headerlink" title="决定程序流程 – 程序计数器"></a>决定程序流程 – 程序计数器</h4><p>程序计数器中存储的是程序的执行指令，CPU的控制器会参照程序计数器中存储的内存地址，去查找相应的指令去执行</p><h4 id="条件分支和循环机制"><a href="#条件分支和循环机制" class="headerlink" title="条件分支和循环机制"></a>条件分支和循环机制</h4><p>CPU进行运算时，标志寄存器的数值会根据运算结果自动设定，条件分支在跳转指令前会进行比较运算  </p><h4 id="函数的调用机制"><a href="#函数的调用机制" class="headerlink" title="函数的调用机制"></a>函数的调用机制</h4><p>如何解决函数内部执行完毕后，CPU继续执行函数入口地址下一个程序计数器中存储的指令：使用机器语言的call指令和return指令可以解决：  </p><ul><li>call指令：会把调用函数后要执行的指令地址存在栈中，函数执行完毕后再函数的出口执行return指令；  </li><li>return指令：把保存在栈中指令设置到程序计数器中   </li></ul><h4 id="机器语言指令的主要类型和功能"><a href="#机器语言指令的主要类型和功能" class="headerlink" title="机器语言指令的主要类型和功能"></a>机器语言指令的主要类型和功能</h4><ul><li>数据传送指令：寄存器和内存、内存和内存、寄存器和外围设备之间的数据读写操作</li><li>运算指令 ： 累加寄存器执行算数运算、逻辑运算、比较运算和位移运算</li><li>跳转指令： 实现条件分支、循环、强制跳转等</li><li>call/return指令 ： 函数的调用/返回调用前的地址</li></ul><h4 id="对文章开头问题进行解答"><a href="#对文章开头问题进行解答" class="headerlink" title="对文章开头问题进行解答"></a>对文章开头问题进行解答</h4><ul><li>程序是什么 ：指导计算机执行操作的一组指令集</li><li>程序的组成部分 ： 指令和数据</li><li>什么是机器语言 ： CPU能够理解和执行的语言</li><li>运行的程序在计算机中的存储位置 ：内存</li><li>内存地址是什么 ： 代表数据和指令在内存中位置的整数值</li><li>负责程序解析和运行的是哪个 ： CPU  </li></ul><blockquote><p>资料来源  </p></blockquote><p> <strong>程序是怎么跑起来的–《对程序员来说CPU是什么》</strong></p>]]></content>
     
@@ -39,7 +70,7 @@
     
     </summary>
     
-      <category term="计算机" scheme="http://yoursite.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/"/>
+      <category term="程序如何运行" scheme="http://yoursite.com/categories/%E7%A8%8B%E5%BA%8F%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C/"/>
     
     
       <category term="计算机基础" scheme="http://yoursite.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/"/>
@@ -156,6 +187,34 @@
   </entry>
   
   <entry>
+    <title>iOS篇-AutoreleasePool的实现原理</title>
+    <link href="http://yoursite.com/2018/04/19/iOS%E7%AF%87-AutoreleasePool%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
+    <id>http://yoursite.com/2018/04/19/iOS篇-AutoreleasePool的实现原理/</id>
+    <published>2018-04-19T10:32:59.000Z</published>
+    <updated>2018-08-20T13:10:10.100Z</updated>
+    
+    <content type="html"><![CDATA[<p>这篇文章主要讲述以下几个问题：  </p><ul><li>AutoreleasePool的实现原理</li><li>AutoreleasePool的嵌套</li><li>AutoreleasePool在MRC和ARC下的区别【待】</li><li>Autorelease的实现原理</li></ul><a id="more"></a>    <h3 id="AutoreleasePool的实现原理"><a href="#AutoreleasePool的实现原理" class="headerlink" title="AutoreleasePool的实现原理"></a>AutoreleasePool的实现原理</h3><p>AutoreleasePool的实现是以AutoreleasePoolPage（栈结构）为结点通过双向链表的形式组合而成的；</p><p>在ARC下使用<code>@autoreleasePool{}</code>编译器会将代码改写为如下：  </p><pre><code>void* ctx = objc_autoreleasePoolPush();// 业务代码objc_autoreleasePoolPop(ctx);   </code></pre><p><code>objc_autoreleasePoolPush()</code>和<code>objc_autoreleasePoolPop()</code>实际调用了AutoreleasePoolPage的<code>push()</code>和<code>pop()</code>方法；   </p><p>首先看一下AutoreleasePoolPage的数据结构：   </p><pre><code>{  id *next;  AutoreleasePoolPage* const parent;  AutoreleasePoolPage* const child;  pthread_t const thread;}      栈顶【          】 &lt;-低地址         【 ...      】 next -&gt; 【待插入的Autorelease对象的位置          】          【nil(哨兵)】 &lt;- AutoreleasePoolPage::push()         【 id obj2  】 栈底部 -&gt;【 id obj1  】         【 AutoreleasePoolPage 自身占用的地址 】&lt;-  高地址</code></pre><h4 id="AutoreleasePoolPage执行push-操作"><a href="#AutoreleasePoolPage执行push-操作" class="headerlink" title="AutoreleasePoolPage执行push()操作"></a>AutoreleasePoolPage执行push()操作</h4><p>AutoreleasePoolPage执行<code>push()</code>操作会创建一个自动释放池，并在next指针的位置插入一个哨兵对象，用来标记新创建的AutoreleasePool的边界；</p><h3 id="Autorelease的实现原理"><a href="#Autorelease的实现原理" class="headerlink" title="Autorelease的实现原理"></a>Autorelease的实现原理</h3><p>向对象发送autorelease消息，系统首先会判断next指针是否指向了栈顶，如果没有会将对象指针存储在next指针位置，并且会把next指针向后移动；如果next指针指向了栈顶，就会增加一个栈结点；然后再进行对象指针的存储和next指针后移的操作；</p><h4 id="AutoreleasePoolPage执行pop-操作"><a href="#AutoreleasePoolPage执行pop-操作" class="headerlink" title="AutoreleasePoolPage执行pop()操作"></a>AutoreleasePoolPage执行pop()操作</h4><p>AutoreleasePoolPage执行<code>pop()</code>操作,会进行如下操作  </p><ul><li>根据哨兵对象（AutoreleasePoolPage执行<code>push()</code>操作返回的对象）找到相应位置</li><li>给上次<code>push()</code>操作之后的添加的对象依次发送release消息</li><li>回退next指针到正确的位置</li></ul><h3 id="AutoreleasePool在MRC和ARC下的区别-？"><a href="#AutoreleasePool在MRC和ARC下的区别-？" class="headerlink" title="AutoreleasePool在MRC和ARC下的区别  ？"></a>AutoreleasePool在MRC和ARC下的区别  ？</h3><h4 id="AutoreleasePool为什么会以双向链表的方式实现"><a href="#AutoreleasePool为什么会以双向链表的方式实现" class="headerlink" title="AutoreleasePool为什么会以双向链表的方式实现"></a>AutoreleasePool为什么会以双向链表的方式实现</h4><pre><code>// Pool1@autoreleasePool{  // Pool2   @autoreleasePool{   } } // Pool3@autoreleasePool{}  </code></pre><p>Pool的创建顺序：Pool 1 —&gt; Pool 2 —&gt; Pool 3，drain顺序是Pool 2 —&gt; Pool 1 —&gt;Pool 3，如果要想实现这种顺序，采取FIFO做不到，普通的栈也不行。如果用链表操作可以做到，因为涉及到链表的首（Pool 2）或尾（Pool 3）插入，应该用双向链表来管理才合适</p><h3 id="资料参考"><a href="#资料参考" class="headerlink" title="资料参考"></a>资料参考</h3><ul><li><a href="https://blog.csdn.net/lizitao/article/details/56485100" target="_blank" rel="external">Autorelease Pool的实现原理总结</a></li><li><a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmAutoreleasePools.html#//apple_ref/doc/uid/20000047-CJBFBEDI" target="_blank" rel="external">Using Autorelease Pool Blocks</a></li><li><a href="http://www.cocoachina.com/ios/20150610/12093.html" target="_blank" rel="external">Objective-C Autorelease Pool 的实现原理</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这篇文章主要讲述以下几个问题：  &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;AutoreleasePool的实现原理&lt;/li&gt;
+&lt;li&gt;AutoreleasePool的嵌套&lt;/li&gt;
+&lt;li&gt;AutoreleasePool在MRC和ARC下的区别【待】&lt;/li&gt;
+&lt;li&gt;Autorelease的实现原理&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="iOS" scheme="http://yoursite.com/categories/iOS/"/>
+    
+    
+      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
+    
+  </entry>
+  
+  <entry>
     <title>iOS篇-weak的实现原理</title>
     <link href="http://yoursite.com/2018/04/19/iOS%E7%AF%87-weak%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
     <id>http://yoursite.com/2018/04/19/iOS篇-weak的实现原理/</id>
@@ -174,34 +233,6 @@
   objc_initWeak(&amp;amp;weakObj,obj);
 }  
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;通过查看源码，函数的调用顺序如下 &lt;code&gt;objc_initWeak()&lt;/code&gt; ===&amp;gt;&lt;code&gt;storeWeak（）&lt;/code&gt;  ===&amp;gt; &lt;code&gt;weak_register_no_lock()&lt;/code&gt;&lt;br&gt;
-    
-    </summary>
-    
-      <category term="iOS" scheme="http://yoursite.com/categories/iOS/"/>
-    
-    
-      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>iOS篇-AutoreleasePool的实现原理</title>
-    <link href="http://yoursite.com/2018/04/19/iOS%E7%AF%87-AutoreleasePool%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
-    <id>http://yoursite.com/2018/04/19/iOS篇-AutoreleasePool的实现原理/</id>
-    <published>2018-04-19T10:32:59.000Z</published>
-    <updated>2018-08-20T13:10:10.100Z</updated>
-    
-    <content type="html"><![CDATA[<p>这篇文章主要讲述以下几个问题：  </p><ul><li>AutoreleasePool的实现原理</li><li>AutoreleasePool的嵌套</li><li>AutoreleasePool在MRC和ARC下的区别【待】</li><li>Autorelease的实现原理</li></ul><a id="more"></a>    <h3 id="AutoreleasePool的实现原理"><a href="#AutoreleasePool的实现原理" class="headerlink" title="AutoreleasePool的实现原理"></a>AutoreleasePool的实现原理</h3><p>AutoreleasePool的实现是以AutoreleasePoolPage（栈结构）为结点通过双向链表的形式组合而成的；</p><p>在ARC下使用<code>@autoreleasePool{}</code>编译器会将代码改写为如下：  </p><pre><code>void* ctx = objc_autoreleasePoolPush();// 业务代码objc_autoreleasePoolPop(ctx);   </code></pre><p><code>objc_autoreleasePoolPush()</code>和<code>objc_autoreleasePoolPop()</code>实际调用了AutoreleasePoolPage的<code>push()</code>和<code>pop()</code>方法；   </p><p>首先看一下AutoreleasePoolPage的数据结构：   </p><pre><code>{  id *next;  AutoreleasePoolPage* const parent;  AutoreleasePoolPage* const child;  pthread_t const thread;}      栈顶【          】 &lt;-低地址         【 ...      】 next -&gt; 【待插入的Autorelease对象的位置          】          【nil(哨兵)】 &lt;- AutoreleasePoolPage::push()         【 id obj2  】 栈底部 -&gt;【 id obj1  】         【 AutoreleasePoolPage 自身占用的地址 】&lt;-  高地址</code></pre><h4 id="AutoreleasePoolPage执行push-操作"><a href="#AutoreleasePoolPage执行push-操作" class="headerlink" title="AutoreleasePoolPage执行push()操作"></a>AutoreleasePoolPage执行push()操作</h4><p>AutoreleasePoolPage执行<code>push()</code>操作会创建一个自动释放池，并在next指针的位置插入一个哨兵对象，用来标记新创建的AutoreleasePool的边界；</p><h3 id="Autorelease的实现原理"><a href="#Autorelease的实现原理" class="headerlink" title="Autorelease的实现原理"></a>Autorelease的实现原理</h3><p>向对象发送autorelease消息，系统首先会判断next指针是否指向了栈顶，如果没有会将对象指针存储在next指针位置，并且会把next指针向后移动；如果next指针指向了栈顶，就会增加一个栈结点；然后再进行对象指针的存储和next指针后移的操作；</p><h4 id="AutoreleasePoolPage执行pop-操作"><a href="#AutoreleasePoolPage执行pop-操作" class="headerlink" title="AutoreleasePoolPage执行pop()操作"></a>AutoreleasePoolPage执行pop()操作</h4><p>AutoreleasePoolPage执行<code>pop()</code>操作,会进行如下操作  </p><ul><li>根据哨兵对象（AutoreleasePoolPage执行<code>push()</code>操作返回的对象）找到相应位置</li><li>给上次<code>push()</code>操作之后的添加的对象依次发送release消息</li><li>回退next指针到正确的位置</li></ul><h3 id="AutoreleasePool在MRC和ARC下的区别-？"><a href="#AutoreleasePool在MRC和ARC下的区别-？" class="headerlink" title="AutoreleasePool在MRC和ARC下的区别  ？"></a>AutoreleasePool在MRC和ARC下的区别  ？</h3><h4 id="AutoreleasePool为什么会以双向链表的方式实现"><a href="#AutoreleasePool为什么会以双向链表的方式实现" class="headerlink" title="AutoreleasePool为什么会以双向链表的方式实现"></a>AutoreleasePool为什么会以双向链表的方式实现</h4><pre><code>// Pool1@autoreleasePool{  // Pool2   @autoreleasePool{   } } // Pool3@autoreleasePool{}  </code></pre><p>Pool的创建顺序：Pool 1 —&gt; Pool 2 —&gt; Pool 3，drain顺序是Pool 2 —&gt; Pool 1 —&gt;Pool 3，如果要想实现这种顺序，采取FIFO做不到，普通的栈也不行。如果用链表操作可以做到，因为涉及到链表的首（Pool 2）或尾（Pool 3）插入，应该用双向链表来管理才合适</p><h3 id="资料参考"><a href="#资料参考" class="headerlink" title="资料参考"></a>资料参考</h3><ul><li><a href="https://blog.csdn.net/lizitao/article/details/56485100" target="_blank" rel="external">Autorelease Pool的实现原理总结</a></li><li><a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmAutoreleasePools.html#//apple_ref/doc/uid/20000047-CJBFBEDI" target="_blank" rel="external">Using Autorelease Pool Blocks</a></li><li><a href="http://www.cocoachina.com/ios/20150610/12093.html" target="_blank" rel="external">Objective-C Autorelease Pool 的实现原理</a></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;这篇文章主要讲述以下几个问题：  &lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;AutoreleasePool的实现原理&lt;/li&gt;
-&lt;li&gt;AutoreleasePool的嵌套&lt;/li&gt;
-&lt;li&gt;AutoreleasePool在MRC和ARC下的区别【待】&lt;/li&gt;
-&lt;li&gt;Autorelease的实现原理&lt;/li&gt;
-&lt;/ul&gt;
     
     </summary>
     
@@ -565,29 +596,6 @@ void _read_images(header_info **hList, uint32_t hCount, int totalClasses, int un
     
     
       <category term="iOS基础" scheme="http://yoursite.com/tags/iOS%E5%9F%BA%E7%A1%80/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>网络之HTTP和HTTPS</title>
-    <link href="http://yoursite.com/2016/09/08/%E7%BD%91%E7%BB%9C%E4%B9%8BHTTP%E5%92%8CHTTPS/"/>
-    <id>http://yoursite.com/2016/09/08/网络之HTTP和HTTPS/</id>
-    <published>2016-09-08T02:35:23.000Z</published>
-    <updated>2018-07-04T15:11:41.000Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><p>iOS网络编程中会涉及一些协议（HTTP/HTTPS）和计算机网络相关概念，只有了解它们的相关机制和概念才能在实际的编程中解决一些出现的问题。本文主要会讲解HTTP、HTTPS、Cookie、Session等概念。    </p><h4 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h4><p>HTTP是超文本传输协议,是用于从服务器传输超文本到本地浏览器的传送协议,它是基于TCP实现的，由于TCP是一个端到端的可靠的面向连接的协议，所以HTTP基于传输层TCP协议不用担心数据的传输的各种问题。移动端可通过HTTP向服务端请求数据(JSON/XML)或者下载上传二进制数据等，那么HTTP是如何工作的？<br><a id="more"></a></p><h5 id="HTTP的工作流程"><a href="#HTTP的工作流程" class="headerlink" title="HTTP的工作流程"></a>HTTP的工作流程</h5><p>一次HTTP操作称为一个事务，其工作过程可分为四步：</p><ul><li>首先客户端与服务器需要建立连接。只要出发一个HTTP请求，HTTP的工作开始。</li><li>建立连接（建立连接的过程涉及到TCP的三次握手操作）后，客户端发送一个请求给服务器，请求方式的格式为：统一资源标识符（URL）、协议版本号，后边是MIME信息包括请求修饰符、客户机信息和其他的内容。 </li><li>服务器接到请求后，给予相应的响应信息，其格式为一个状态行，包括信息的协议版本号、一个成功或错误的代码，后边是MIME信息包括服务器信息、实体信息和可能的内容。 </li><li>客户端接收服务器所返回的信息进行解析操作，然后客户机与服务器断开连接。  </li></ul><h5 id="HTTP请求报文和响应报文的格式"><a href="#HTTP请求报文和响应报文的格式" class="headerlink" title="HTTP请求报文和响应报文的格式"></a>HTTP请求报文和响应报文的格式</h5><ul><li>起始行：如 GET / HTTP/1.0 （请求的方法  请求的URL 请求所使用的协议）</li><li>头部信息：User-Agent  Host等成对出现的值</li><li>主体       </li></ul><p>GET 请求报文  </p><pre><code>GET /books/?sex=man&amp;name=Professional HTTP/1.1Host: www.example.comUser-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.6)Gecko/20050225 Firefox/1.0.1Connection: Keep-Alive</code></pre><p>POST 请求报文  </p><pre><code>POST / HTTP/1.1Host: www.example.comUser-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.6)Gecko/20050225 Firefox/1.0.1Content-Type: application/x-www-form-urlencodedContent-Length: 40Connection: Keep-Alive  sex=man&amp;name=Professional      </code></pre><p>响应报文</p><pre><code>HTTP/1.1 200 OKServer:Apache Tomcat/5.0.12Date:Mon,6Oct2003 13:23:42 GMTContent-Length:112&lt;html&gt;...  </code></pre><h5 id="GET-与-POST-的区别"><a href="#GET-与-POST-的区别" class="headerlink" title="GET 与 POST 的区别"></a>GET 与 POST 的区别</h5><p>GET提交的数据会受到长度限制，GET和POST提交的数据存放位置一个在URL中一个在HTTP Body中；  </p><h6 id="HTTP-请求的错误码"><a href="#HTTP-请求的错误码" class="headerlink" title="HTTP 请求的错误码"></a>HTTP 请求的错误码</h6><ul><li>2xx : 成功状态码</li><li>3xx : 重定向 </li><li>4xx : 客户端状态错误码</li><li>5xx : 服务端错误状态吗 <ul><li>500 : 服务器内部错误</li><li>502 : 代理服务器连接不到后端的服务器</li><li>504 : 后端服务器给代理服务器的响应超时     </li></ul></li></ul><h5 id="HTTP-Header"><a href="#HTTP-Header" class="headerlink" title="HTTP Header"></a>HTTP Header</h5><ul><li>Accept  就是告诉服务器端，我接受那些MIME类型</li><li>Accept-Encoding  这个看起来是接受那些压缩方式的文件</li><li>Accept-Lanague   告诉服务器能够发送哪些语言</li><li>Connection       告诉服务器支持keep-alive特性</li><li>Cookie           每次请求时都会携带上Cookie以方便服务器端识别是否是同一个客户端</li><li>Host             用来标识请求服务器上的那个虚拟主机，比如Nginx里面可以定义很多个虚拟主机,那这里就是用来标识要访问那个虚拟主机。<ul><li>User-Agent       用户代理，一般情况是浏览器，也有其他类型，如：wget curl 搜索引擎的蜘蛛等     </li></ul></li></ul><h4 id="会话跟踪"><a href="#会话跟踪" class="headerlink" title="会话跟踪"></a>会话跟踪</h4><ul><li>什么是会话: 客户端打开与服务器的连接发出请求到服务器响应客户端请求的全过程称之为会话;</li><li>什么是会话跟踪: 会话跟踪指的是对同一个用户对服务器的连续的请求和接受响应的监视。<br>-为什么需要会话跟踪: 浏览器与服务器之间的通信是通过HTTP协议进行通信的，而HTTP协议是”无状态”的协议，它不能保存客户的信息，即一次响应完成之后连接就断开了，下一次的请求需要重新连接，这样就需要判断是否是同一个用户，所以才有会话跟踪技术来实现这种要求。  </li></ul><h5 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h5><ul><li>什么是cookie:  cookie 实际上是包含用户信息的一小段文本信息   </li><li>为什么会使用cookie: HTTP的无状态性,服务端想记住某一个访问者只能通过某中标识来判断，cookie就作为服务端颁发给客户端的证书，作为继续请求的凭证   </li><li>cookie的局限性: cookie保存在本地，存储信息不能超过3K，易于被伪造造成安全问题；所以敏感信息不能存储   </li></ul><h5 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h5><ul><li>什么是Session: Session是服务端记录用户信息的一种机制；Session相当于在服务器上建立了一个客户档案，通过SessionID来确定用户的信息  </li><li>Session的有效期和过期时间: Session清理掉；一般被服务端放在内存中，但是大量访问会可能造成内存溢出的情况，所以超过设定时间的session会被清理掉！   </li></ul><h4 id="密文处理"><a href="#密文处理" class="headerlink" title="密文处理"></a>密文处理</h4><p> 由于目前的app绝大多数已经切换到HTTPS协议，也就是传输的报文都是经过加密的，这其中包含一些相关概念需要讲述。   </p><ul><li>公钥密码机制: 该机制包含公钥、私钥、加密算法；并且最重要的是只有私钥才能解析出密文的信息；  </li><li>对称与非对称加密算法: 公钥和私钥相同的机密算法叫对称加密算法(例如DES/AES等)，公钥和私钥不相同的算法叫做非对称加密算法   </li><li>签名<br>在传输的信息后面加上一段传输信息的hash后的内容，这样能够保证信息的完整和安全性； </li><li>数字证书<br>CA机构颁发的一个凭证，包含颁发机构、有效期、公钥、加密算法; </li></ul><h4 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h4><p>HTTPS被称为安全的HTTP原因在与它被SSL/TSL包裹了一层，客户端与服务端进行通讯是两者之间共同商议的加密机制对传输报文进行加密操作；  </p><h5 id="发起一个HTTPS请求，客户端和服务端进行了哪些沟通"><a href="#发起一个HTTPS请求，客户端和服务端进行了哪些沟通" class="headerlink" title="发起一个HTTPS请求，客户端和服务端进行了哪些沟通"></a>发起一个HTTPS请求，客户端和服务端进行了哪些沟通</h5><p><img src="http://www.blogjava.net/images/blogjava_net/amigoxie/40799/o_http协议学习和总结系列-3-5.jpg" alt="HTTPS请求客户端和服务端之间的交互">  </p><ul><li>client发送’我是客户端’的请求给server端，server接到请求返回自己的数字证书（CA机构颁发的）； </li><li>client验证数字证书的真伪(由客户端的TSL完成)，client生成一个随机数(使用证书的公钥加密)发给服务端；  </li><li>server接收到请求后使用私钥解密随机数，sever将随机数hash计算用私钥加密后传给客户端</li><li>client使用公钥解密和本身的随机数hash值做比较，确定是server的身份；client此时用公钥加密一套对称加密算法和密钥给server用于以后的数据传输；  </li><li>server和client就能进行正常的数据传输了   </li></ul><h4 id="TCP协议和UDP协议"><a href="#TCP协议和UDP协议" class="headerlink" title="TCP协议和UDP协议"></a>TCP协议和UDP协议</h4><p><img src="http://upload-images.jianshu.io/upload_images/117735-b7d77ab5724c9560.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="计算机网络层级">     </p><h5 id="TCP协议"><a href="#TCP协议" class="headerlink" title="TCP协议"></a>TCP协议</h5><p>TCP协议是面向连接、保证高可靠性(数据无丢失、数据无失序、数据无错误、数据无重复到达)传输层协议。  </p><h5 id="UDP协议"><a href="#UDP协议" class="headerlink" title="UDP协议"></a>UDP协议</h5><p> UDP协议也是传输层协议，它是无连接，不保证可靠的传输层协议   </p><h5 id="IP协议"><a href="#IP协议" class="headerlink" title="IP协议"></a>IP协议</h5><p>I P是T C P / I P协议族中最为核心的协议。所有的T C P、U D P、I C M P及I G M P数据都以I P数据<br>报格式传输。它的特点不可靠无连接；</p><h5 id="TCP的三次握手操作"><a href="#TCP的三次握手操作" class="headerlink" title="TCP的三次握手操作"></a>TCP的三次握手操作</h5><p>SYN（synchronous）是TCP/IP建立连接时使用的握手信号。在客户机和服务器之间建立正常的TCP网络连接时，客户机首先发出一个SYN消息<br><img src="http://upload-images.jianshu.io/upload_images/117735-31ba059b7a617177.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="TCP的三次握手操作">   </p><ul><li>客户端发送syn报文并将序列号X放在Sequence Number字段中 ；</li><li>服务端接收到请求，发送确认报文(Acknowledgement Number)X+1,将序列号Y放在Sequence Number字段中，SYN标志位仍旧为1；</li><li>客户端收到响应再次发送确认报文Y+1,将序列号Z放在Sequence Number字段中；三次握手完成   </li></ul><h5 id="TCP的四次挥手操作"><a href="#TCP的四次挥手操作" class="headerlink" title="TCP的四次挥手操作"></a>TCP的四次挥手操作</h5><p><img src="http://upload-images.jianshu.io/upload_images/117735-3f11e03900b70a75.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="TCP的四次挥手操作">   </p><h5 id="客户端基于Token的身份验证"><a href="#客户端基于Token的身份验证" class="headerlink" title="客户端基于Token的身份验证"></a>客户端基于Token的身份验证</h5><ul><li>客户端使用用户名跟密码请求登录</li><li>服务端收到请求，去验证用户名与密码</li><li>验证成功后，服务端会签发一个 Token，再把这个 Token 发送给客户端</li><li>客户端收到 Token 以后可以把它存储起来，比如放在 Cookie 里或者 Local Storage 里</li><li>客户端每次向服务端请求资源的时候需要带着服务端签发的 Token</li><li>服务端收到请求，然后去验证客户端请求里面带着的 Token，如果验证成功，就向客户端返回请求的数据 </li></ul><p>文章参照 </p><blockquote><p>   <a href="http://www.blogjava.net/zjusuyong/articles/304788.html" target="_blank" rel="external">HTTP协议详解</a><br>   <a href="http://www.cnblogs.com/zmlctt/p/3690998.html" target="_blank" rel="external">TCP三次握手和四次挥手</a><br>   <a href="http://blog.chinaunix.net/uid-26833883-id-3627644.html" target="_blank" rel="external">TCP与UDP详解</a><br>   <a href="https://hit-alibaba.github.io/interview/basic/network/HTTP.html" target="_blank" rel="external">HTTP</a><br>   <a href="http://ninghao.net/blog/2834" target="_blank" rel="external">基于 Token 的身份验证</a></p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h4 id=&quot;概念&quot;&gt;&lt;a href=&quot;#概念&quot; class=&quot;headerlink&quot; title=&quot;概念&quot;&gt;&lt;/a&gt;概念&lt;/h4&gt;&lt;p&gt;iOS网络编程中会涉及一些协议（HTTP/HTTPS）和计算机网络相关概念，只有了解它们的相关机制和概念才能在实际的编程中解决一些出现的问题。本文主要会讲解HTTP、HTTPS、Cookie、Session等概念。    &lt;/p&gt;
-&lt;h4 id=&quot;HTTP&quot;&gt;&lt;a href=&quot;#HTTP&quot; class=&quot;headerlink&quot; title=&quot;HTTP&quot;&gt;&lt;/a&gt;HTTP&lt;/h4&gt;&lt;p&gt;HTTP是超文本传输协议,是用于从服务器传输超文本到本地浏览器的传送协议,它是基于TCP实现的，由于TCP是一个端到端的可靠的面向连接的协议，所以HTTP基于传输层TCP协议不用担心数据的传输的各种问题。移动端可通过HTTP向服务端请求数据(JSON/XML)或者下载上传二进制数据等，那么HTTP是如何工作的？&lt;br&gt;
-    
-    </summary>
-    
-      <category term="计算机网络" scheme="http://yoursite.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
-    
-    
-      <category term="计算机网络" scheme="http://yoursite.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
   </entry>
   
