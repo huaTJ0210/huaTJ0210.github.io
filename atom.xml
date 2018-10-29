@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-10-29T05:48:05.427Z</updated>
+  <updated>2018-10-29T09:03:09.615Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>程序如何运行-计算机进行小数运算</title>
+    <link href="http://yoursite.com/2018/10/29/%E7%A8%8B%E5%BA%8F%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C-%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%BF%9B%E8%A1%8C%E5%B0%8F%E6%95%B0%E8%BF%90%E7%AE%97/"/>
+    <id>http://yoursite.com/2018/10/29/程序如何运行-计算机进行小数运算/</id>
+    <published>2018-10-29T08:43:12.000Z</published>
+    <updated>2018-10-29T09:03:09.615Z</updated>
+    
+    <content type="html"><![CDATA[<p>关于计算机进行小数运算可以先了解以下问题：  </p><ul><li>二进制数0.1，用十进制数表示的话是多少?</li><li>用小数点后有3位的二进制数，能表示十进制数0.625吗？</li><li>将小数分为符号、尾数、基数、指数4部分进行表现的形式称为什么？</li><li>二进制数的基数是什么？</li><li>通过把0作为数值范围的中间值，从而在不使用符号位的情况下来表示负数的表示方法称为什么？</li><li>10101100.01010011这个二进制数，用十六进制数表示的话是多少？  <a id="more"></a>  </li></ul><p>以上问题是不是会有些模糊不清的几个呢，那么就需要了解计算机是如何对小数进行保存和操作的了。首先将1011.0011这个有小数点的二进制数转化成十进制该如何操作，整数部分使用位权和对应位置的数字相乘然后再进行相加操作即可，小数部分同理，只是位权变成了2^(-1)、2^(-2)… </p><pre><code>1011.0011  :二进制      1x2^3+0x2^2+1x2^1+1x2^0+0x2^(-1)+0x2^(-2)+1x2^(-3)+1x2^(-4) = 11.1875 :十进制  </code></pre><h4 id="将0-1累加100得到的结果不是10"><a href="#将0-1累加100得到的结果不是10" class="headerlink" title="将0.1累加100得到的结果不是10"></a>将0.1累加100得到的结果不是10</h4><pre><code>void sum_hundred_float(){    float sum = 0.0;    for (int i=0; i&lt;100; i++) {        sum +=0.1;    }    printf(&quot;%f\n&quot;,sum); //结果为：10.000002}  </code></pre><p>对于以上结果到底问题出现在哪呢？  </p><h4 id="计算机出错的原因"><a href="#计算机出错的原因" class="headerlink" title="计算机出错的原因"></a>计算机出错的原因</h4><p>有一些十进制的小数无法转换成二进制数的正确表示，只能够取近似值，例如十进制数0.1就无法用二进制数来表示；小数点后四位用二进制数表示时的数值范围：0.0000~0.1111，因此这里只能表示0.5、0.25、0.125、0.0625这四个二进制小数点后面的位权组合而成（相加总和）的小数</p><h4 id="什么是浮点数"><a href="#什么是浮点数" class="headerlink" title="什么是浮点数"></a>什么是浮点数</h4><p>浮点数的表示形式：符号+尾号+基数+指数<br>双精度浮点数和单精度浮点数在表示同一个数值时使用的位数不同   </p><h4 id="正则表达式和EXCESS系统"><a href="#正则表达式和EXCESS系统" class="headerlink" title="正则表达式和EXCESS系统"></a>正则表达式和EXCESS系统</h4><p>尾数部分使用正则表达式，可以将表现形式多样的浮点数统一为一种表现形式；例如：十进制的0.75就有很多表现形式，0.75 x 10^0 、0.75 x 10^1,但遵循小数点前是0，小数点后不为0的原则 0.75 x 10^0 是标准的形式；同样二进制中将小数点前面的值固定为1的正则表达式；<br>指数部分使用EXCESS系统，使用这种方式主要是为了表示负数时不使用符号位【待理解】 </p><h4 id="如何避免计算机在处理浮点数时出错"><a href="#如何避免计算机在处理浮点数时出错" class="headerlink" title="如何避免计算机在处理浮点数时出错"></a>如何避免计算机在处理浮点数时出错</h4><ul><li>一些实际运算的误差可以忽略不计 </li><li>将浮点数转化为整数再进行运算，尤其在设计财务方面的处理时，一定要将小数转化为浮点数或者采用BCD(Binary,Coded,Decimal)的方式</li></ul><h4 id="二进制和十六进制"><a href="#二进制和十六进制" class="headerlink" title="二进制和十六进制"></a>二进制和十六进制</h4><p>二进制表示数据时，可能位数太长不利于查看，此时可以采用十六进制表示，二进制的4位正好相当于十六进制的1位， 例如： </p><pre><code>1011.0110 ==》 B.6 小数点后位数不够低位补0即可  </code></pre><h4 id="问题解答"><a href="#问题解答" class="headerlink" title="问题解答"></a>问题解答</h4><ul><li>二进制数0.1，用十进制数表示的话是多少? ：0.5</li><li>用小数点后有3位的二进制数，能表示十进制数0.625吗？ ： 可以，0.625转化为二进制为:0.101</li><li>将小数分为符号、尾数、基数、指数4部分进行表现的形式称为什么？:浮点数</li><li>二进制数的基数是什么？：2</li><li>通过把0作为数值范围的中间值，从而在不使用符号位的情况下来表示负数的表示方法称为什么？：EXCESS系统表现 </li><li>10101100.01010011这个二进制数，用十六进制数表示的话是多少？：AC.53 （每4位进行一次求值运算）</li></ul><blockquote><p>资料来源  </p></blockquote><p> <strong>程序是怎么跑起来的–《数据是用二进制表示的》</strong></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;关于计算机进行小数运算可以先了解以下问题：  &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;二进制数0.1，用十进制数表示的话是多少?&lt;/li&gt;
+&lt;li&gt;用小数点后有3位的二进制数，能表示十进制数0.625吗？&lt;/li&gt;
+&lt;li&gt;将小数分为符号、尾数、基数、指数4部分进行表现的形式称为什么？&lt;/li&gt;
+&lt;li&gt;二进制数的基数是什么？&lt;/li&gt;
+&lt;li&gt;通过把0作为数值范围的中间值，从而在不使用符号位的情况下来表示负数的表示方法称为什么？&lt;/li&gt;
+&lt;li&gt;10101100.01010011这个二进制数，用十六进制数表示的话是多少？
+    
+    </summary>
+    
+      <category term="程序如何运行" scheme="http://yoursite.com/categories/%E7%A8%8B%E5%BA%8F%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C/"/>
+    
+    
+      <category term="计算机基础" scheme="http://yoursite.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/"/>
+    
+  </entry>
   
   <entry>
     <title>程序如何运行-二进制</title>
@@ -574,28 +603,6 @@ void _read_images(header_info **hList, uint32_t hCount, int totalClasses, int un
     
     
       <category term="iOS开源代码阅读" scheme="http://yoursite.com/tags/iOS%E5%BC%80%E6%BA%90%E4%BB%A3%E7%A0%81%E9%98%85%E8%AF%BB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>OC基础之引用循环</title>
-    <link href="http://yoursite.com/2016/10/20/OC%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%BC%95%E7%94%A8%E5%BE%AA%E7%8E%AF/"/>
-    <id>http://yoursite.com/2016/10/20/OC基础之引用循环/</id>
-    <published>2016-10-20T02:20:56.000Z</published>
-    <updated>2018-06-23T03:59:18.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>在使用面向对象的编程语言进行开发的过程中大都涉及到内存管理相关的问题；JAVA、C#等语言采用GC（垃圾回收）机制来管理内存的使用；而最早从事iOS开发的工程师则经历过MRC（手动管理）内存的阶段，后期apple推出了ARC（自动引用计数）的方式来简化内存的管理；那么ARC究竟是什么呢？ARC是如何进行内存管理的呢？<br><a id="more"></a></p><h4 id="自动引用计数（ARC）"><a href="#自动引用计数（ARC）" class="headerlink" title="自动引用计数（ARC）"></a>自动引用计数（ARC）</h4><ul><li>创建一个对象就是在内存中开辟了一块空间来存储对象的属性和行为，对象都有自己的生命周期，系统如何判断对象的生命周期完毕后就对它进行回收呢？  </li><li>iOS系统采用的是引用计数，在开辟的内存区域中存在一个NSInteger类型的变量，对象一旦创建它的值就为1，（通常情况下）有强引用指向它的值就会+1，强引用置为nil，它的值就会-1（retain消息会使得引用计数+1，release消息会使得引用计数-1）；在一次事件循环结束后如果对象的引用计数为0则系统就会回收该对象；那么一次的事件循环还发生了什么呢？  </li><li>首先要介绍自动释放池(autoReleasePool)：它的实质是一个NSMutableArray，一次的事件循环都会创建一个自动释放池，事件循环中产生的对象会被依次加入到autoReleasePool中，事件循环结束后自动释放池会一次向存储的对象发送release消息，使得对象的引用计数-1，当此操作完毕后，引用计数为0的对象就会被系统回收了； </li><li>总的来说自动引用计数（ARC）就是iOS系统用来进行内存管理手段，通过监控对象的引用计数值来决定对象是否应该回收；   </li></ul><h4 id="判断一个对象是否被回收的依据"><a href="#判断一个对象是否被回收的依据" class="headerlink" title="判断一个对象是否被回收的依据"></a>判断一个对象是否被回收的依据</h4><p>对象的引用计数为0时，Objective-C中会调用<code>-(void)dealloc</code>而Swift会调用<code>deinit {}</code>;当这两个方法被正常调用时说明对象的内存管理是正确的；但是也会出现对象不被正常释放的情况，例如：两个对象互相强引用造成循环引用，使用block或是闭包造成与self的循环引用等，那么该如何解决这种强引用循环呢？  </p><h4 id="循环强引用"><a href="#循环强引用" class="headerlink" title="循环强引用"></a>循环强引用</h4><h5 id="类的实例之间的循环强引用"><a href="#类的实例之间的循环强引用" class="headerlink" title="类的实例之间的循环强引用"></a>类的实例之间的循环强引用</h5><pre><code>@interface Person()@property(strong)Car* car;@end@interface Car()@property(strong)Person* owner;@end   </code></pre><p>上述代码中创建Person和Car的实例后，为属性赋值，就会造成两者互为强引用，这样就使得引用计数不能为0，ARC就无法对两者进行内存的释放； 那么该如何打破这种互相强引用呢？Objective-C和Swift都提供了weak关键字的机制来解决这个问题；使用weak修饰属性在赋值的时候不会使引用计数+1，没有了强引用那么对象就能正常释放！除了weak在Swift中还提供了unowned（无主引用）解决强循环引用；</p><h5 id="Swift中weak和unowned"><a href="#Swift中weak和unowned" class="headerlink" title="Swift中weak和unowned"></a>Swift中weak和unowned</h5><p>当两个实例出现互相强引用：（1）实例的值为nil对逻辑上不造成影响，那么选择weak（2）实例的值的一方必须存在，那么只能使用unowned；例如人和信用卡一样，信用卡的拥有者必须要实际存在；   </p><h4 id="block和闭包中出现强循环引用"><a href="#block和闭包中出现强循环引用" class="headerlink" title="block和闭包中出现强循环引用"></a>block和闭包中出现强循环引用</h4><pre><code>#import &quot;HZBlock.h&quot;typedef void (^TestBlock)(NSString* message);@interface HZBlock()@property(nonatomic,copy)TestBlock testBlock;@property(nonatomic,copy)NSString* name;@end@implementation HZBlock-(void)testBlcok{    self.testBlock = ^(NSString* message){       // 循环引用        NSString* nameNew = self.name;        NSLog(@&quot;%@&quot;,nameNew);    };}   </code></pre><p>上述代码中在block中使用self，编译器会报警告，告知此处会出现循环引用(Capturing ‘self’ strongly in this block is likely to lead to a retain cycle)；  </p><p>在Objective-C中可以weak化self来解决此问题   </p><pre><code>// weak化self__weak __typeof(self) weakSelf = self;// 在block体中为了避免self被释放，可以再次强引用__typeof(&amp;*weakSelf) strongSelf = weakSelf;    </code></pre><p> 在Swift中定义捕获列表解决闭包内的引用循环   </p><pre><code>class AutoRefManager: NSObject { let name: Stringlet text: String?lazy var asHTML: (Void) -&gt; String = {// 捕获列表    [unowned self] in   self.text!}init(name: String, text: String? = nil) {    self.name = name    self.text = text}}</code></pre><h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>在开发中遇到类似的循环引用时要仔细思考，是否会造成内存泄露的问题，然后再选择合适的解决方案来解决出现的问题；</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在使用面向对象的编程语言进行开发的过程中大都涉及到内存管理相关的问题；JAVA、C#等语言采用GC（垃圾回收）机制来管理内存的使用；而最早从事iOS开发的工程师则经历过MRC（手动管理）内存的阶段，后期apple推出了ARC（自动引用计数）的方式来简化内存的管理；那么ARC究竟是什么呢？ARC是如何进行内存管理的呢？&lt;br&gt;
-    
-    </summary>
-    
-      <category term="iOS" scheme="http://yoursite.com/categories/iOS/"/>
-    
-    
-      <category term="iOS基础" scheme="http://yoursite.com/tags/iOS%E5%9F%BA%E7%A1%80/"/>
     
   </entry>
   
