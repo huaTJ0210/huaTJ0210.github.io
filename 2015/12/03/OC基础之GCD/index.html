@@ -91,7 +91,7 @@ GCD是一种异步执行任务的技术，对于编程层面上异步执行就�
 <meta property="og:description" content="文章资料来源《Objective-C高级编程》之GCD
 
 GCD是一种异步执行任务的技术，对于编程层面上异步执行就意味着创建一个线程（操作系统能夠進行運算调度的最小單位，是进程中一个单一顺序的控制流–from wiki）去执行Task；GCD提供了两种队列和相关API使得开发者只需要关心该选择哪种队列去执行任务即可；">
-<meta property="og:updated_time" content="2018-07-04T15:18:20.000Z">
+<meta property="og:updated_time" content="2018-10-22T06:50:01.665Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OC基础之GCD">
 <meta name="twitter:description" content="文章资料来源《Objective-C高级编程》之GCD
@@ -358,11 +358,22 @@ GCD是一种异步执行任务的技术，对于编程层面上异步执行就�
 </ul>
 <h5 id="dispatch-queue-create-创建队列"><a href="#dispatch-queue-create-创建队列" class="headerlink" title="dispatch_queue_create 创建队列"></a>dispatch_queue_create 创建队列</h5><p>serial queue</p>
 <pre><code>  /*
- 1&gt;serial Queue：系统默认创建一个线程，队列中的任务是顺序执行
+ 1&gt;serial Queue：队列中的任务是顺序执行
  2&gt;创建多个serial queue 的执行是并发的没有顺序
  3&gt;解决数据竞争问题：可以将任务放在serial queue中 保证任务按照顺序执行就能解决数据竞争
 */
 dispatch_queue_t mySerialQueue = dispatch_queue_create(&quot;com.hua.example.serialQueue&quot;, DISPATCH_QUEUE_SERIAL);
+</code></pre><p>串行队列的同步和异步执行任务  </p>
+<pre><code>func testSerialQueue() -&gt; Void {
+    print(Thread.current) // main thread
+    let serialQueue = dispatch_queue_serial_t(label: &quot;hua.com.serial&quot;)
+    serialQueue.async {
+        print(Thread.current)// 创建一个子线程执行 other thread
+    }
+    serialQueue.sync {
+        print(Thread.current) // 仍旧使用当前队列所处的线程(main thread)
+    }
+}
 </code></pre><p>concurrent queue  </p>
 <pre><code> /*
   1 concurrent queue 添加到队列中的任务会并发执行，没有顺序性
@@ -426,17 +437,21 @@ dispatch_group_notify(group, dispatch_get_main_queue(), ^{
 
 NSLog(@&quot;all finish!!!!&quot;);
 </code></pre><p>多个网络请求执行操作完成在执行下一步操作的需求如何实现？  </p>
-<pre><code>// 多个网络请求完成后再做新的任务
-   dispatch_group_enter(group);
-   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-       //网络请求操作1
-       dispatch_group_leave(group);
-   });
-   dispatch_group_enter(group);
-   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-       //网络请求操作2
-       dispatch_group_leave(group);
-   });
+<pre><code> // 多个网络请求完成后再做新的任务
+    dispatch_group_enter(group);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        //网络请求操作1
+        dispatch_group_leave(group);
+    });
+    dispatch_group_enter(group);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        //网络请求操作2
+        dispatch_group_leave(group);
+    });
+
+     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+    NSLog(@&quot;done!!&quot;); // 网络操作1和操作2都已经完成
+});
 </code></pre><h4 id="dispatch-barrier-async"><a href="#dispatch-barrier-async" class="headerlink" title="dispatch_barrier_async"></a>dispatch_barrier_async</h4><p>多线程操作产生的一个问题就是数据资源的竞争，读写操作如何能保证线程安全性；dispatch_barrier_async提供了解决方案  </p>
 <pre><code> /*
    使用concurrent dispatch queue 和 dispatch barrier async 函数可实现高效率的数据库访问和文件读取
@@ -460,13 +475,23 @@ dispatch_async(queue, ^{
 });
 dispatch_async(queue, ^{
     NSLog(@&quot;task5forReading!&quot;);
-});
-</code></pre><h4 id="dispatch-sync"><a href="#dispatch-sync" class="headerlink" title="dispatch_sync"></a>dispatch_sync</h4><pre><code>/*
-dispatch_sync 函数意味着等待；它要等待task执行完毕后再做返回
-*/
-//使用dispatch_sync 容易造成死锁
-//在主线程中执行以下源代码会造成死锁
-/*
+});  
+</code></pre><h5 id="实现多读单写操作"><a href="#实现多读单写操作" class="headerlink" title="实现多读单写操作"></a>实现多读单写操作</h5><p>利用dispatch_barrier_async和DISPATCH_QUEUE_CONCURRENT实现对象属性读写的线程安全操作 </p>
+<pre><code>-(void)setCount:(NSInteger)count{
+        dispatch_barrier_async(_concurrentQueue, ^{
+            _count = count;
+        });
+    }
+
+-(NSInteger)count{
+    __block NSInteger temp = 0 ;
+    dispatch_sync(_concurrentQueue, ^{
+        temp = _count;
+    });
+    return temp;
+}  
+</code></pre><h4 id="dispatch-sync"><a href="#dispatch-sync" class="headerlink" title="dispatch_sync"></a>dispatch_sync</h4><p>  同步操作，不创建新的线程：dispatch_sync 函数意味着等待；它要等待task执行完毕后再做返回，使用dispatch_sync 容易造成死锁，在主线程中执行以下源代码会造成死锁  </p>
+<pre><code>/*
   main_queue 是一个serialQueue ，使用dispatch_sync将task加入到mainqueue中task会等待mainqueue中的任务执行完成，而mainqueue又要等待task完成，由此造成了死锁；
  */
 dispatch_queue_t main_queue = dispatch_get_main_queue();
@@ -546,6 +571,21 @@ for(int i = 0;i&lt;10000;i++)
 
     });
 }
+</code></pre><h5 id="dispatch-Semaphore内部原理"><a href="#dispatch-Semaphore内部原理" class="headerlink" title="dispatch_Semaphore内部原理"></a>dispatch_Semaphore内部原理</h5><pre><code> (1)   dispatch_semaphore_create(&lt;#long value#&gt;)
+  struct semaphore {
+      int value;
+      List&lt;thread&gt;; // 线程队列
+  };
+
+(2)   dispatch_semaphore_wait(){
+   S.value = S.value -1 ;
+   if S.value &lt; 0 then Block(S.list) ==&gt; 阻塞是一个主动的行为
+   }
+
+(3)  dispatch_semaphore_signal(){
+       S.value = S.value + 1;
+       if S.value &lt;= 0 then wakeup(S.list); ==&gt; 唤醒是一个被动行为
+    }
 </code></pre><h4 id="dispatch-once"><a href="#dispatch-once" class="headerlink" title="dispatch_once"></a>dispatch_once</h4><p>保证应用程序中只执行一次指定处理的API  </p>
 <pre><code>+(instancetype)shareInstance
    {
@@ -556,6 +596,115 @@ for(int i = 0;i&lt;10000;i++)
        });
        return _vc;
    }
+</code></pre><h3 id="多线程中的锁"><a href="#多线程中的锁" class="headerlink" title="多线程中的锁"></a>多线程中的锁</h3><h4 id="synchronized"><a href="#synchronized" class="headerlink" title="@synchronized"></a>@synchronized</h4><p>实现多线程安全创建单例对象  </p>
+<h4 id="atomic-属性关键字"><a href="#atomic-属性关键字" class="headerlink" title="atomic 属性关键字"></a>atomic 属性关键字</h4><pre><code>self.array = [NSMutableArray array];// 线程安全
+[self.array addObject:@&quot;1&quot;];// 线程不安全  
+</code></pre><h4 id="自旋锁：OSSpinLock-循环等待询问，不释放当前资源【类似while循环】"><a href="#自旋锁：OSSpinLock-循环等待询问，不释放当前资源【类似while循环】" class="headerlink" title="自旋锁：OSSpinLock  循环等待询问，不释放当前资源【类似while循环】"></a>自旋锁：OSSpinLock  循环等待询问，不释放当前资源【类似while循环】</h4><p>用于轻量级数据访问。retainCount +1/-1  </p>
+<h4 id="NSLock"><a href="#NSLock" class="headerlink" title="NSLock"></a>NSLock</h4><pre><code>/*
+  // A方法调用会导致死锁
+  -(void)A{
+     [lock lock];
+     [self methodB];
+     [lock unlock];
+  }
+
+  -(void)B{
+    [lock lock];
+     // 操作逻辑
+    [lock unlock];
+  }
+  */   
+</code></pre><h4 id="递归锁-NSRecursiveLock"><a href="#递归锁-NSRecursiveLock" class="headerlink" title="递归锁 NSRecursiveLock"></a>递归锁 NSRecursiveLock</h4><pre><code>/*
+  NSRecursiveLock可以递归调用
+ -(void)A{
+     [RecursiveLock lock];
+     [self methodB];
+     [RecursiveLock unlock];
+ }
+
+ -(void)B{
+     [RecursiveLock lock];
+     // 操作逻辑
+     [RecursiveLock unlock];
+ }
+ */
+</code></pre><h4 id="dispatch-semaphore-t"><a href="#dispatch-semaphore-t" class="headerlink" title="dispatch_semaphore_t"></a>dispatch_semaphore_t</h4><pre><code>/*
+(1)   dispatch_semaphore_create(&lt;#long value#&gt;)
+   struct semaphore {
+       int value;
+       List&lt;thread&gt;; // 线程队列
+   };
+
+ (2)   dispatch_semaphore_wait(){
+    S.value = S.value -1 ;
+    if S.value &lt; 0 then Block(S.list) ==&gt; 阻塞是一个主动的行为
+    }
+
+(3)  dispatch_semaphore_signal(){
+        S.value = S.value + 1;
+        if S.value &lt;= 0 then wakeup(S.list); ==&gt; 唤醒是一个被动行为
+     }
+
+*/  
+</code></pre><h4 id="GCD相关面试题目"><a href="#GCD相关面试题目" class="headerlink" title="GCD相关面试题目"></a>GCD相关面试题目</h4><h5 id="同步串行"><a href="#同步串行" class="headerlink" title="同步串行"></a>同步串行</h5><pre><code>- (void)viewDidLoad {
+
+  #parma mark -- (1)
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        /*
+         执行这段代码会造成死锁
+         + 主队列中存在viewDidLoad，block；
+         + viewDidLoad执行中调用Blcok
+         + 由于队列的属性block的执行依赖于viewDidLoad
+         + 因此会造成viewDidLoad与block之间相互等待,造成死锁
+         */
+    });
+
+    #parma mark -- (2)
+
+     dispatch_queue_t serialQueue = dispatch_queue_create(&quot;serial_queue&quot;, DISPATCH_QUEUE_SERIAL);
+dispatch_sync(serialQueue, ^{
+    // 在主队列中执行没有问题
+});
+}
+</code></pre><h5 id="同步并发队列"><a href="#同步并发队列" class="headerlink" title="同步并发队列"></a>同步并发队列</h5><pre><code>- (void)viewDidLoad { 
+dispatch_queue_t concurrentQueue = dispatch_queue_create(&quot;concurrentQueue&quot;, DISPATCH_QUEUE_CONCURRENT);
+NSLog(@&quot;1&quot;);
+dispatch_sync(concurrentQueue, ^{
+    NSLog(@&quot;2&quot;);
+    dispatch_sync(concurrentQueue, ^{
+        NSLog(@&quot;3&quot;);
+    });
+    NSLog(@&quot;4&quot;);
+});
+NSLog(@&quot;5&quot;);  // 执行结果是 1-2-3-4-5
+}  
+</code></pre><h5 id="异步串行"><a href="#异步串行" class="headerlink" title="异步串行"></a>异步串行</h5><pre><code>- (void)viewDidLoad {
+    [super viewDidLoad];
+         dispatch_async(dispatch_get_main_queue(), ^{
+
+    });
+}
+</code></pre><h5 id="异步并发"><a href="#异步并发" class="headerlink" title="异步并发"></a>异步并发</h5><pre><code>- (void)viewDidLoad {
+  [super viewDidLoad];
+  dispatch_async(concurrentQueue, ^{
+      NSLog(@&quot;1&quot;);
+      [self performSelector:@selector(printLog)
+                 withObject:nil
+                 afterDelay:0];
+      NSLog(@&quot;3&quot;);
+      /*
+       执行结果是 1-3;
+       GCD创建子线程默认没有开启runloop循环
+       performSelector底层需要将Task加入到Runloop，，没有Runloop，
+       因此不会打印2
+       */
+
+  });
+  }
+
+ - (void)printLog{
+   NSLog(@&quot;2&quot;);
+}  
 </code></pre>
       
     </div>
@@ -586,8 +735,8 @@ for(int i = 0;i&lt;10000;i++)
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/12/01/OC基础之NSOperation/" rel="next" title="OC基础之NSOperation">
-                <i class="fa fa-chevron-left"></i> OC基础之NSOperation
+              <a href="/2015/10/25/iOS篇-动画/" rel="next" title="iOS篇-动画">
+                <i class="fa fa-chevron-left"></i> iOS篇-动画
               </a>
             
           </div>
@@ -596,8 +745,8 @@ for(int i = 0;i&lt;10000;i++)
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/01/08/OC基础之NSString/" rel="prev" title="OC基础之NSString">
-                OC基础之NSString <i class="fa fa-chevron-right"></i>
+              <a href="/2015/12/05/OC基础之NSOperation/" rel="prev" title="OC基础之NSOperation">
+                OC基础之NSOperation <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -679,7 +828,7 @@ for(int i = 0;i&lt;10000;i++)
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">50</span>
+                  <span class="site-state-item-count">51</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -690,7 +839,7 @@ for(int i = 0;i&lt;10000;i++)
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -701,7 +850,7 @@ for(int i = 0;i&lt;10000;i++)
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -741,7 +890,7 @@ for(int i = 0;i&lt;10000;i++)
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#GCD的队列"><span class="nav-number">1.</span> <span class="nav-text">GCD的队列</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#dispatch-queue-create-创建队列"><span class="nav-number">1.1.</span> <span class="nav-text">dispatch_queue_create 创建队列</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Main-Dispatch-Queue-and-Global-Dispatch-Queue"><span class="nav-number">2.</span> <span class="nav-text">Main Dispatch Queue and Global Dispatch Queue</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dispatch-set-target-queue"><span class="nav-number">3.</span> <span class="nav-text">dispatch_set_target_queue</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dispatch-after"><span class="nav-number">4.</span> <span class="nav-text">dispatch_after</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dispatch-Group"><span class="nav-number">5.</span> <span class="nav-text">dispatch Group</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dispatch-barrier-async"><span class="nav-number">6.</span> <span class="nav-text">dispatch_barrier_async</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dispatch-sync"><span class="nav-number">7.</span> <span class="nav-text">dispatch_sync</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dispatch-apply"><span class="nav-number">8.</span> <span class="nav-text">dispatch_apply</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#挂起队列和执行队列"><span class="nav-number">9.</span> <span class="nav-text">挂起队列和执行队列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dispatch-Semaphore"><span class="nav-number">10.</span> <span class="nav-text">dispatch_Semaphore</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dispatch-once"><span class="nav-number">11.</span> <span class="nav-text">dispatch_once</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#GCD的队列"><span class="nav-number">1.</span> <span class="nav-text">GCD的队列</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#dispatch-queue-create-创建队列"><span class="nav-number">1.1.</span> <span class="nav-text">dispatch_queue_create 创建队列</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Main-Dispatch-Queue-and-Global-Dispatch-Queue"><span class="nav-number">2.</span> <span class="nav-text">Main Dispatch Queue and Global Dispatch Queue</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dispatch-set-target-queue"><span class="nav-number">3.</span> <span class="nav-text">dispatch_set_target_queue</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dispatch-after"><span class="nav-number">4.</span> <span class="nav-text">dispatch_after</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dispatch-Group"><span class="nav-number">5.</span> <span class="nav-text">dispatch Group</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dispatch-barrier-async"><span class="nav-number">6.</span> <span class="nav-text">dispatch_barrier_async</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#实现多读单写操作"><span class="nav-number">6.1.</span> <span class="nav-text">实现多读单写操作</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dispatch-sync"><span class="nav-number">7.</span> <span class="nav-text">dispatch_sync</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dispatch-apply"><span class="nav-number">8.</span> <span class="nav-text">dispatch_apply</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#挂起队列和执行队列"><span class="nav-number">9.</span> <span class="nav-text">挂起队列和执行队列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dispatch-Semaphore"><span class="nav-number">10.</span> <span class="nav-text">dispatch_Semaphore</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#dispatch-Semaphore内部原理"><span class="nav-number">10.1.</span> <span class="nav-text">dispatch_Semaphore内部原理</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dispatch-once"><span class="nav-number">11.</span> <span class="nav-text">dispatch_once</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多线程中的锁"><span class="nav-number"></span> <span class="nav-text">多线程中的锁</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#synchronized"><span class="nav-number">1.</span> <span class="nav-text">@synchronized</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#atomic-属性关键字"><span class="nav-number">2.</span> <span class="nav-text">atomic 属性关键字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自旋锁：OSSpinLock-循环等待询问，不释放当前资源【类似while循环】"><span class="nav-number">3.</span> <span class="nav-text">自旋锁：OSSpinLock  循环等待询问，不释放当前资源【类似while循环】</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NSLock"><span class="nav-number">4.</span> <span class="nav-text">NSLock</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#递归锁-NSRecursiveLock"><span class="nav-number">5.</span> <span class="nav-text">递归锁 NSRecursiveLock</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dispatch-semaphore-t"><span class="nav-number">6.</span> <span class="nav-text">dispatch_semaphore_t</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GCD相关面试题目"><span class="nav-number">7.</span> <span class="nav-text">GCD相关面试题目</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#同步串行"><span class="nav-number">7.1.</span> <span class="nav-text">同步串行</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#同步并发队列"><span class="nav-number">7.2.</span> <span class="nav-text">同步并发队列</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#异步串行"><span class="nav-number">7.3.</span> <span class="nav-text">异步串行</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#异步并发"><span class="nav-number">7.4.</span> <span class="nav-text">异步并发</span></a></li></ol></li></ol></div>
             
 
           </div>

@@ -111,7 +111,7 @@ UI事件传递&amp;amp;响应
 UIView和CALayer">
 <meta property="og:image" content="http://zhoon.github.io/img/artical/ios_event/iosevent_4.png">
 <meta property="og:image" content="http://zhoon.github.io/img/artical/ios_event/iosevent_5.png">
-<meta property="og:updated_time" content="2018-10-10T02:53:22.236Z">
+<meta property="og:updated_time" content="2018-10-22T06:27:30.533Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS篇-视图对象">
 <meta name="twitter:description" content="在web开发中经常使用标签div来进行页面的布局，而在iOS开发中界面可视化元素基本都是UIView或是其子类元素构成，本文主要介绍如下内容： 
@@ -427,11 +427,12 @@ UIView和CALayer">
 </li>
 <li>设置UIWindowLevel<br>通过将UIWindow的UIWindowLevel设置的更高，可以将UIWindow盖在所有的应用界面之上；这个在做遮罩的时候可以选择做一个自定义的UIWindow显示在界面上；  </li>
 </ul>
-<h4 id="视图的绘制过程"><a href="#视图的绘制过程" class="headerlink" title="视图的绘制过程"></a>视图的绘制过程</h4><p> <code>UIView</code>从Draw到Render主要包含过程如下:  </p>
+<h4 id="视图的绘制过程"><a href="#视图的绘制过程" class="headerlink" title="视图的绘制过程"></a>视图的绘制过程</h4><p> <code>UIView</code>从Draw到Render主要包含过程如下:</p>
 <ul>
 <li><code>UIView</code>包含一个<code>CALayer</code>属性，<code>CALayer</code>中包含一个<code>content</code>指针指向缓存块<em>backing store</em></li>
-<li><code>UIView</code>的绘制和渲染是两个过程，当<code>UIView</code>被绘制时，CPU会执行drawRect，通过context将数据写入backing store</li>
-<li>backing store写完后，通过render server交给GPU去渲染，将backing store中的bitMap数据显示在屏幕上</li>
+<li><code>UIView</code>的绘制和渲染是两个过程；一个视图由CPU进行Frame布局，首先准备视图和图层的层级关系，然后查询视图是否有重写<code>drawRect：</code>或者<code>drawLayer:inContext:</code>方法，如果有CPU会执行drawRect，然后CPU会将处理视图和图层层级关系打包，通过context将数据写入backing store</li>
+<li>backing store写完后，通知render server将图层数据交给OpenGL ES 进行纹理生成和着色，生成前后帧缓存，再根据硬件的刷新频率，一般以设备的Vsync信号和CADisplayLink为标准，进行前后帧的切换。</li>
+<li>最后将要显示在画面上的后帧缓存交给GPU去渲染，进行采集图片和形状，运行变换，应用纹理的混合，最终将bitMap数据显示在屏幕上</li>
 <li>CPU绘制后把内容放入到缓存里，GPU负责从缓存里读取数据然后渲染到屏幕上。</li>
 </ul>
 <p>GPU的操作涉及多个View的拼接（Compositing），纹理（Texture）的渲染等最后显示到屏幕上。GPU将纹理渲染到屏幕主要涉及到一下几个问题：  </p>
@@ -468,8 +469,13 @@ UIView和CALayer">
 <h4 id="运行循环和重绘视图"><a href="#运行循环和重绘视图" class="headerlink" title="运行循环和重绘视图"></a>运行循环和重绘视图</h4><h5 id="runloop"><a href="#runloop" class="headerlink" title="runloop"></a>runloop</h5><blockquote>
 <p>iOS应用启动时就会开始一个运行循环（runloop），runloop的工作就是监听事件，例如触摸；runloop会为相应的事件找到合适的处理方法，只有当这些处理方法都执行完毕后控制权才返回给runloop；  </p>
 </blockquote>
-<h5 id="重绘"><a href="#重绘" class="headerlink" title="重绘"></a>重绘</h5><p>当处理方法执行完毕后，将控制权交还给runloop时，runloop首先会检查是否有等待重绘的视图（即当前循环收到过setNeedsDisplay消息的视图）；然后向等待绘制的视图发送drawRect:消息；最后所有视图组合成一个图像显示到屏幕中  </p>
-<h5 id="为了界面的流畅iOS做了两方面的优化"><a href="#为了界面的流畅iOS做了两方面的优化" class="headerlink" title="为了界面的流畅iOS做了两方面的优化"></a>为了界面的流畅iOS做了两方面的优化</h5><ul>
+<h5 id="重绘"><a href="#重绘" class="headerlink" title="重绘"></a>重绘</h5><ul>
+<li><p>详细：core animation 在Runloop中注册了一个Observer，负责监听BeforeWating和Exit事件。这个Observer优先级为200000，低于常见的Observer；当触摸事件到来时，Runloop会被唤醒，App中的一些代码会执行一些操作，比如创建和调整视图的层级、设置UIView的Frame，修改透明度，为视图添加动画，这些都会被CALayer所捕获，并通过CATransaction提交一个中间状态。当上述操作结束，Runloop即将进入休眠，负责监听的Observer会得到通知，注册的回调函数会被执行，把所有的中间状态合并提交GPU去显示，</p>
+</li>
+<li><p>大概：当业务处理方法执行完毕后，将控制权交还给runloop时，runloop首先会检查是否有等待重绘的视图（即当前循环收到过setNeedsDisplay消息的视图）；然后向等待绘制的视图发送drawRect:消息；最后所有视图组合成一个图像显示到屏幕中  </p>
+<h5 id="为了界面的流畅iOS做了两方面的优化"><a href="#为了界面的流畅iOS做了两方面的优化" class="headerlink" title="为了界面的流畅iOS做了两方面的优化"></a>为了界面的流畅iOS做了两方面的优化</h5></li>
+</ul>
+<ul>
 <li>不重绘显示内容没有改变的视图；</li>
 <li>在每次事件处理周期中只发送一次drawRect:消息；iOS会在运行循环的最后阶段集中处理需要绘制的视图，尤其是对属性发生多次改变的视图； </li>
 </ul>
@@ -610,7 +616,7 @@ UIView和CALayer">
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">50</span>
+                  <span class="site-state-item-count">51</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -621,7 +627,7 @@ UIView和CALayer">
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -632,7 +638,7 @@ UIView和CALayer">
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

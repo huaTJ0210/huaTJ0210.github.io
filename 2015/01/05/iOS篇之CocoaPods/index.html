@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="iOS辅助," />
+  <meta name="keywords" content="iOS工具," />
 
 
 
@@ -82,18 +82,18 @@
 
 
 <meta name="description" content="CocoaPods 上手体验：
-当开发环境已经具备CocoaPods功能，再次引入三方库，只需要在工程目录文件Podfile中添加 pod  ’Three party libraries Name’,’~&amp;gt;versionCode’ 然后 pod update ；Duang~项目就集成了你的需要；再也不要傻帽似的去github上download到本地，手动拖入工程，配置各种framework，">
+当开发环境已经具备CocoaPods功能，再次引入三方库，只需要在工程目录文件Podfile中添加 pod  ’Three party libraries Name’,’~&amp;gt;versionCode’ 然后 pod update ；项目就集成了你需要的三方库；再也不要去github上download到本地，手动拖入工程，配置各种framework，不是ARC的还">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS篇之CocoaPods">
 <meta property="og:url" content="http://yoursite.com/2015/01/05/iOS篇之CocoaPods/index.html">
 <meta property="og:site_name" content="華">
 <meta property="og:description" content="CocoaPods 上手体验：
-当开发环境已经具备CocoaPods功能，再次引入三方库，只需要在工程目录文件Podfile中添加 pod  ’Three party libraries Name’,’~&amp;gt;versionCode’ 然后 pod update ；Duang~项目就集成了你的需要；再也不要傻帽似的去github上download到本地，手动拖入工程，配置各种framework，">
-<meta property="og:updated_time" content="2018-06-23T04:10:18.000Z">
+当开发环境已经具备CocoaPods功能，再次引入三方库，只需要在工程目录文件Podfile中添加 pod  ’Three party libraries Name’,’~&amp;gt;versionCode’ 然后 pod update ；项目就集成了你需要的三方库；再也不要去github上download到本地，手动拖入工程，配置各种framework，不是ARC的还">
+<meta property="og:updated_time" content="2018-10-26T02:59:37.447Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS篇之CocoaPods">
 <meta name="twitter:description" content="CocoaPods 上手体验：
-当开发环境已经具备CocoaPods功能，再次引入三方库，只需要在工程目录文件Podfile中添加 pod  ’Three party libraries Name’,’~&amp;gt;versionCode’ 然后 pod update ；Duang~项目就集成了你的需要；再也不要傻帽似的去github上download到本地，手动拖入工程，配置各种framework，">
+当开发环境已经具备CocoaPods功能，再次引入三方库，只需要在工程目录文件Podfile中添加 pod  ’Three party libraries Name’,’~&amp;gt;versionCode’ 然后 pod update ；项目就集成了你需要的三方库；再也不要去github上download到本地，手动拖入工程，配置各种framework，不是ARC的还">
 
 
 
@@ -346,11 +346,11 @@
 
       
         <h3 id="CocoaPods-上手体验："><a href="#CocoaPods-上手体验：" class="headerlink" title="CocoaPods 上手体验："></a>CocoaPods 上手体验：</h3><blockquote>
-<p>当开发环境已经具备CocoaPods功能，再次引入三方库，只需要在工程目录文件Podfile中添加 pod  ’Three party libraries Name’,’~&gt;versionCode’ 然后 pod update ；Duang~项目就集成了你的需要；再也不要傻帽似的去github上download到本地，手动拖入工程，配置各种framework，不是ARC的还要……..<br><a id="more"></a></p>
+<p>当开发环境已经具备CocoaPods功能，再次引入三方库，只需要在工程目录文件Podfile中添加 pod  ’Three party libraries Name’,’~&gt;versionCode’ 然后 pod update ；项目就集成了你需要的三方库；再也不要去github上download到本地，手动拖入工程，配置各种framework，不是ARC的还要……..<br><a id="more"></a></p>
 <h3 id="CocoaPods简介"><a href="#CocoaPods简介" class="headerlink" title="CocoaPods简介:"></a>CocoaPods简介:</h3><p>关于CocoaPods的前世今生Mattt Thompson 的这篇<a href="http://nshipster.cn/cocoapods/" target="_blank" rel="external">CocoaPods</a>讲解的很清晰.</p>
 </blockquote>
 <h3 id="CocoaPods安装："><a href="#CocoaPods安装：" class="headerlink" title="CocoaPods安装："></a>CocoaPods安装：</h3><ul>
-<li>CocoaPods：资料上说是用Ruby实现的，要想使用它首先需要有Ruby的环境。还好OSX系统默认的已经可以运行Ruby（曾在windows上敲过几行ruby，虽然不懂还是觉得很牛哄的样子），再说gem，她是管理Ruby库和程序的标准包，所以查看一下自己MAC 上的版本 </li>
+<li>CocoaPods：资料上说是用Ruby实现的，要想使用它首先需要有Ruby的环境。还好OSX系统默认的已经可以运行Ruby，再说gem，她是管理Ruby库和程序的标准包，所以查看一下自己MAC 上的版本 </li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ gem -v   #执行此命令获取版本信息</div><div class="line">```  </div><div class="line">不过还是建议直接升级（低版本的各种坑，会导致你一直会使用各家引擎搜索关于各种bug的解决方案)</div></pre></td></tr></table></figure>
 <p>$ sudo gem update –system #完成版本更新<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">+ 直接安装CocoaPods运行终端命令（不建议执行该命令，原因往下看）</div></pre></td></tr></table></figure></p>
@@ -362,7 +362,7 @@
 <li>再次执行install命令</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo gem install cocoapods #安装CocoaPods</div></pre></td></tr></table></figure>
-<p><em>前辈们说：需要注意的是，如果安装的时候使用了sudo，升级的时候一样需要使用该关键字，不然升级完了以后又会出现路径不匹配问题。</em></p>
+<p><em>需要注意的是，如果安装的时候使用了sudo，升级的时候一样需要使用该关键字，不然升级完了以后又会出现路径不匹配问题。</em></p>
 <ul>
 <li>安装进程结束后执行</li>
 </ul>
@@ -384,7 +384,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ cd /Users/apple/Desktop/CocoaPodsTest #切换到工程目录</div></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ pod install</div></pre></td></tr></table></figure>
 <ul>
-<li>关闭xcode，打开CocoaPodsTest.xcworkspace文件 就会看到AFNetWorking已经乖乖地躺在那了（家里的奶酪什么时候也能这么乖啊）</li>
+<li>关闭xcode，打开CocoaPodsTest.xcworkspace文件 就会看到AFNetWorking</li>
 <li>CocoaPods的添加新的三方库：</li>
 </ul>
 <ul>
@@ -396,6 +396,11 @@
 <li>在当前目录执行</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ pod update #更新</div></pre></td></tr></table></figure>
+<ul>
+<li>如果不需要更新podspec,可以添加下面的参数 </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">--no-repo-update</div></pre></td></tr></table></figure>
+<h3 id="CocoaPods的卸载："><a href="#CocoaPods的卸载：" class="headerlink" title="CocoaPods的卸载："></a>CocoaPods的卸载：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo gem uninstall cocoapods</div></pre></td></tr></table></figure>
 <p><a href="http://blog.csdn.net/xdrt81y/article/details/30631221" target="_blank" rel="external">CocoaPods详解之——使用篇</a><br><a href="http://blog.csdn.net/xdrt81y/article/details/30631595" target="_blank" rel="external">CocoaPods详解之—-进阶篇</a><br><a href="http://blog.csdn.net/xdrt81y/article/details/30632329" target="_blank" rel="external">CocoaPods详解之—-制作篇</a></p>
 <h4 id="20160831更新"><a href="#20160831更新" class="headerlink" title="20160831更新"></a>20160831更新</h4><h5 id="安装错误"><a href="#安装错误" class="headerlink" title="安装错误"></a>安装错误</h5><p>安装时出现 ERROR:  While executing gem … (Errno::EPERM)<br>    Operation not permitted - /usr/bin/xcodeproj  解决方法： sudo gem install -n /usr/local/bin cocoapods  使用此命令安装</p>
 <h5 id="The-dependency-Aspects-is-not-used-in-any-concrete-target-解决"><a href="#The-dependency-Aspects-is-not-used-in-any-concrete-target-解决" class="headerlink" title="The dependency Aspects is not used in any concrete target.解决"></a>The dependency <code>Aspects</code> is not used in any concrete target.解决</h5><pre><code>target &apos;HZUIKIT&apos; do
@@ -404,7 +409,24 @@ end
 </code></pre><h4 id="20160926更新"><a href="#20160926更新" class="headerlink" title="20160926更新"></a>20160926更新</h4><blockquote>
 <p>错误信息 None of your spec sources contain a spec satisfying the dependency  </p>
 </blockquote>
-<p>解决方式： pod setup –verbose    </p>
+<p>解决方式： pod setup –verbose </p>
+<h4 id="20181020更新"><a href="#20181020更新" class="headerlink" title="20181020更新"></a>20181020更新</h4><blockquote>
+<p> /usr/local/bin/pod: bad interpreter: /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/bin: no such file or directory  </p>
+</blockquote>
+<p>(1)sudo gem update -n /usr/local/bin –system  </p>
+<blockquote>
+<p> ERROR:  While executing gem … (Gem::RemoteFetcher::FetchError)bad response Not Found 404 (<a href="https://gems.ruby-china.org/specs.4.8.gz" target="_blank" rel="external">https://gems.ruby-china.org/specs.4.8.gz</a>)  </p>
+</blockquote>
+<ul>
+<li>gem sources –remove <a href="https://rubygems.org/" target="_blank" rel="external">https://rubygems.org/</a></li>
+<li>gem sources –remove <a href="https://ruby.taobao.org/" target="_blank" rel="external">https://ruby.taobao.org/</a> </li>
+<li>gem sources -a <a href="https://gems.ruby-china.com/" target="_blank" rel="external">https://gems.ruby-china.com/</a></li>
+<li>gem sources -l</li>
+</ul>
+<blockquote>
+<p> Operation not permitted @ rb_sysopen - /System/Library/Frameworks/Ruby.framework/Versions/2.3/usr/bin/gem</p>
+</blockquote>
+<p>  sudo gem install -n /usr/local/bin cocoapods   </p>
 
       
     </div>
@@ -422,7 +444,7 @@ end
       
         <div class="post-tags">
           
-            <a href="/tags/iOS辅助/" rel="tag"># iOS辅助</a>
+            <a href="/tags/iOS工具/" rel="tag"># iOS工具</a>
           
         </div>
       
@@ -528,7 +550,7 @@ end
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">50</span>
+                  <span class="site-state-item-count">51</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -539,7 +561,7 @@ end
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -550,7 +572,7 @@ end
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -590,7 +612,7 @@ end
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#CocoaPods-上手体验："><span class="nav-number">1.</span> <span class="nav-text">CocoaPods 上手体验：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CocoaPods简介"><span class="nav-number">2.</span> <span class="nav-text">CocoaPods简介:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CocoaPods安装："><span class="nav-number">3.</span> <span class="nav-text">CocoaPods安装：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CocoaPods的使用："><span class="nav-number">4.</span> <span class="nav-text">CocoaPods的使用：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#据说CocoaPods的一切都是从一个名为Podfile的文件开始的，所以要有这样一个文件"><span class="nav-number">4.0.1.</span> <span class="nav-text">据说CocoaPods的一切都是从一个名为Podfile的文件开始的，所以要有这样一个文件</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#20160831更新"><span class="nav-number">4.1.</span> <span class="nav-text">20160831更新</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#安装错误"><span class="nav-number">4.1.1.</span> <span class="nav-text">安装错误</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#The-dependency-Aspects-is-not-used-in-any-concrete-target-解决"><span class="nav-number">4.1.2.</span> <span class="nav-text">The dependency Aspects is not used in any concrete target.解决</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#20160926更新"><span class="nav-number">4.2.</span> <span class="nav-text">20160926更新</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#CocoaPods-上手体验："><span class="nav-number">1.</span> <span class="nav-text">CocoaPods 上手体验：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CocoaPods简介"><span class="nav-number">2.</span> <span class="nav-text">CocoaPods简介:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CocoaPods安装："><span class="nav-number">3.</span> <span class="nav-text">CocoaPods安装：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CocoaPods的使用："><span class="nav-number">4.</span> <span class="nav-text">CocoaPods的使用：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#据说CocoaPods的一切都是从一个名为Podfile的文件开始的，所以要有这样一个文件"><span class="nav-number">4.0.1.</span> <span class="nav-text">据说CocoaPods的一切都是从一个名为Podfile的文件开始的，所以要有这样一个文件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CocoaPods的卸载："><span class="nav-number">5.</span> <span class="nav-text">CocoaPods的卸载：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#20160831更新"><span class="nav-number">5.1.</span> <span class="nav-text">20160831更新</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#安装错误"><span class="nav-number">5.1.1.</span> <span class="nav-text">安装错误</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#The-dependency-Aspects-is-not-used-in-any-concrete-target-解决"><span class="nav-number">5.1.2.</span> <span class="nav-text">The dependency Aspects is not used in any concrete target.解决</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#20160926更新"><span class="nav-number">5.2.</span> <span class="nav-text">20160926更新</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#20181020更新"><span class="nav-number">5.3.</span> <span class="nav-text">20181020更新</span></a></li></ol></li></ol></div>
             
 
           </div>

@@ -253,6 +253,154 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/02/03/OC基础之内存管理篇(2)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="华子">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://tva2.sinaimg.cn/crop.0.0.639.639.180/8e8e3b1bjw8evv5nqax26j20hs0hrwf5.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="華">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/02/03/OC基础之内存管理篇(2)/" itemprop="url">OC基础之内存管理篇(2)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-03T15:30:00+08:00">
+                2015-02-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h4 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h4><blockquote>
+<p>Cocoa环境的一个特点是它可以管理动态分配的内存。Cocoa中绝大部分类的基类都是NSObject，它实现了引用计数的内存管理模型。从NSObject继承的类可以响应retain和release消息，以增减其引用计数；也可以通过发送retainCount消息来获取其引用计数。一个以alloc，copy或Objective-C 2.0中增加的new所创建的对象的引用计数为1；向对象发送retain消息会将计数加1，而发送release消息则会将计数减1。若对象的引用计数减少到了0，则它会被销毁。dealloc消息类似于C++中的析构函数，在对象被销毁之前可能会被调用，但系统不保证会发送该消息。这种引用计数的模型与微软的COM中的IUnknown接口特性十分相似，它提供了AddRef和Release接口，与retain和release对应。（wiki 百科）  </p>
+</blockquote>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2015/02/03/OC基础之内存管理篇(2)/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/01/05/iOS篇之CocoaPods/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -346,7 +494,7 @@
       
         
           <h3 id="CocoaPods-上手体验："><a href="#CocoaPods-上手体验：" class="headerlink" title="CocoaPods 上手体验："></a>CocoaPods 上手体验：</h3><blockquote>
-<p>当开发环境已经具备CocoaPods功能，再次引入三方库，只需要在工程目录文件Podfile中添加 pod  ’Three party libraries Name’,’~&gt;versionCode’ 然后 pod update ；Duang~项目就集成了你的需要；再也不要傻帽似的去github上download到本地，手动拖入工程，配置各种framework，不是ARC的还要……..<br>
+<p>当开发环境已经具备CocoaPods功能，再次引入三方库，只需要在工程目录文件Podfile中添加 pod  ’Three party libraries Name’,’~&gt;versionCode’ 然后 pod update ；项目就集成了你需要的三方库；再也不要去github上download到本地，手动拖入工程，配置各种framework，不是ARC的还要……..<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2015/01/05/iOS篇之CocoaPods/#more" rel="contents">
@@ -1570,157 +1718,11 @@ typedef struct {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2014/09/01/iOS-Progarmming-01/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="华子">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://tva2.sinaimg.cn/crop.0.0.639.639.180/8e8e3b1bjw8evv5nqax26j20hs0hrwf5.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="華">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2014/09/01/iOS-Progarmming-01/" itemprop="url">iOS开发基础（一）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-09-01T09:00:00+08:00">
-                2014-09-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h5 id="开发工具-Xcode"><a href="#开发工具-Xcode" class="headerlink" title="开发工具 Xcode"></a>开发工具 Xcode</h5><p>开发iphone或是MAC应用的IDE；AppStore更新或是下载经常会出现缓慢现象，如果有开发者账号可以直接在开发者网站直接下载<strong><a href="https://developer.apple.com/download/">https://developer.apple.com/download/</a></strong>；通常速度会快许多；<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2014/09/01/iOS-Progarmming-01/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1770,7 +1772,7 @@ typedef struct {
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">50</span>
+                  <span class="site-state-item-count">51</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1781,7 +1783,7 @@ typedef struct {
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1792,7 +1794,7 @@ typedef struct {
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
