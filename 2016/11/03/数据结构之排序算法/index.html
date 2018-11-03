@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数据结构," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="華" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="在接触到排序算法中有如下7中： 
+
+冒泡排序
+直接插入排序
+直接选择排序
+希尔排序
+归并排序
+快速排序
+堆排序   
+
+通过本文来讲解排序思路和算法的代码实现.  
+冒泡排序从数列的尾部开始，对元素进行两两比较，小数放到大数的前面，经过一次遍历操作后，最小的数处于数列的最顶端；重复进行遍历既可以得到有序的队列。 
+   原队列： 7，1，6，3，2，9，4，8，5，0 
+遍历一次后： 0，7，1，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构之排序算法">
+<meta property="og:url" content="http://yoursite.com/2016/11/03/数据结构之排序算法/index.html">
+<meta property="og:site_name" content="華">
+<meta property="og:description" content="在接触到排序算法中有如下7中： 
+
+冒泡排序
+直接插入排序
+直接选择排序
+希尔排序
+归并排序
+快速排序
+堆排序   
+
+通过本文来讲解排序思路和算法的代码实现.  
+冒泡排序从数列的尾部开始，对元素进行两两比较，小数放到大数的前面，经过一次遍历操作后，最小的数处于数列的最顶端；重复进行遍历既可以得到有序的队列。 
+   原队列： 7，1，6，3，2，9，4，8，5，0 
+遍历一次后： 0，7，1，">
+<meta property="og:updated_time" content="2018-11-03T03:30:15.757Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据结构之排序算法">
+<meta name="twitter:description" content="在接触到排序算法中有如下7中： 
+
+冒泡排序
+直接插入排序
+直接选择排序
+希尔排序
+归并排序
+快速排序
+堆排序   
+
+通过本文来讲解排序思路和算法的代码实现.  
+冒泡排序从数列的尾部开始，对元素进行两两比较，小数放到大数的前面，经过一次遍历操作后，最小的数处于数列的最顶端；重复进行遍历既可以得到有序的队列。 
+   原队列： 7，1，6，3，2，9，4，8，5，0 
+遍历一次后： 0，7，1，">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/11/03/数据结构之排序算法/"/>
+
+
+
+
+
+  <title>数据结构之排序算法 | 華</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">華</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人无远虑必有近忧</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/03/数据结构之排序算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="华子">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://tva2.sinaimg.cn/crop.0.0.639.639.180/8e8e3b1bjw8evv5nqax26j20hs0hrwf5.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="華">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数据结构之排序算法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-03T11:24:56+08:00">
+                2016-11-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据结构/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在接触到排序算法中有如下7中： </p>
+<ul>
+<li>冒泡排序</li>
+<li>直接插入排序</li>
+<li>直接选择排序</li>
+<li>希尔排序</li>
+<li>归并排序</li>
+<li>快速排序</li>
+<li>堆排序   </li>
+</ul>
+<p>通过本文来讲解排序思路和算法的代码实现.  </p>
+<h4 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h4><p>从数列的尾部开始，对元素进行两两比较，小数放到大数的前面，经过一次遍历操作后，最小的数处于数列的最顶端；重复进行遍历既可以得到有序的队列。 </p>
+<pre><code>   原队列： 7，1，6，3，2，9，4，8，5，0 
+遍历一次后： 0，7，1，6，3，2，9，4，8，5
+遍历二次后： 0，1，7，2，6，3，4，9，5，8
+...
+最终有序队列：0，1，2，3，4，5，6，7，8，9
+</code></pre><p>使用代码实现的版本如下：  </p>
+<pre><code> void bubbleSort(int array[],int n){
+    int i , j , temp ;
+    for (i = 0; i &lt; n; i++) {
+        for(j=n-1;j-i&gt;0;j--){
+            if (array[j]&lt;array[j-1]) {
+                temp = array[j];
+                array[j] = array[j-1];
+                array[j-1] = temp;
+            }
+        }
+    }
+}
+</code></pre><p>对于以上冒泡排序的实现，如果数列为基本有序状态，那么遍历需要的次数就可以在数列有序后停止，以下是优化后的代码，使用flag来标识当前遍历的队列是否已是排序完成的队列；</p>
+<pre><code>void bubbleSortOptimize(int array[],int n){
+    int i , j , temp ;
+    int  flag = 1; // 设置flag优化，避免已排好序列再次多余的遍历
+    for (i = 0; i &lt; n&amp;&amp;(flag==1); i++) {
+        // 每次从数组的尾部开始遍历，到顶部未排序的元素位置为止
+        flag = 0;
+        for(j=n-1;j-i&gt;0;j--){
+            if (array[j]&lt;array[j-1]) {
+                temp = array[j];
+                array[j] = array[j-1];
+                array[j-1] = temp;
+                flag = 1;
+            }
+        }
+    }
+}
+</code></pre><p>冒泡排序最好的情况是本身有序，只需要n-1次遍历即可，最差的情况是逆序排列，需要 n-1+n-2+n-3..+1 =n(n-1)/2;其时间复杂度为O(n^2);</p>
+<h4 id="直接插入排序"><a href="#直接插入排序" class="headerlink" title="直接插入排序"></a>直接插入排序</h4><p>以数列的第一个元素为有序数列，后面的元素依次和有序数列从后往前做比较，小于前面的元素就做交换，这样经过遍历之后就能得到有序数列了。  </p>
+<pre><code>     原队列： 7，1，6，3，2，9，4，8，5，0 
+一次插入后： 1，7，6，3，2，9，4，8，5，0 ==&gt; 只需要在有序数列[7]中比较一次
+  二次插入后： 1，6，7，3，2，9，4，8，5，0 ==&gt; 需要再有序数列[1,7]中比较两次
+...
+最终有序队列：0，1，2，3，4，5，6，7，8，9  
+</code></pre><p>代码实现方式：  </p>
+<pre><code>void insertSort(int array[],int n){
+    int i,j,temp;
+    for (i=1; i&lt;n; i++) {
+        for (j = i; j&gt;0; j--) {
+            if (array[j]&lt;array[j-1]) {
+                temp = array[j];
+                array[j] = array[j-1];
+                array[j-1]= temp;
+            }
+        }
+    }
+}
+</code></pre><p>另外一种实现方式是在有序数组中找到制定的位置，最后将当前元素直接赋值给当前位置；  </p>
+<pre><code>void insertSort(int array[],int n){
+    int i ,j,temp ;
+    for (i=1; i&lt;n; i++) {
+        temp = array[i];
+        for (j=i; j&gt;0&amp;&amp;array[j-1]&gt;temp; j--) {
+            array[j] = array[j-1];
+        }
+        array[j] = temp;
+    }
+}
+</code></pre><p>插入排序最好的情况是已经有序的数列，需要比较n-1次，最差的情况下也是O(n^2);数列随机排序时要优于冒泡的选择排序；</p>
+<h4 id="直接选择排序"><a href="#直接选择排序" class="headerlink" title="直接选择排序"></a>直接选择排序</h4><p>从数列的头开始遍历数列，找到最小值的位置，然后与数列头部进行交换，重复操作找到最小值与数列的第二个位置交换，如此重复即可得到有序数列；  </p>
+<pre><code>   原队列： 7，1，6，3，2，9，4，8，5，0 
+遍历一次后： 0，1，6，3，2，9，4，8，5，7 ==&gt; 第一次找元素0与元素7进行交换
+遍历二次后： 0，1，6，3，2，9，4，8，5，7==&gt;第二次遍历1为最小值不需要交换
+...
+最终有序队列：0，1，2，3，4，5，6，7，8，9  
+</code></pre><p> 代码实现如下：  </p>
+<pre><code>   void selectSort(int array[],int n){
+    int i,j,temp,minIndex;
+    for (i=0; i&lt;n; i++) {
+        minIndex = i;
+        for (j=i+1; j&lt;n; j++) {
+            if (array[j]&lt;array[minIndex]) {
+                minIndex = j;
+            }
+        }
+        // 交换最小元素
+        if (i!= minIndex) {
+            temp = array[i];
+            array[i] = array[minIndex];
+            array[minIndex] = temp;
+        }
+    }
+}
+</code></pre><p>直接选择排序的时间复杂度也是O(n^2);</p>
+<h4 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h4><p>将队列按照相同的增量（例如：10个元素可以选择增量为5，分为5组，每组两个元素）进行挑选元素分成若干组，然后对每一组进行插入排序；得到新队列后再对增量缩小，再次分组（此时分为2组，每组5各元素），继续分组直到增量为0，就得到了有序数列。  </p>
+<pre><code>/*
+ 数列：7,1,6,3,2,9,4,8,5,0
+ 1: 分 5 组
+ 分组： {7，9}{1，4}{6，8}{3，5}{2，0}
+ 检查：每组执行插入操作
+ 排序后： 7,1,6,3,0,9,4,8,5,2
+ 2:分 2 组
+ {7,6,0,4,5}{1,3,9,8,2}
+ 检查：每组执行插入操作
+ 排序后： 0，4，5，6，7，1，2，3，8，9
+ 3：分 1 组
+ { 0，4，5，6，7，1，2，3，8，9}
+ 检查：执行插入操作
+ 排序后： 0，1，2，3，4，5，6，7，8，9
+ */  
+</code></pre><p>实现代码为：  </p>
+<pre><code>   void shellsort1(int a[], int n){
+    int i, j, gap;
+    for (gap = n / 2; gap &gt; 0; gap /= 2){// 进行分组
+        for (i = 0; i &lt; gap; i++){ // 对每一组执行插入操作
+            for (j = i + gap; j &lt; n; j += gap)
+                if (a[j] &lt; a[j - gap]){
+                    int temp = a[j];  
+                    int k = j - gap;
+                    while (k &gt;= 0 &amp;&amp; a[k] &gt; temp)
+                    {
+                        a[k + gap] = a[k];
+                        k -= gap;
+                    }
+                    a[k + gap] = temp;
+                }
+        }
+    }
+}
+</code></pre><h4 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h4><p>对于归并排序首先说一下算法中比较经典的分治策略:分治法中的分是将问题分成一些小的问题递归进行求解，对于治则是将各个阶段得到的各答案合并在一起；<br>归并排序就是将无序的数列先进行递归的拆分，然后在进行有序数组的合并操作具体情况如下： </p>
+<pre><code>7,1,6,3,2,4,8,5 【偶数个数的数组更容易理解分和和的步骤】
+分：
+第一次拆分： {7,1,6,3} {2,4,8,5,}
+第二次拆分： {7,1}{6,3} {2,4}{8,5}
+第三次拆分： {7}{1}{6}{3} {2}{4}{8}{5}
+
+和： 相邻的两个有序数组合并
+（1）{1，7}{3，6}  {2，4}{5，8}
+（2）{1，3，6，7} {2，4，5，8}
+（3）{1，2，3，4，5，6，7，8}
+</code></pre><p>代码实现如下：  </p>
+<pre><code>      void merge(int array[],int left,int mid,int right,int temp[]);
+
+// 归并排序实现
+void mergeSort(int array[],int left,int right,int temp[]){
+    if (left &lt; right) {
+        int mid = (left + right)/2;
+        mergeSort(array, left, mid, temp);//左侧归并排序，使得左子树有序
+        mergeSort(array, mid+1, right, temp);//右侧归并排序，使得y右子树有序
+        merge(array, left, mid, right, temp);// 将两个有序数组合并
+    }
+}
+
+
+// 将两个有序数组借助临时数组进行合并为一个有序数组
+void merge(int array[],int left,int mid,int right,int temp[]){
+    int i = left; //左指针
+    int j = mid + 1;// 右指针
+    int x = 0; // 临时数组指针
+    while (i&lt;=mid &amp;&amp; j&lt;=right) {
+        if (array[i]&lt;=array[j]) {
+            temp[x++] = array[i++];
+        }else{
+            temp[x++] = array[j++];
+        }
+    }
+    while (i &lt;= mid) {
+        temp[x++] = array[i++];
+    }
+    while (j &lt;= right) {
+        temp[x++] = array[j++];
+    }
+    x = 0 ;
+    while (left &lt;= right) {
+        array[left++] = temp[x++];
+    }
+}
+</code></pre><p>希尔排序最坏时间复杂度依然为O(n2)，一些经过优化的增量序列如Hibbard经过复杂证明可使得最坏时间复杂度为O(n3/2)；</p>
+<h4 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h4><p>快速排序是从数列中选择一个基准数，然后从数列尾部遍历找到小于基准数的值就将元素插到基准数的位置，此时数列中就出现一个空位，此时从数列的第二个位置遍历，找到大于基准数的元素则放在刚出现的空位上，重复以上操作，当头部和尾部下标相等时结束，此时得到的数列，基准数左侧都比基准数小，右侧都比基准数大；然后通过递归将左右两侧的元素再次排序，最终得到有序的数列；</p>
+<p>代码实现如下： </p>
+<pre><code>void quickSort(int array[],int left,int right){
+if (left&lt;right) {
+    int i = left;
+    int j = right;
+    int x = array[i];
+
+    while (i&lt;j) {
+        //  从右像左查找小于x的元素填充array[i];
+        while (i&lt;j &amp;&amp; array[j]&gt;=x) {
+            j--;
+        }
+        if(i&lt;j){
+            array[i] = array[j];
+            i++;
+        }
+
+        // 从左向右找大于或等于x的数来填充array[j];
+
+        while (i&lt;j&amp;&amp;array[i]&lt;x) {
+            i++;
+        }
+        if (i&lt;j) {
+            array[j] = array[i];
+            j--;
+        }
+    }
+    // 退出时 i=j
+    array[i] = x;
+    quickSort(array, left, i-1);
+    quickSort(array, i+1, right);
+}
+ } 
+</code></pre><p>快速排序的时间复杂度达到了O(nlogn)；</p>
+<h4 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h4><p>   堆排序是利用堆这种数据结构而设计的一种排序算法，堆排序是一种选择排序，平均时间复杂度为O(nlogn)<br>   堆是一种完全二叉树，它满足父结点元素都大于等于子结点(大顶堆)或者父结点元素都小于等于子结点（小顶堆）<br>   堆排序的思想是将无序数列先调整为大顶堆，即数列中最大的值处在树的根结点上，将根结点与数列最后一个元素互换；<br>   然后再对n-1个元素进行调整为大顶堆，最大值与当前数列最后一个元素互换，依次执行此操作即可得到有序数列； </p>
+<p>代码实现如下：  </p>
+<pre><code>void adjustHeap(int i,int array[],int length);
+void swap(int array[],int a,int b);
+
+void heapSort(int array[],int length){
+    // 构建大顶堆 
+    // length/2-1:为数列中第一个非叶子结点的下标
+    for (int i = length/2-1; i&gt;=0; i--){
+        adjustHeap(i, array, length);
+    }
+    // 调整堆结构+交换堆顶元素与末尾元素进行交换
+    for (int j = length -1; j&gt;0; j--) {
+        swap(array, 0, j);
+        adjustHeap(0, array, j);
+    }
+}
+
+
+/**
+ *
+ * 调整最大堆：在非叶子结点和左右子结点中选出最大值，将最大值与非叶子结点互换；
+ */
+void adjustHeap(int i,int array[],int length){
+    int temp = array[i];
+    for (int j = i*2 + 1; j &lt; length; j = j*2+1) {
+        if (j+1 &lt; length &amp;&amp; array[j] &lt; array[j+1] ) {
+            j++; // 树的左结点小于右结点
+        }
+        if (array[j] &gt; temp) {
+            array[i] = array[j];
+            i = j;
+        }else{
+            break;
+        }
+    }
+    array[i] = temp;
+}
+
+// 交换数组中的两个元素
+void swap(int array[],int a,int b){
+    int temp = array[a];
+    array[a] = array[b];
+    array[b] = temp;
+}
+</code></pre><blockquote>
+<p>资料来源</p>
+</blockquote>
+<p><a href="https://blog.csdn.net/morewindows/article/details/6684558" target="_blank" rel="external">快速排序</a><br><a href="https://www.cnblogs.com/chengxiao/p/6262208.html" target="_blank" rel="external">图解排序</a></p>
+<p><em>update by 2018/10/20</em></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/26/源码阅读篇--SDWebImage/" rel="next" title="源码阅读篇--SDWebImage">
+                <i class="fa fa-chevron-left"></i> 源码阅读篇--SDWebImage
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/12/JAVA多线程初识-一/" rel="prev" title="JAVA多线程初识(一)">
+                JAVA多线程初识(一) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://tva2.sinaimg.cn/crop.0.0.639.639.180/8e8e3b1bjw8evv5nqax26j20hs0hrwf5.jpg"
+                alt="华子" />
+            
+              <p class="site-author-name" itemprop="name">华子</p>
+              <p class="site-description motion-element" itemprop="description">人无远虑必有近忧</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">54</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#冒泡排序"><span class="nav-number">1.</span> <span class="nav-text">冒泡排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#直接插入排序"><span class="nav-number">2.</span> <span class="nav-text">直接插入排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#直接选择排序"><span class="nav-number">3.</span> <span class="nav-text">直接选择排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#希尔排序"><span class="nav-number">4.</span> <span class="nav-text">希尔排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#归并排序"><span class="nav-number">5.</span> <span class="nav-text">归并排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#快速排序"><span class="nav-number">6.</span> <span class="nav-text">快速排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#堆排序"><span class="nav-number">7.</span> <span class="nav-text">堆排序</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">华子</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
