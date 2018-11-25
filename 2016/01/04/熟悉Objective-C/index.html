@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Objective-C," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="華" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Objective-C是在C语言的基础上添加了面向对象的功能，它采用的是消息结构而非其他面向对象语言的函数调用；消息结构无论是否为多态都在运行时去查找相应的方法，而函数调用式的语言则由编译器决定，调用的函数是多态则按照“虚方法表”来查找到底执行那个函数。 
+Objective-C主要是基于runtime，它的面向对象特性所需要的全部数据结构及函数都是在runtime中的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Effective Objective-C 2.0（一）">
+<meta property="og:url" content="http://yoursite.com/2016/01/04/熟悉Objective-C/index.html">
+<meta property="og:site_name" content="華">
+<meta property="og:description" content="Objective-C是在C语言的基础上添加了面向对象的功能，它采用的是消息结构而非其他面向对象语言的函数调用；消息结构无论是否为多态都在运行时去查找相应的方法，而函数调用式的语言则由编译器决定，调用的函数是多态则按照“虚方法表”来查找到底执行那个函数。 
+Objective-C主要是基于runtime，它的面向对象特性所需要的全部数据结构及函数都是在runtime中的。">
+<meta property="og:updated_time" content="2018-11-04T03:41:23.294Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Effective Objective-C 2.0（一）">
+<meta name="twitter:description" content="Objective-C是在C语言的基础上添加了面向对象的功能，它采用的是消息结构而非其他面向对象语言的函数调用；消息结构无论是否为多态都在运行时去查找相应的方法，而函数调用式的语言则由编译器决定，调用的函数是多态则按照“虚方法表”来查找到底执行那个函数。 
+Objective-C主要是基于runtime，它的面向对象特性所需要的全部数据结构及函数都是在runtime中的。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/01/04/熟悉Objective-C/"/>
+
+
+
+
+
+  <title>Effective Objective-C 2.0（一） | 華</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">華</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人无远虑必有近忧</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/04/熟悉Objective-C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="华子">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://tva2.sinaimg.cn/crop.0.0.639.639.180/8e8e3b1bjw8evv5nqax26j20hs0hrwf5.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="華">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Effective Objective-C 2.0（一）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-04T09:59:32+08:00">
+                2016-01-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Objective-C/" itemprop="url" rel="index">
+                    <span itemprop="name">Objective-C</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Objective-C是在C语言的基础上添加了面向对象的功能，它采用的是消息结构而非其他面向对象语言的函数调用；消息结构无论是否为多态都在运行时去查找相应的方法，而函数调用式的语言则由编译器决定，调用的函数是多态则按照“虚方法表”来查找到底执行那个函数。 </p>
+<p>Objective-C主要是基于runtime，它的面向对象特性所需要的全部数据结构及函数都是在runtime中的。<br><a id="more"></a><br>Objective-C语言的指针是用来指示对象的声明如下对象： </p>
+<pre><code>NSString *str1 = @&quot;the string&quot;;
+NSString *str2 = str1; 
+</code></pre><p>如上代码会在栈内存中开辟2块区域用于存放str1、str2（32位系统是4个字节存储，64位系统是8个字节存储），在堆内存中开辟1块区域存放<code>NSString</code>类型的数据；栈中存放的对象不需要对内存进行管理，由系统自动在栈弹出时清理，而堆中存放的对象则由开发者通过<strong>引用计数</strong>的机制进行管理；</p>
+<h3 id="在类的头文件中减少引用其他类的头文件"><a href="#在类的头文件中减少引用其他类的头文件" class="headerlink" title="在类的头文件中减少引用其他类的头文件"></a>在类的头文件中减少引用其他类的头文件</h3><p>在类的头文件中如果要使用其他类的信息可以使用<strong>向前声明的方式</strong>告诉编译器；例如在Person类的头文件中使用Employer类；可以采用<code>@class Employer;</code>这样的好处是可以节省编译的时间；同时向前声明也解决两个类相互引用的问题；  </p>
+<h3 id="多用字面量少用与之等价的方法"><a href="#多用字面量少用与之等价的方法" class="headerlink" title="多用字面量少用与之等价的方法"></a>多用字面量少用与之等价的方法</h3><ul>
+<li><p>字符串字面量 </p>
+<p>   <code>NSString* someString = @&quot;some string&quot;;</code></p>
+</li>
+<li><p>字面数值(整数、浮点数、布尔值封装为 Objective-C对象) </p>
+<p>   <code>NSNumber* intNumber = @1;</code><br>   <code>NSNumber* floatNumber = @2.5f;</code></p>
+</li>
+<li><p>字面量数组: 可以通过取下标(subscripting)的方式获取制定的元素</p>
+<p>   <code>NSArray* animals = @[@&quot;1&quot;,@&quot;2&quot;,@&quot;3&quot;];//要检测每一个数据项是否为空值</code><br>   <code>NSString* dog = animals[1];</code></p>
+</li>
+<li><p>字面量字典 </p>
+<p>   <code>NSDictionary* personData = @{@&quot;1&quot;:&quot;a&quot;,@&quot;2&quot;:&quot;b&quot;};//键值和value都要检测</code></p>
+</li>
+</ul>
+<h3 id="多用类型常量，少用-define预处理指令"><a href="#多用类型常量，少用-define预处理指令" class="headerlink" title="多用类型常量，少用#define预处理指令"></a>多用类型常量，少用#define预处理指令</h3><p><code>#define ANIMATION_DURATION 0.3</code>表示动画的持续时间没有表示出类型信息，可采用<code>static
+const NSTimeInterval kAnimationDuration = 0.3</code>表示；<br>这里使用static修饰表示定义的变量只在当前编译单元(可以理解为当前类的实现文件)中可见，如果不加static编译器则会添加一个”外部符号”，如果其他文件中定义相同的变量则会抛出错误信息；  </p>
+<pre><code>duplicate symbol _kAnimationDuration in : 
+xx.o
+yy.o  
+</code></pre><p>当出现我们要公开某个常量的时候，可以在头文件中做如下定义：  </p>
+<pre><code>// in the header file
+extern NSString *const EOCStringConstant;
+// in the implementation file
+NSString *const EOCStringConstant = @&quot;string&quot;;  
+</code></pre><p>  需要注意的是const修饰符在常量类型中的位置。常量定义应该是从右向左读，EOCStringConstant就是“一个常量，而这个常量是指针，指向NSString对象”，此变量的存储放在全局区中。</p>
+<h3 id="使用枚举来列举状态、选项、状态码"><a href="#使用枚举来列举状态、选项、状态码" class="headerlink" title="使用枚举来列举状态、选项、状态码"></a>使用枚举来列举状态、选项、状态码</h3><ul>
+<li><p>NS_ENUM 定义普通枚举类型 </p>
+<pre><code>typedef NS_ENUM(NSInteger,HTTPMethod){
+            GET,
+            POST,
+            DELETE
+ }; 
+</code></pre></li>
+<li><p>switch 语句不要加default分支，这样增加新的枚举值的时候编译器才能提醒开发者</p>
+</li>
+</ul>
+<blockquote>
+<p>资料来源    </p>
+</blockquote>
+<p> 《Effective Objective-C 2.0》</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Objective-C/" rel="tag"># Objective-C</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/12/05/OC基础之NSOperation/" rel="next" title="OC基础之NSOperation">
+                <i class="fa fa-chevron-left"></i> OC基础之NSOperation
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/04/对象、消息、运行期/" rel="prev" title="对象、消息、运行期">
+                对象、消息、运行期 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://tva2.sinaimg.cn/crop.0.0.639.639.180/8e8e3b1bjw8evv5nqax26j20hs0hrwf5.jpg"
+                alt="华子" />
+            
+              <p class="site-author-name" itemprop="name">华子</p>
+              <p class="site-description motion-element" itemprop="description">人无远虑必有近忧</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#在类的头文件中减少引用其他类的头文件"><span class="nav-number">1.</span> <span class="nav-text">在类的头文件中减少引用其他类的头文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多用字面量少用与之等价的方法"><span class="nav-number">2.</span> <span class="nav-text">多用字面量少用与之等价的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多用类型常量，少用-define预处理指令"><span class="nav-number">3.</span> <span class="nav-text">多用类型常量，少用#define预处理指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用枚举来列举状态、选项、状态码"><span class="nav-number">4.</span> <span class="nav-text">使用枚举来列举状态、选项、状态码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">华子</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

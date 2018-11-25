@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-10-30T08:47:30.471Z</updated>
+  <updated>2018-11-25T14:33:14.854Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,40 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>vue-loader+webpack项目工程配置笔记</title>
+    <link href="http://yoursite.com/2018/11/25/vue-loader-webpack%E9%A1%B9%E7%9B%AE%E5%B7%A5%E7%A8%8B%E9%85%8D%E7%BD%AE/"/>
+    <id>http://yoursite.com/2018/11/25/vue-loader-webpack项目工程配置/</id>
+    <published>2018-11-25T12:11:36.000Z</published>
+    <updated>2018-11-25T14:33:14.854Z</updated>
+    
+    <content type="html"><![CDATA[<p>本文主要包含以下内容： </p><ul><li>相关名词概念的介绍</li><li>vue-loader+webpack项目配置</li><li>webpack配置项目加载各种静态资源以及CSS</li><li>webpack-dev-server的配置和使用  </li></ul><p>在接触web开发的过程中经常会听到以下的名词： </p><ul><li><code>Node.js</code> </li><li><code>NPM</code> </li><li><code>Vue.js</code></li><li><code>webpack</code><br>那么这些名词是什么，做什么用的呢？带着这些问题，一一进行探究。<a id="more"></a> </li></ul><h3 id="名词概念简介"><a href="#名词概念简介" class="headerlink" title="名词概念简介"></a>名词概念简介</h3><h4 id="Node-js"><a href="#Node-js" class="headerlink" title="Node.js"></a>Node.js</h4><blockquote><p>Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。<br>Node.js 使用了一个事件驱动、非阻塞式 I/O 的模型，使其轻量又高效。  </p></blockquote><p><code>Node.js</code>使得JavaScript能够像PHP、Python等语言一样进行服务端开发。 </p><h4 id="NPM"><a href="#NPM" class="headerlink" title="NPM"></a>NPM</h4><blockquote><p>NPM的全称是Node Package Manager，是一个Node.js包管理和分发工具,有了NPM，可以很快的找到特定服务要使用的包，进行下载、安装以及管理已经安装的包  </p></blockquote><h5 id="npm的一些命令"><a href="#npm的一些命令" class="headerlink" title="npm的一些命令"></a>npm的一些命令</h5><ul><li><code>npm install &lt;packageName&gt;</code> :<code>npm install</code>首先会检查<code>node_modules</code>目录中是否存在要安装的模块，如果有就不在安装，及时远程仓库中存在新的版本，也不执行重新安装操作；</li><li><code>npm update &lt;packageName&gt;</code>:先到远程仓库查询，如果本地不存在或者远程仓库版本较新，则执行安装操作。</li><li><code>registry</code>：<code>npm</code>模块仓库提供了一个查询服务，叫做registry，执行<code>npm update react</code>实际是执行<code>https://registry.npmjs.org/react</code></li><li>模块的安装过程：发出<code>npm install</code>命令  –&gt;  <code>npm</code>向<code>registry</code>查询模块压缩包的网址 –&gt; 下载压缩包，存放在~/.npm目录下 –&gt; 解压压缩包到当前项目的node_modules目录</li></ul><h4 id="Vue-js"><a href="#Vue-js" class="headerlink" title="Vue.js"></a>Vue.js</h4><blockquote><p>Vue.js（读音 /vjuː/, 类似于 view）是一个构建数据驱动的 web 界面的渐进式框架。Vue.js 的目标是通过尽可能简单的 API 实现响应的数据绑定和组合的视图组件。</p></blockquote><h4 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h4><blockquote><p>webpack 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)。当 webpack 处理应用程序时，它会递归地构建一个依赖关系图(dependency graph)，其中包含应用程序需要的每个模块，然后将所有这些模块打包成一个或多个 bundle  </p></blockquote><p>通过以上对以上名词的大致了解，那么就开始一步步构建一个简单的web项目  </p><h3 id="webpack打包web工程"><a href="#webpack打包web工程" class="headerlink" title="webpack打包web工程"></a>webpack打包web工程</h3><h4 id="项目初始化"><a href="#项目初始化" class="headerlink" title="项目初始化"></a>项目初始化</h4><p>创建一个<code>web-project</code>的文件夹，命令行切换到<code>web-project</code>下，执行<code>npm init</code>,根据提示填写；<code>web-project</code>下会多出一个package.json的文件包含项目基本信息：  </p><pre><code>{     &quot;name&quot;: &quot;webproject&quot;,     &quot;version&quot;: &quot;1.0.0&quot;,     &quot;description&quot;: &quot;test create web project&quot;,     &quot;main&quot;: &quot;index.js&quot;,     &quot;scripts&quot;: {       &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;     },     &quot;author&quot;: &quot;hua&quot;,     &quot;license&quot;: &quot;ISC&quot;   }   </code></pre><h4 id="安装项目需要的组件"><a href="#安装项目需要的组件" class="headerlink" title="安装项目需要的组件"></a>安装项目需要的组件</h4><ul><li><code>npm install vue vue-loader webpack</code></li><li><code>npm install css-loader</code></li></ul><h4 id="构建一个vue页面"><a href="#构建一个vue页面" class="headerlink" title="构建一个vue页面"></a>构建一个vue页面</h4><p>在<code>web-project</code>下创建<code>src</code>目录，然后再<code>src</code>目录下创建<code>App.vue</code>文件，代码如下 ：  </p><pre><code>&lt;template&gt;     &lt;div id=&quot;text&quot;&gt;{{text}}&lt;/div&gt;    &lt;/template&gt;    &lt;script&gt;        export default{            data(){                return{                    text:&apos;hello vue&apos;                }            }        }    &lt;/script&gt;    &lt;style&gt;    #text{        color: red    }    &lt;/style&gt;</code></pre><h4 id="创建项目的入口文件index-js"><a href="#创建项目的入口文件index-js" class="headerlink" title="创建项目的入口文件index.js"></a>创建项目的入口文件index.js</h4><p>在<code>web-project/src</code>下创建<code>index.js</code>文件，内容如下：  </p><pre><code>import Vue from &apos;vue&apos;import App from &apos;./app.vue&apos;const root = document.createElement(&apos;div&apos;)document.body.appendChild(root)new Vue({    render:(h) =&gt; h(App)}).$mount(root)</code></pre><h4 id="创建webpack的配置文件"><a href="#创建webpack的配置文件" class="headerlink" title="创建webpack的配置文件"></a>创建webpack的配置文件</h4><p>在<code>web-project</code>下创建<code>webpack.config.js</code>文件，内容如下：  </p><pre><code>  const path = require(&apos;path&apos;)const VueLoaderPlugin = require(&apos;vue-loader/lib/plugin&apos;);const config = {    // 设置入口    entry:path.join(__dirname,&apos;src/index.js&apos;),    output:{        filename:&apos;bundle.js&apos;,//打包后js的名称        path:path.join(__dirname,&apos;dist&apos;)// 打包后文件存放的目录    },    plugins:[        new VueLoaderPlugin(),    ],    mode:&apos;development&apos;,    module:{        rules:[            {                test:/\.vue$/,//包含vue的文件使用vue-loader处理                loader:&apos;vue-loader&apos;            },            {                test:/\.css$/,                loader:&apos;css-loader&apos;            }        ]    }}module.exports = config</code></pre><h4 id="在package-json中添加配置"><a href="#在package-json中添加配置" class="headerlink" title="在package.json中添加配置"></a>在package.json中添加配置</h4><p>在<code>scripts</code>结点下添加<code>&quot;build&quot;: &quot;webpack --config webpack.config.js&quot;</code>  </p><h4 id="使用webpack打包工程"><a href="#使用webpack打包工程" class="headerlink" title="使用webpack打包工程"></a>使用webpack打包工程</h4><p>执行<code>npm run build</code>，在项目<code>web-project</code>目录下产生一个<code>dist</code>的文件夹，并且目录下有个<code>bundle.js</code>的文件，至此项目打包已经结束</p><h3 id="webpack-dev-server的使用"><a href="#webpack-dev-server的使用" class="headerlink" title="webpack-dev-server的使用"></a>webpack-dev-server的使用</h3><p>在日常的工作中webpack-dev-server能够使得我们的开发调试更简洁方便，下面让我们来一步步通过配置来使用webpack-dev-server； </p><h4 id="webpack-dev-server安装"><a href="#webpack-dev-server安装" class="headerlink" title="webpack-dev-server安装"></a>webpack-dev-server安装</h4><p>执行<code>npm install webpack-dev-server</code> 我们在打包的使用希望有个html文件承载我们的bundle.js，所以要安装一个html-webpack-plugin，执行<code>npm install html-webpack-plugin</code>   </p><p>在不同的操作系统中，我们希望执行的命令是统一的所以要安装cross-env，执行 <code>npm install cross-env</code> </p><h4 id="修改package-json中的配置"><a href="#修改package-json中的配置" class="headerlink" title="修改package.json中的配置"></a>修改package.json中的配置</h4><p> 在package.json文件中的scripts节点下，修改build节点为<code>cross-env NODE_ENV=production webpack --config webpack.config.js</code>，代表生产环境的命令脚本，新增dev节点，内容为<code>cross-env NODE_ENV=development webpack-dev-server --config webpack.config.js</code>，为开发环境执行脚本。</p><h4 id="webpack-config-js"><a href="#webpack-config-js" class="headerlink" title="webpack.config.js"></a>webpack.config.js</h4><pre><code>const path = require(&apos;path&apos;)const VueLoaderPlugin = require(&apos;vue-loader/lib/plugin&apos;);const isDev = process.env.NODE_ENV === &apos;development&apos;const HTMLPlugin = require(&apos;html-webpack-plugin&apos;)const webpack = require(&apos;webpack&apos;)const config = {    target:&apos;web&apos;,    // 设置入口    entry:path.join(__dirname,&apos;src/index.js&apos;),    output:{        filename:&apos;bundle.js&apos;,//打包后js的名称        path:path.join(__dirname,&apos;dist&apos;)// 打包后文件存放的目录    },    plugins:[        new VueLoaderPlugin(),        new webpack.DefinePlugin({            &apos;process.env&apos;:{                NODE_ENV:isDev ? &apos;&quot;development&quot;&apos;:&apos;&quot;production&quot;&apos;            }        }),        new HTMLPlugin()    ],    mode:&apos;development&apos;,    module:{        rules:[            {                test:/\.vue$/,//包含vue的文件使用vue-loader处理                loader:&apos;vue-loader&apos;            },            {                test:/\.css$/,                loader:&apos;css-loader&apos;            }        ]    }}if(isDev){   config.devServer={       port:8008,       host:&apos;0.0.0.0&apos;,       overlay:{           errors:true       },       hot:true   }   config.plugins.push(       new webpack.HotModuleReplacementPlugin(),       new webpack.NoEmitOnErrorsPlugin()   )}module.exports = config</code></pre><h3 id="页面显示"><a href="#页面显示" class="headerlink" title="页面显示"></a>页面显示</h3><p>此时在浏览器中输入<code>http://0.0.0.0:8008/</code>即可访问项目页面。  </p><blockquote><p>内容参照  </p></blockquote><p><a href="http://www.ruanyifeng.com/blog/2016/01/npm-install.html" target="_blank" rel="external">阮一峰-npm 模块安装机制简介</a><br><a href="https://www.imooc.com/learn/935" target="_blank" rel="external">慕课网-Vue+Webpack打造todo应用</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本文主要包含以下内容： &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;相关名词概念的介绍&lt;/li&gt;
+&lt;li&gt;vue-loader+webpack项目配置&lt;/li&gt;
+&lt;li&gt;webpack配置项目加载各种静态资源以及CSS&lt;/li&gt;
+&lt;li&gt;webpack-dev-server的配置和使用  &lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在接触web开发的过程中经常会听到以下的名词： &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Node.js&lt;/code&gt; &lt;/li&gt;
+&lt;li&gt;&lt;code&gt;NPM&lt;/code&gt; &lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Vue.js&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;webpack&lt;/code&gt;&lt;br&gt;那么这些名词是什么，做什么用的呢？带着这些问题，一一进行探究。
+    
+    </summary>
+    
+      <category term="Vue" scheme="http://yoursite.com/categories/Vue/"/>
+    
+    
+      <category term="Vue" scheme="http://yoursite.com/tags/Vue/"/>
+    
+  </entry>
   
   <entry>
     <title>程序如何运行-内存和磁盘</title>
@@ -246,34 +280,6 @@
   </entry>
   
   <entry>
-    <title>iOS篇-AutoreleasePool的实现原理</title>
-    <link href="http://yoursite.com/2018/04/19/iOS%E7%AF%87-AutoreleasePool%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
-    <id>http://yoursite.com/2018/04/19/iOS篇-AutoreleasePool的实现原理/</id>
-    <published>2018-04-19T10:32:59.000Z</published>
-    <updated>2018-08-20T13:10:10.100Z</updated>
-    
-    <content type="html"><![CDATA[<p>这篇文章主要讲述以下几个问题：  </p><ul><li>AutoreleasePool的实现原理</li><li>AutoreleasePool的嵌套</li><li>AutoreleasePool在MRC和ARC下的区别【待】</li><li>Autorelease的实现原理</li></ul><a id="more"></a>    <h3 id="AutoreleasePool的实现原理"><a href="#AutoreleasePool的实现原理" class="headerlink" title="AutoreleasePool的实现原理"></a>AutoreleasePool的实现原理</h3><p>AutoreleasePool的实现是以AutoreleasePoolPage（栈结构）为结点通过双向链表的形式组合而成的；</p><p>在ARC下使用<code>@autoreleasePool{}</code>编译器会将代码改写为如下：  </p><pre><code>void* ctx = objc_autoreleasePoolPush();// 业务代码objc_autoreleasePoolPop(ctx);   </code></pre><p><code>objc_autoreleasePoolPush()</code>和<code>objc_autoreleasePoolPop()</code>实际调用了AutoreleasePoolPage的<code>push()</code>和<code>pop()</code>方法；   </p><p>首先看一下AutoreleasePoolPage的数据结构：   </p><pre><code>{  id *next;  AutoreleasePoolPage* const parent;  AutoreleasePoolPage* const child;  pthread_t const thread;}      栈顶【          】 &lt;-低地址         【 ...      】 next -&gt; 【待插入的Autorelease对象的位置          】          【nil(哨兵)】 &lt;- AutoreleasePoolPage::push()         【 id obj2  】 栈底部 -&gt;【 id obj1  】         【 AutoreleasePoolPage 自身占用的地址 】&lt;-  高地址</code></pre><h4 id="AutoreleasePoolPage执行push-操作"><a href="#AutoreleasePoolPage执行push-操作" class="headerlink" title="AutoreleasePoolPage执行push()操作"></a>AutoreleasePoolPage执行push()操作</h4><p>AutoreleasePoolPage执行<code>push()</code>操作会创建一个自动释放池，并在next指针的位置插入一个哨兵对象，用来标记新创建的AutoreleasePool的边界；</p><h3 id="Autorelease的实现原理"><a href="#Autorelease的实现原理" class="headerlink" title="Autorelease的实现原理"></a>Autorelease的实现原理</h3><p>向对象发送autorelease消息，系统首先会判断next指针是否指向了栈顶，如果没有会将对象指针存储在next指针位置，并且会把next指针向后移动；如果next指针指向了栈顶，就会增加一个栈结点；然后再进行对象指针的存储和next指针后移的操作；</p><h4 id="AutoreleasePoolPage执行pop-操作"><a href="#AutoreleasePoolPage执行pop-操作" class="headerlink" title="AutoreleasePoolPage执行pop()操作"></a>AutoreleasePoolPage执行pop()操作</h4><p>AutoreleasePoolPage执行<code>pop()</code>操作,会进行如下操作  </p><ul><li>根据哨兵对象（AutoreleasePoolPage执行<code>push()</code>操作返回的对象）找到相应位置</li><li>给上次<code>push()</code>操作之后的添加的对象依次发送release消息</li><li>回退next指针到正确的位置</li></ul><h3 id="AutoreleasePool在MRC和ARC下的区别-？"><a href="#AutoreleasePool在MRC和ARC下的区别-？" class="headerlink" title="AutoreleasePool在MRC和ARC下的区别  ？"></a>AutoreleasePool在MRC和ARC下的区别  ？</h3><h4 id="AutoreleasePool为什么会以双向链表的方式实现"><a href="#AutoreleasePool为什么会以双向链表的方式实现" class="headerlink" title="AutoreleasePool为什么会以双向链表的方式实现"></a>AutoreleasePool为什么会以双向链表的方式实现</h4><pre><code>// Pool1@autoreleasePool{  // Pool2   @autoreleasePool{   } } // Pool3@autoreleasePool{}  </code></pre><p>Pool的创建顺序：Pool 1 —&gt; Pool 2 —&gt; Pool 3，drain顺序是Pool 2 —&gt; Pool 1 —&gt;Pool 3，如果要想实现这种顺序，采取FIFO做不到，普通的栈也不行。如果用链表操作可以做到，因为涉及到链表的首（Pool 2）或尾（Pool 3）插入，应该用双向链表来管理才合适</p><h3 id="资料参考"><a href="#资料参考" class="headerlink" title="资料参考"></a>资料参考</h3><ul><li><a href="https://blog.csdn.net/lizitao/article/details/56485100" target="_blank" rel="external">Autorelease Pool的实现原理总结</a></li><li><a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmAutoreleasePools.html#//apple_ref/doc/uid/20000047-CJBFBEDI" target="_blank" rel="external">Using Autorelease Pool Blocks</a></li><li><a href="http://www.cocoachina.com/ios/20150610/12093.html" target="_blank" rel="external">Objective-C Autorelease Pool 的实现原理</a></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;这篇文章主要讲述以下几个问题：  &lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;AutoreleasePool的实现原理&lt;/li&gt;
-&lt;li&gt;AutoreleasePool的嵌套&lt;/li&gt;
-&lt;li&gt;AutoreleasePool在MRC和ARC下的区别【待】&lt;/li&gt;
-&lt;li&gt;Autorelease的实现原理&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="iOS" scheme="http://yoursite.com/categories/iOS/"/>
-    
-    
-      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
-    
-  </entry>
-  
-  <entry>
     <title>iOS篇-weak的实现原理</title>
     <link href="http://yoursite.com/2018/04/19/iOS%E7%AF%87-weak%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
     <id>http://yoursite.com/2018/04/19/iOS篇-weak的实现原理/</id>
@@ -292,6 +298,34 @@
   objc_initWeak(&amp;amp;weakObj,obj);
 }  
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;通过查看源码，函数的调用顺序如下 &lt;code&gt;objc_initWeak()&lt;/code&gt; ===&amp;gt;&lt;code&gt;storeWeak（）&lt;/code&gt;  ===&amp;gt; &lt;code&gt;weak_register_no_lock()&lt;/code&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="iOS" scheme="http://yoursite.com/categories/iOS/"/>
+    
+    
+      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>iOS篇-AutoreleasePool的实现原理</title>
+    <link href="http://yoursite.com/2018/04/19/iOS%E7%AF%87-AutoreleasePool%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"/>
+    <id>http://yoursite.com/2018/04/19/iOS篇-AutoreleasePool的实现原理/</id>
+    <published>2018-04-19T10:32:59.000Z</published>
+    <updated>2018-08-20T13:10:10.100Z</updated>
+    
+    <content type="html"><![CDATA[<p>这篇文章主要讲述以下几个问题：  </p><ul><li>AutoreleasePool的实现原理</li><li>AutoreleasePool的嵌套</li><li>AutoreleasePool在MRC和ARC下的区别【待】</li><li>Autorelease的实现原理</li></ul><a id="more"></a>    <h3 id="AutoreleasePool的实现原理"><a href="#AutoreleasePool的实现原理" class="headerlink" title="AutoreleasePool的实现原理"></a>AutoreleasePool的实现原理</h3><p>AutoreleasePool的实现是以AutoreleasePoolPage（栈结构）为结点通过双向链表的形式组合而成的；</p><p>在ARC下使用<code>@autoreleasePool{}</code>编译器会将代码改写为如下：  </p><pre><code>void* ctx = objc_autoreleasePoolPush();// 业务代码objc_autoreleasePoolPop(ctx);   </code></pre><p><code>objc_autoreleasePoolPush()</code>和<code>objc_autoreleasePoolPop()</code>实际调用了AutoreleasePoolPage的<code>push()</code>和<code>pop()</code>方法；   </p><p>首先看一下AutoreleasePoolPage的数据结构：   </p><pre><code>{  id *next;  AutoreleasePoolPage* const parent;  AutoreleasePoolPage* const child;  pthread_t const thread;}      栈顶【          】 &lt;-低地址         【 ...      】 next -&gt; 【待插入的Autorelease对象的位置          】          【nil(哨兵)】 &lt;- AutoreleasePoolPage::push()         【 id obj2  】 栈底部 -&gt;【 id obj1  】         【 AutoreleasePoolPage 自身占用的地址 】&lt;-  高地址</code></pre><h4 id="AutoreleasePoolPage执行push-操作"><a href="#AutoreleasePoolPage执行push-操作" class="headerlink" title="AutoreleasePoolPage执行push()操作"></a>AutoreleasePoolPage执行push()操作</h4><p>AutoreleasePoolPage执行<code>push()</code>操作会创建一个自动释放池，并在next指针的位置插入一个哨兵对象，用来标记新创建的AutoreleasePool的边界；</p><h3 id="Autorelease的实现原理"><a href="#Autorelease的实现原理" class="headerlink" title="Autorelease的实现原理"></a>Autorelease的实现原理</h3><p>向对象发送autorelease消息，系统首先会判断next指针是否指向了栈顶，如果没有会将对象指针存储在next指针位置，并且会把next指针向后移动；如果next指针指向了栈顶，就会增加一个栈结点；然后再进行对象指针的存储和next指针后移的操作；</p><h4 id="AutoreleasePoolPage执行pop-操作"><a href="#AutoreleasePoolPage执行pop-操作" class="headerlink" title="AutoreleasePoolPage执行pop()操作"></a>AutoreleasePoolPage执行pop()操作</h4><p>AutoreleasePoolPage执行<code>pop()</code>操作,会进行如下操作  </p><ul><li>根据哨兵对象（AutoreleasePoolPage执行<code>push()</code>操作返回的对象）找到相应位置</li><li>给上次<code>push()</code>操作之后的添加的对象依次发送release消息</li><li>回退next指针到正确的位置</li></ul><h3 id="AutoreleasePool在MRC和ARC下的区别-？"><a href="#AutoreleasePool在MRC和ARC下的区别-？" class="headerlink" title="AutoreleasePool在MRC和ARC下的区别  ？"></a>AutoreleasePool在MRC和ARC下的区别  ？</h3><h4 id="AutoreleasePool为什么会以双向链表的方式实现"><a href="#AutoreleasePool为什么会以双向链表的方式实现" class="headerlink" title="AutoreleasePool为什么会以双向链表的方式实现"></a>AutoreleasePool为什么会以双向链表的方式实现</h4><pre><code>// Pool1@autoreleasePool{  // Pool2   @autoreleasePool{   } } // Pool3@autoreleasePool{}  </code></pre><p>Pool的创建顺序：Pool 1 —&gt; Pool 2 —&gt; Pool 3，drain顺序是Pool 2 —&gt; Pool 1 —&gt;Pool 3，如果要想实现这种顺序，采取FIFO做不到，普通的栈也不行。如果用链表操作可以做到，因为涉及到链表的首（Pool 2）或尾（Pool 3）插入，应该用双向链表来管理才合适</p><h3 id="资料参考"><a href="#资料参考" class="headerlink" title="资料参考"></a>资料参考</h3><ul><li><a href="https://blog.csdn.net/lizitao/article/details/56485100" target="_blank" rel="external">Autorelease Pool的实现原理总结</a></li><li><a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmAutoreleasePools.html#//apple_ref/doc/uid/20000047-CJBFBEDI" target="_blank" rel="external">Using Autorelease Pool Blocks</a></li><li><a href="http://www.cocoachina.com/ios/20150610/12093.html" target="_blank" rel="external">Objective-C Autorelease Pool 的实现原理</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这篇文章主要讲述以下几个问题：  &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;AutoreleasePool的实现原理&lt;/li&gt;
+&lt;li&gt;AutoreleasePool的嵌套&lt;/li&gt;
+&lt;li&gt;AutoreleasePool在MRC和ARC下的区别【待】&lt;/li&gt;
+&lt;li&gt;Autorelease的实现原理&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     
@@ -521,33 +555,6 @@
     
     
       <category term="随感" scheme="http://yoursite.com/tags/%E9%9A%8F%E6%84%9F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>OC基础之AssociatedObject</title>
-    <link href="http://yoursite.com/2017/03/10/OC%E5%9F%BA%E7%A1%80%E4%B9%8BAssociatedObject/"/>
-    <id>http://yoursite.com/2017/03/10/OC基础之AssociatedObject/</id>
-    <published>2017-03-10T05:55:00.000Z</published>
-    <updated>2018-08-18T02:05:42.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="AssociatedObject-关联对象"><a href="#AssociatedObject-关联对象" class="headerlink" title="AssociatedObject(关联对象)"></a>AssociatedObject(关联对象)</h3><p> 在既有类中使用关联对象存放自定义数据，分类中添加属性也会用到   </p><ul><li>给对象存储信息，通常会创建对象所属类的子类；但某些情况下无法创建子类（分类），只能通过关联属性值的方式</li><li>关联属性值可能会出现循环引用问题</li></ul><h3 id="AssociatedObject的本质"><a href="#AssociatedObject的本质" class="headerlink" title="AssociatedObject的本质"></a>AssociatedObject的本质</h3><p> 通过objc_setAssociatedObject给分类创建的属性放在了一个全局的AssociationManager中；<br> 通过对象的地址找到AssociationManager中的hashMap，然后通过属性的Key来获取属性的value；   </p><a id="more"></a><h3 id="AssociatedObject具体使用"><a href="#AssociatedObject具体使用" class="headerlink" title="AssociatedObject具体使用"></a>AssociatedObject具体使用</h3><pre><code>    #import &quot;AssociatedObject.h&quot;#import &lt;objc/runtime.h&gt;@implementation AssociatedObjectstatic void* associatedObjectKey = &quot;associatedObjectKey&quot;;-(void)askQuestion{    void (^block)(NSInteger index)= ^(NSInteger index){        if (0 == index) {            [self confrim];        }else if (1 == index){            [self cancel];        }    };    objc_setAssociatedObject(self, associatedObjectKey, block, OBJC_ASSOCIATION_COPY_NONATOMIC);}-(void)associated:(AssociatedObject*)associated index:(NSInteger)index{    void (^block)(NSInteger index) = objc_getAssociatedObject(associated, associatedObjectKey);    block(index);}-(void)confrim{  // Class test_class = [NSString class];}-(void)cancel{}@end</code></pre><p> 文章参考：<br> <a href="http://blog.leichunfeng.com/blog/2015/06/26/objective-c-associated-objects-implementation-principle/" target="_blank" rel="external">Objective-C Associated Objects 的实现原理</a></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;AssociatedObject-关联对象&quot;&gt;&lt;a href=&quot;#AssociatedObject-关联对象&quot; class=&quot;headerlink&quot; title=&quot;AssociatedObject(关联对象)&quot;&gt;&lt;/a&gt;AssociatedObject(关联对象)&lt;/h3&gt;&lt;p&gt; 在既有类中使用关联对象存放自定义数据，分类中添加属性也会用到   &lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;给对象存储信息，通常会创建对象所属类的子类；但某些情况下无法创建子类（分类），只能通过关联属性值的方式&lt;/li&gt;
-&lt;li&gt;关联属性值可能会出现循环引用问题&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;AssociatedObject的本质&quot;&gt;&lt;a href=&quot;#AssociatedObject的本质&quot; class=&quot;headerlink&quot; title=&quot;AssociatedObject的本质&quot;&gt;&lt;/a&gt;AssociatedObject的本质&lt;/h3&gt;&lt;p&gt; 通过objc_setAssociatedObject给分类创建的属性放在了一个全局的AssociationManager中；&lt;br&gt; 通过对象的地址找到AssociationManager中的hashMap，然后通过属性的Key来获取属性的value；   &lt;/p&gt;
-    
-    </summary>
-    
-      <category term="iOS" scheme="http://yoursite.com/categories/iOS/"/>
-    
-    
-      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
     
   </entry>
   
