@@ -106,4 +106,57 @@
     
   </entry>
   
+  <entry>
+    <title>大话数据结构之单链表</title>
+    <link href="http://yoursite.com/2014/12/02/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E5%8D%95%E9%93%BE%E8%A1%A8/"/>
+    <id>http://yoursite.com/2014/12/02/数据结构之单链表/</id>
+    <published>2014-12-02T12:44:54.000Z</published>
+    <updated>2019-01-13T02:46:13.486Z</updated>
+    
+    <content type="html"><![CDATA[<p>线性表的顺序存储结构在查找指定位置的元素时操作较快，但是在插入和删除操作的时候需要移动大量数据的位置，操作较为耗时，造成这种结果的原因在于顺序存储是开辟一块连续的内存空间，各个数据之间紧紧相邻；那么解决顺序存储插入和删除问题就需要采取另外一种存储结构–链式存储；</p><a id="more"></a>  <h4 id="线性表的链式存储结构"><a href="#线性表的链式存储结构" class="headerlink" title="线性表的链式存储结构"></a>线性表的链式存储结构</h4><p>在顺序存储结构中数据元素只要存储数据元素信息就可以了，而链式存储结构还需要存储下一个结点的内存地址，即每个数据元素成为一个独立的结点，结点包含数据信息和地址信息两个部分；n个这样的结点就构成了链表，  </p><h4 id="单链表"><a href="#单链表" class="headerlink" title="单链表"></a>单链表</h4><p> 因为结点中只存在一个地址指针，即该链表又称之为单链表   </p><h4 id="头结点"><a href="#头结点" class="headerlink" title="头结点"></a>头结点</h4><p>排在单链表的第一个结点前的结点叫头结点  </p><h4 id="头指针"><a href="#头指针" class="headerlink" title="头指针"></a>头指针</h4><p>链表第一个结点的存储位置即为头指针/ 头结点中存放的指针即为头指针  </p><h4 id="单链表的链式存储结构"><a href="#单链表的链式存储结构" class="headerlink" title="单链表的链式存储结构"></a>单链表的链式存储结构</h4><pre><code>typedef int ElemType;typedef struct Node{    ElemType data;    struct Node * next;}Node;typedef struct Node* LinkList;  </code></pre><p> 一个结点的构成包含数据域和指针区域；  </p><h4 id="单链表的初始化"><a href="#单链表的初始化" class="headerlink" title="单链表的初始化"></a>单链表的初始化</h4><pre><code>LinkList linkListInit(){Node* L ;L = (Node*)malloc(sizeof(Node));if (L == NULL) {    printf(&quot;申请内存空间失败\n&quot;);}L -&gt;next = NULL;return L;}     </code></pre><h4 id="创建单链表之头插入方法"><a href="#创建单链表之头插入方法" class="headerlink" title="创建单链表之头插入方法"></a>创建单链表之头插入方法</h4><pre><code>LinkList linkListCreateHeaderMethod(int numberOfNode){Node* L ;L = (Node*)malloc(sizeof(Node));if (L==NULL) {    return NULL;}L-&gt;next = NULL;for (int i =0; i&lt;numberOfNode; i++) {    Node *p;    p =(Node*) malloc(sizeof(Node));    p -&gt; data = i ;    p-&gt;next = L-&gt;next;   //将结点插入到表头L--&gt;|3|--&gt;|2|--&gt;|1|--&gt;NULL    L -&gt; next = p;}return L;}  </code></pre><p> 头插入法创建单链表是在头指针和第一个结点之间完成插入操作，新节点的指针存放的是上一个作为第一个结点的地址即L-&gt;next；然后再讲L-&gt;next指向新节点p即可；  </p><h4 id="创建单链表之尾插入方法"><a href="#创建单链表之尾插入方法" class="headerlink" title="创建单链表之尾插入方法"></a>创建单链表之尾插入方法</h4><pre><code>LinkList linkListCreateTailMethod(int numberOfNode){Node* L ;L = (Node*)malloc(sizeof(Node));if (L==NULL) {    return NULL;}L -&gt; next = NULL;Node* tempL = L;for (int i = 0; i&lt;numberOfNode; i++) {    Node* p ;    p = (Node*)malloc(sizeof(Node));    p -&gt;data = i ;    tempL -&gt; next = p ;    tempL = p ;}tempL -&gt;next = NULL;return L;} </code></pre><p> 尾插入就是将新建立的结点放在链表的最后；  </p><h4 id="单链表的插入操作"><a href="#单链表的插入操作" class="headerlink" title="单链表的插入操作"></a>单链表的插入操作</h4><pre><code>int linkListInsert(LinkList list ,int index,int e){    Node* pre ;    pre = list;    for (int i = 1; i&lt;index; i++) {        pre = pre -&gt;next;    }    if (pre) {        Node* newNode;        newNode  = (Node*)malloc(sizeof(Node));        newNode-&gt;data = e ;        newNode-&gt;next = pre-&gt;next;        pre-&gt;next = newNode;        return 1;    }    return 0;} </code></pre><h4 id="单链表的删除操作"><a href="#单链表的删除操作" class="headerlink" title="单链表的删除操作"></a>单链表的删除操作</h4><pre><code>int linkListDeleteNode(LinkList list ,int e){    Node *p,*pre = NULL;                   //pre为前驱结点，p为查找的结点。    p = list-&gt;next;    while(p-&gt;data != e)              //查找值为x的元素    {        pre = p;        p = p-&gt;next;    }    pre-&gt;next = p-&gt;next;          //删除操作，将其前驱next指向其后继。    free(p);    return 1;}  </code></pre><h4 id="单链表返回指定位置的结点数据"><a href="#单链表返回指定位置的结点数据" class="headerlink" title="单链表返回指定位置的结点数据"></a>单链表返回指定位置的结点数据</h4><pre><code>int GetElem(LinkList list,int index,ElemType *e){    int i=1;    LinkList p ;    p = list -&gt;next; // 默认链表名作为第一个结点的指针    while (i&lt;index&amp;&amp;p) {        p = p -&gt;next;        i++;    }    if (!p||i&gt;index) {       return 0;    }else{        *e = p-&gt;data;        return 1;    }}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;线性表的顺序存储结构在查找指定位置的元素时操作较快，但是在插入和删除操作的时候需要移动大量数据的位置，操作较为耗时，造成这种结果的原因在于顺序存储是开辟一块连续的内存空间，各个数据之间紧紧相邻；那么解决顺序存储插入和删除问题就需要采取另外一种存储结构–链式存储；&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="数据结构" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+    
+      <category term="数据结构" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>大话数据结构之线性表的顺序存储</title>
+    <link href="http://yoursite.com/2014/12/01/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E7%BA%BF%E6%80%A7%E8%A1%A8%E7%9A%84%E9%A1%BA%E5%BA%8F%E5%AD%98%E5%82%A8/"/>
+    <id>http://yoursite.com/2014/12/01/数据结构之线性表的顺序存储/</id>
+    <published>2014-12-01T12:57:54.000Z</published>
+    <updated>2019-01-13T02:45:57.458Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="线性表"><a href="#线性表" class="headerlink" title="线性表"></a>线性表</h4><blockquote><p>零个或多个数据元素的有限序列；可以理解为数据按照顺序依次排列，除了头结点和尾结点外其他结点只存在唯一的前继和后继； 例如：平时购票的队伍、从北京到上海的京沪线等；</p></blockquote><h4 id="线性表的顺序存储结构"><a href="#线性表的顺序存储结构" class="headerlink" title="线性表的顺序存储结构"></a>线性表的顺序存储结构</h4><pre><code>#define MAXSIEZ 20typedef int ElemType;typedef struct {    ElemType data[MAXSIEZ];    int length;}SqList;</code></pre><p>线性表的顺序存储结构包含两部分，一个是存储数据的数组，一个实际存储数据元素个数的整型变量；其中MAXSIEZ是该线性表指定的最大存储容量！<br><a id="more"></a></p><h4 id="在线性表中获取指定位置的元素"><a href="#在线性表中获取指定位置的元素" class="headerlink" title="在线性表中获取指定位置的元素"></a>在线性表中获取指定位置的元素</h4><pre><code>int getElem(SqList list,int index,ElemType* e){if (list.length==0 || index&lt;1 ||index&gt;list.length) {    return 0;}else{    *e = list.data[index];    return 1;}}</code></pre><p>在线性表中获取指定位置的元素，其操作实质是在SqList的data数组中返回指定索引的值；操作中应该避免数组操作引发越界的操作；数组的下标是从0开始的，而线性表的顺序存储是从1开始</p><h4 id="在线性表中指定位置插入数据"><a href="#在线性表中指定位置插入数据" class="headerlink" title="在线性表中指定位置插入数据"></a>在线性表中指定位置插入数据</h4><pre><code> int listInsert(SqList *list,int index,ElemType e){if (index&gt;list-&gt;length+1||index&lt;1) {    return 0;}else{    if (index == list-&gt;length+1) {        list-&gt;data[index-1] = e;        return 1;    }else{        int lastIndex = list-&gt;length;        for (int i = lastIndex; i&gt;=index; i--) {            list-&gt;data[i] = list-&gt;data[i-1];        }        list-&gt;data[index-1] = e ;        list-&gt;length++; //元素插入完毕后增加list的长度        return 1;    }}}   </code></pre><p>  插入操作就是将存储在指定位置后面的所有元素依次向后移动一位；然后指定位置的数据更新为传入的参数，最后将线性表的长度+1；  </p><h4 id="在线性表中指定位置删除数据"><a href="#在线性表中指定位置删除数据" class="headerlink" title="在线性表中指定位置删除数据"></a>在线性表中指定位置删除数据</h4><pre><code> int  listDelete(SqList *list,int index,ElemType* e){if (list-&gt;length==0||index&lt;1||index&gt;list-&gt;length) {    return 0;}*e = list-&gt;data[index-1];for (int i = index; i&lt;list-&gt;length; i++) {    list-&gt;data[i-1] = list-&gt;data[i];}list-&gt;length--;return 1;}</code></pre><p> 在线性表中指定位置删除数据就是将存储在指定位置后面的所有元素依次向前移动一位，最后将线性表的长度+1；    </p><h4 id="SqList-list-与-SqList-list"><a href="#SqList-list-与-SqList-list" class="headerlink" title="SqList *list 与 SqList list"></a>SqList *list 与 SqList list</h4><ul><li>SqList *list 表示声明一个SqList类型的指针，该指针目前未指向任何内存区域，所以是一个野指针；</li><li>SqList list 表示声明了一个SqList类型的变量，在内存中已经开辟了相应的空间；  </li><li>为什么查找操作的时候传入的是list变量而删除和插入传入的是list指针，主要原因首先是结构体是值类型，查找操作传入list变量，在查找函数中存放的其实是list的一个值拷贝；插入和删除操作则要对传入的list做变更操作，所以要传入list指针；  </li></ul><p>关于值类型和引用类型的区分可以考虑 swap(int a,int b);和 swap(int* a,int* b);的区别</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;线性表&quot;&gt;&lt;a href=&quot;#线性表&quot; class=&quot;headerlink&quot; title=&quot;线性表&quot;&gt;&lt;/a&gt;线性表&lt;/h4&gt;&lt;blockquote&gt;
+&lt;p&gt;零个或多个数据元素的有限序列；可以理解为数据按照顺序依次排列，除了头结点和尾结点外其他结点只存在唯一的前继和后继； 例如：平时购票的队伍、从北京到上海的京沪线等；&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id=&quot;线性表的顺序存储结构&quot;&gt;&lt;a href=&quot;#线性表的顺序存储结构&quot; class=&quot;headerlink&quot; title=&quot;线性表的顺序存储结构&quot;&gt;&lt;/a&gt;线性表的顺序存储结构&lt;/h4&gt;&lt;pre&gt;&lt;code&gt;#define MAXSIEZ 20
+typedef int ElemType;
+typedef struct {
+    ElemType data[MAXSIEZ];
+    int length;
+}SqList;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;线性表的顺序存储结构包含两部分，一个是存储数据的数组，一个实际存储数据元素个数的整型变量；其中MAXSIEZ是该线性表指定的最大存储容量！&lt;br&gt;
+    
+    </summary>
+    
+      <category term="数据结构" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+    
+      <category term="数据结构" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+  </entry>
+  
 </feed>
