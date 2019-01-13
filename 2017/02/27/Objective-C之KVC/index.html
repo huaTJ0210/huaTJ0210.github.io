@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="数据结构," />
+  <meta name="keywords" content="Objective-C," />
 
 
 
@@ -81,16 +81,31 @@
 
 
 
-<meta name="description" content="线性表的顺序存储结构在查找指定位置的元素时操作较快，但是在插入和删除操作的时候需要移动大量数据的位置，操作较为耗时，造成这种结果的原因在于顺序存储是开辟一块连续的内存空间，各个数据之间紧紧相邻；那么解决顺序存储插入和删除问题就需要采取另外一种存储结构–链式存储；">
+<meta name="description" content="什么是KVC
+key value coding：是一种使用字符串标识符间接访问对象属性的机制；  
+
+NSObject 提供如下方法：
+     [obj setValue:&amp;lt;#(nullable id)#&amp;gt; forKey:&amp;lt;#(nonnull NSString *)#&amp;gt;];
+     [obj setValue:&amp;lt;#(nullable id)#&amp;gt; forKey">
 <meta property="og:type" content="article">
-<meta property="og:title" content="大话数据结构之单链表">
-<meta property="og:url" content="http://yoursite.com/2017/01/05/数据结构之单链表/index.html">
+<meta property="og:title" content="Objective-C之KVC">
+<meta property="og:url" content="http://yoursite.com/2017/02/27/Objective-C之KVC/index.html">
 <meta property="og:site_name" content="華">
-<meta property="og:description" content="线性表的顺序存储结构在查找指定位置的元素时操作较快，但是在插入和删除操作的时候需要移动大量数据的位置，操作较为耗时，造成这种结果的原因在于顺序存储是开辟一块连续的内存空间，各个数据之间紧紧相邻；那么解决顺序存储插入和删除问题就需要采取另外一种存储结构–链式存储；">
-<meta property="og:updated_time" content="2019-01-13T02:49:26.762Z">
+<meta property="og:description" content="什么是KVC
+key value coding：是一种使用字符串标识符间接访问对象属性的机制；  
+
+NSObject 提供如下方法：
+     [obj setValue:&amp;lt;#(nullable id)#&amp;gt; forKey:&amp;lt;#(nonnull NSString *)#&amp;gt;];
+     [obj setValue:&amp;lt;#(nullable id)#&amp;gt; forKey">
+<meta property="og:updated_time" content="2019-01-13T10:59:51.644Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="大话数据结构之单链表">
-<meta name="twitter:description" content="线性表的顺序存储结构在查找指定位置的元素时操作较快，但是在插入和删除操作的时候需要移动大量数据的位置，操作较为耗时，造成这种结果的原因在于顺序存储是开辟一块连续的内存空间，各个数据之间紧紧相邻；那么解决顺序存储插入和删除问题就需要采取另外一种存储结构–链式存储；">
+<meta name="twitter:title" content="Objective-C之KVC">
+<meta name="twitter:description" content="什么是KVC
+key value coding：是一种使用字符串标识符间接访问对象属性的机制；  
+
+NSObject 提供如下方法：
+     [obj setValue:&amp;lt;#(nullable id)#&amp;gt; forKey:&amp;lt;#(nonnull NSString *)#&amp;gt;];
+     [obj setValue:&amp;lt;#(nullable id)#&amp;gt; forKey">
 
 
 
@@ -120,13 +135,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/01/05/数据结构之单链表/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/02/27/Objective-C之KVC/"/>
 
 
 
 
 
-  <title>大话数据结构之单链表 | 華</title>
+  <title>Objective-C之KVC | 華</title>
   
 
 
@@ -253,7 +268,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/05/数据结构之单链表/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/27/Objective-C之KVC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="华子">
@@ -270,7 +285,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">大话数据结构之单链表</h1>
+          <h1 class="post-title" itemprop="name headline">Objective-C之KVC</h1>
         
 
         <div class="post-meta">
@@ -282,8 +297,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-05T20:44:54+08:00">
-                2017-01-05
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-27T11:37:40+08:00">
+                2017-02-27
               </time>
             
 
@@ -305,8 +320,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/数据结构/" itemprop="url" rel="index">
-                    <span itemprop="name">数据结构</span>
+                  <a href="/categories/Objective-C/" itemprop="url" rel="index">
+                    <span itemprop="name">Objective-C</span>
                   </a>
                 </span>
 
@@ -342,108 +357,89 @@
       
 
       
-        <p>线性表的顺序存储结构在查找指定位置的元素时操作较快，但是在插入和删除操作的时候需要移动大量数据的位置，操作较为耗时，造成这种结果的原因在于顺序存储是开辟一块连续的内存空间，各个数据之间紧紧相邻；那么解决顺序存储插入和删除问题就需要采取另外一种存储结构–链式存储；</p>
-<a id="more"></a>  
-<h4 id="线性表的链式存储结构"><a href="#线性表的链式存储结构" class="headerlink" title="线性表的链式存储结构"></a>线性表的链式存储结构</h4><p>在顺序存储结构中数据元素只要存储数据元素信息就可以了，而链式存储结构还需要存储下一个结点的内存地址，即每个数据元素成为一个独立的结点，结点包含数据信息和地址信息两个部分；n个这样的结点就构成了链表，  </p>
-<h4 id="单链表"><a href="#单链表" class="headerlink" title="单链表"></a>单链表</h4><p> 因为结点中只存在一个地址指针，即该链表又称之为单链表   </p>
-<h4 id="头结点"><a href="#头结点" class="headerlink" title="头结点"></a>头结点</h4><p>排在单链表的第一个结点前的结点叫头结点  </p>
-<h4 id="头指针"><a href="#头指针" class="headerlink" title="头指针"></a>头指针</h4><p>链表第一个结点的存储位置即为头指针/ 头结点中存放的指针即为头指针  </p>
-<h4 id="单链表的链式存储结构"><a href="#单链表的链式存储结构" class="headerlink" title="单链表的链式存储结构"></a>单链表的链式存储结构</h4><pre><code>typedef int ElemType;
-typedef struct Node{
-    ElemType data;
-    struct Node * next;
-}Node;
-typedef struct Node* LinkList;  
-</code></pre><p> 一个结点的构成包含数据域和指针区域；  </p>
-<h4 id="单链表的初始化"><a href="#单链表的初始化" class="headerlink" title="单链表的初始化"></a>单链表的初始化</h4><pre><code>LinkList linkListInit(){
-Node* L ;
-L = (Node*)malloc(sizeof(Node));
-if (L == NULL) {
-    printf(&quot;申请内存空间失败\n&quot;);
-}
-L -&gt;next = NULL;
-return L;
-}     
-</code></pre><h4 id="创建单链表之头插入方法"><a href="#创建单链表之头插入方法" class="headerlink" title="创建单链表之头插入方法"></a>创建单链表之头插入方法</h4><pre><code>LinkList linkListCreateHeaderMethod(int numberOfNode){
-Node* L ;
-L = (Node*)malloc(sizeof(Node));
-if (L==NULL) {
-    return NULL;
-}
-L-&gt;next = NULL;
-for (int i =0; i&lt;numberOfNode; i++) {
-    Node *p;
-    p =(Node*) malloc(sizeof(Node));
-    p -&gt; data = i ;
-    p-&gt;next = L-&gt;next;   //将结点插入到表头L--&gt;|3|--&gt;|2|--&gt;|1|--&gt;NULL
-    L -&gt; next = p;
-}
-return L;
-}  
-</code></pre><p> 头插入法创建单链表是在头指针和第一个结点之间完成插入操作，新节点的指针存放的是上一个作为第一个结点的地址即L-&gt;next；然后再讲L-&gt;next指向新节点p即可；  </p>
-<h4 id="创建单链表之尾插入方法"><a href="#创建单链表之尾插入方法" class="headerlink" title="创建单链表之尾插入方法"></a>创建单链表之尾插入方法</h4><pre><code>LinkList linkListCreateTailMethod(int numberOfNode){
-Node* L ;
-L = (Node*)malloc(sizeof(Node));
-if (L==NULL) {
-    return NULL;
-}
-L -&gt; next = NULL;
-Node* tempL = L;
-for (int i = 0; i&lt;numberOfNode; i++) {
-    Node* p ;
-    p = (Node*)malloc(sizeof(Node));
-    p -&gt;data = i ;
-    tempL -&gt; next = p ;
-    tempL = p ;
-}
-tempL -&gt;next = NULL;
-return L;
-} 
-</code></pre><p> 尾插入就是将新建立的结点放在链表的最后；  </p>
-<h4 id="单链表的插入操作"><a href="#单链表的插入操作" class="headerlink" title="单链表的插入操作"></a>单链表的插入操作</h4><pre><code>int linkListInsert(LinkList list ,int index,int e){
-    Node* pre ;
-    pre = list;
-    for (int i = 1; i&lt;index; i++) {
-        pre = pre -&gt;next;
-    }
-    if (pre) {
-        Node* newNode;
-        newNode  = (Node*)malloc(sizeof(Node));
-        newNode-&gt;data = e ;
-        newNode-&gt;next = pre-&gt;next;
-        pre-&gt;next = newNode;
-        return 1;
-    }
-    return 0;
-} 
-</code></pre><h4 id="单链表的删除操作"><a href="#单链表的删除操作" class="headerlink" title="单链表的删除操作"></a>单链表的删除操作</h4><pre><code>int linkListDeleteNode(LinkList list ,int e){
-    Node *p,*pre = NULL;                   //pre为前驱结点，p为查找的结点。
-    p = list-&gt;next;
-    while(p-&gt;data != e)              //查找值为x的元素
-    {
-        pre = p;
-        p = p-&gt;next;
-    }
-    pre-&gt;next = p-&gt;next;          //删除操作，将其前驱next指向其后继。
-    free(p);
-    return 1;
-}  
-</code></pre><h4 id="单链表返回指定位置的结点数据"><a href="#单链表返回指定位置的结点数据" class="headerlink" title="单链表返回指定位置的结点数据"></a>单链表返回指定位置的结点数据</h4><pre><code>int GetElem(LinkList list,int index,ElemType *e){
-    int i=1;
-    LinkList p ;
-    p = list -&gt;next; // 默认链表名作为第一个结点的指针
-    while (i&lt;index&amp;&amp;p) {
-        p = p -&gt;next;
-        i++;
-    }
-    if (!p||i&gt;index) {
-       return 0;
-    }else{
-        *e = p-&gt;data;
-        return 1;
-    }
-}
-</code></pre>
+        <h4 id="什么是KVC"><a href="#什么是KVC" class="headerlink" title="什么是KVC"></a>什么是KVC</h4><blockquote>
+<p>key value coding：是一种使用字符串标识符间接访问对象属性的机制；  </p>
+</blockquote>
+<pre><code>NSObject 提供如下方法：
+     [obj setValue:&lt;#(nullable id)#&gt; forKey:&lt;#(nonnull NSString *)#&gt;];
+     [obj setValue:&lt;#(nullable id)#&gt; forKeyPath:&lt;#(nonnull NSString *)#&gt;];
+     [obj setValue:&lt;#(nullable id)#&gt; forUndefinedKey:&lt;#(nonnull NSString *)#&gt;];
+     [obj setValuesForKeysWithDictionary:&lt;#(nonnull NSDictionary&lt;NSString *,id&gt; *)#&gt;];
+     [obj valueForKey:&lt;#(nonnull NSString *)#&gt;];
+     [obj valueForKeyPath:&lt;#(nonnull NSString *)#&gt;];
+     [obj valueForUndefinedKey:&lt;#(nonnull NSString *)#&gt;];
+</code></pre><h4 id="如何使用KVC"><a href="#如何使用KVC" class="headerlink" title="如何使用KVC"></a>如何使用KVC</h4><pre><code>KVCObjectTest* kvcTest = [KVCObjectTest new];
+       // setvalue
+[kvcTest setValue:@&quot;hua&quot; forKey:@&quot;name&quot;];
+       // getvalue
+ NSLog(@&quot;name:%@&quot;,[kvcTest valueForKey:@&quot;name&quot;]);
+</code></pre><a id="more"></a>   
+<h4 id="KVC的优点"><a href="#KVC的优点" class="headerlink" title="KVC的优点"></a>KVC的优点</h4><ul>
+<li>能对对象的成员变量和私有属性进行操作  </li>
+<li>自动拆装箱操作（price为CGFloat）<br><code>[obj setValue:@&quot;20.0&quot; forKey:@&quot;price&quot;];</code>  </li>
+<li>对集合的操作能力<br><code>[obj setValue:objArray forKey:@&quot;relativeObjs&quot;];</code>  </li>
+<li>对于集合的运算（relativeBooks为保存book对象的NSArray数组）  <pre><code>NSLog(@&quot;relativeBooksCount:%@&quot;,[book valueForKeyPath:@&quot;relativeBooks.@count&quot;]);
+NSLog(@&quot;relativeBooksPrice sum:%@&quot;,[book valueForKeyPath:@&quot;relativeBooks.@sum.price&quot;]);//-价格总和
+NSLog(@&quot;relativeBooksPrice avg:%@&quot;,[book valueForKeyPath:@&quot;relativeBooks.@avg.price&quot;]);//-价格的平均数
+NSLog(@&quot;relativeBooksPrice max:%@&quot;,[book //-valueForKeyPath:@&quot;relativeBooks.@max.price&quot;]);
+NSLog(@&quot;relativeBooksPrice min:%@&quot;,[book valueForKeyPath:@&quot;relativeBooks.@min.price&quot;]);
+</code></pre></li>
+<li>kvc可以在一个语句中为多个属性赋值(对属性使用字典直接赋值(用字典直接初始化一个对象的成员变量（局限性）字典中的key要和成员变量意义对应)  <pre><code>Book* book1 = [[Book alloc] init];
+NSDictionary* bookPropertiesDict =@{@&quot;name&quot;:@&quot;OC入门&quot;,@&quot;price&quot;:@&quot;20.8&quot;};
+[book1 setValuesForKeysWithDictionary:bookPropertiesDict];
+NSLog(@&quot;%@&quot;,[book1 valueForKeyPath:@&quot;name&quot;]);
+</code></pre></li>
+</ul>
+<h4 id="KVC的实现"><a href="#KVC的实现" class="headerlink" title="KVC的实现"></a>KVC的实现</h4><ul>
+<li>KVC运用了一个isa-swizzling技术，isa-swizzling就是类型混合指针机制。KVC主要通过isa- swizzling，来实现其内部查找定位的。   </li>
+<li>isa 指针  <pre><code>struct objc_class {
+               Class isa;//指针，顾名思义，表示是一个什么，
+               //实例的isa指向类对象，类对象的isa指向元类
+               #if !__OBJC2__
+               Class super_class;  //指向父类
+               const char *name;  //类名
+               long version;
+               long info;
+               long instance_size
+               struct objc_ivar_list *ivars //成员变量列表
+               struct objc_method_list **methodLists; //方法列表
+               struct objc_cache *cache;//缓存
+               //一种优化，调用过的方法存入缓存列表，下次调用先找缓存
+               struct objc_protocol_list *protocols //协议列表
+               #endif
+           } OBJC2_UNAVAILABLE;
+</code></pre></li>
+<li>实例代码经过编译器之后  <pre><code>[obj setValue:@&quot;objname&quot; forKey:@&quot;name&quot;];
+ 就会被编译器处理成：
+ SEL sel = sel_get_uid (&quot;setValue:forKey:&quot;);
+ IMP method = objc_msg_lookup (obj-&gt;isa,sel);
+ method(obj, sel, @&quot;objname&quot;, @&quot;name&quot;);
+</code></pre></li>
+<li>附加  <ul>
+<li>SEL：选择器，是表示一个方法的selector的指针  <blockquote>
+<p><code>typedef struct objc_selector *SEL;</code><br>Objective-C在编译时，会依据每一个方法的名字、参数序列，生成一个唯一的整型标识(Int类型的地址)，这个标识就是SEL;本质上，SEL只是一个指向方法的指针（准确的说，只是一个根据方法名hash化了的KEY值，能唯一代表一个方法），它的存在只是为了加快方法的查询速度。  </p>
+</blockquote>
+</li>
+<li>IMP：实际上是一个函数指针，指向方法实现的首地址  <blockquote>
+<p>id (*IMP)(id, SEL, …)<br> 参数1：实例方法或者是类方法 分别代表类实例的内存地址或是指向原类的指针   </p>
+</blockquote>
+</li>
+<li>Method ：表示类定义的方法   <pre><code>typedef struct objc_method *Method;
+                 struct objc_method {
+                 SEL method_name                 OBJC2_UNAVAILABLE;  // 方法名
+                 char *method_types                  OBJC2_UNAVAILABLE;
+                 IMP method_imp                      OBJC2_UNAVAILABLE;  // 方法实现
+                 }
+</code></pre></li>
+</ul>
+</li>
+</ul>
+<h4 id="KVC内部的实现：一个对象在调用setValue的时候"><a href="#KVC内部的实现：一个对象在调用setValue的时候" class="headerlink" title="KVC内部的实现：一个对象在调用setValue的时候"></a>KVC内部的实现：一个对象在调用setValue的时候</h4><ul>
+<li>首先根据方法名找到运行方法的时候所需要的环境参数（SEL）。   </li>
+<li>他会从自己isa指针结合环境参数，找到具体的方法实现的接口（IMP）。   </li>
+<li>再直接查找得来的具体的方法实现（method）。</li>
+</ul>
+
       
     </div>
     
@@ -460,7 +456,7 @@ return L;
       
         <div class="post-tags">
           
-            <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
+            <a href="/tags/Objective-C/" rel="tag"># Objective-C</a>
           
         </div>
       
@@ -473,8 +469,8 @@ return L;
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/04/数据结构之线性表的顺序存储/" rel="next" title="大话数据结构之线性表的顺序存储">
-                <i class="fa fa-chevron-left"></i> 大话数据结构之线性表的顺序存储
+              <a href="/2017/02/20/Objective-C之KVO/" rel="next" title="Objective-C之KVO">
+                <i class="fa fa-chevron-left"></i> Objective-C之KVO
               </a>
             
           </div>
@@ -483,8 +479,8 @@ return L;
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/01/10/Objective-C之方法/" rel="prev" title="Objective-C之方法">
-                Objective-C之方法 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/06/04/生活篇--说说三观/" rel="prev" title="生活篇--说说三观">
+                生活篇--说说三观 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -628,7 +624,7 @@ return L;
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#线性表的链式存储结构"><span class="nav-number">1.</span> <span class="nav-text">线性表的链式存储结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#单链表"><span class="nav-number">2.</span> <span class="nav-text">单链表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#头结点"><span class="nav-number">3.</span> <span class="nav-text">头结点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#头指针"><span class="nav-number">4.</span> <span class="nav-text">头指针</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#单链表的链式存储结构"><span class="nav-number">5.</span> <span class="nav-text">单链表的链式存储结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#单链表的初始化"><span class="nav-number">6.</span> <span class="nav-text">单链表的初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建单链表之头插入方法"><span class="nav-number">7.</span> <span class="nav-text">创建单链表之头插入方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建单链表之尾插入方法"><span class="nav-number">8.</span> <span class="nav-text">创建单链表之尾插入方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#单链表的插入操作"><span class="nav-number">9.</span> <span class="nav-text">单链表的插入操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#单链表的删除操作"><span class="nav-number">10.</span> <span class="nav-text">单链表的删除操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#单链表返回指定位置的结点数据"><span class="nav-number">11.</span> <span class="nav-text">单链表返回指定位置的结点数据</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是KVC"><span class="nav-number">1.</span> <span class="nav-text">什么是KVC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何使用KVC"><span class="nav-number">2.</span> <span class="nav-text">如何使用KVC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#KVC的优点"><span class="nav-number">3.</span> <span class="nav-text">KVC的优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#KVC的实现"><span class="nav-number">4.</span> <span class="nav-text">KVC的实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#KVC内部的实现：一个对象在调用setValue的时候"><span class="nav-number">5.</span> <span class="nav-text">KVC内部的实现：一个对象在调用setValue的时候</span></a></li></ol></div>
             
 
           </div>
