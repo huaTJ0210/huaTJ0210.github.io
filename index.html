@@ -975,84 +975,7 @@
 <li>声明私有方法:在当前类的.m文件中声明并实现，对外不进行暴露</li>
 <li>分解体积庞大的类文件</li>
 <li>公开frameWork中的一些私有方法【较少使用】</li>
-<li>为系统类增加方法  </li>
-</ul>
-<h3 id="分类的具体使用"><a href="#分类的具体使用" class="headerlink" title="分类的具体使用"></a>分类的具体使用</h3><p>向<code>UIView</code>中新增<code>-(CGFloat)x</code>和<code>-(CGFloat)y</code>方法，并通过关联对象的方式新增属性<code>customeFlag</code>,同时新增了一个<code>UIViewCustomeDelegagte</code>的协议；具体实现如下所示：</p>
-<h4 id="声明部分"><a href="#声明部分" class="headerlink" title="声明部分"></a>声明部分</h4><pre><code>#import &lt;UIKit/UIKit.h&gt;
-// --- add protocol ---
-@protocol UIViewCustomeDelegagte &lt;NSObject&gt;
--(void)view:(UIView*)view selectedItem:(id)item;
-@end
-@interface UIView (HZ)
-@property(nonatomic,weak)id&lt;UIViewCustomeDelegagte&gt; customeDelegate;
-// -- add property
-@property(nonatomic,copy)NSString *customeFlag;
-// --- add method ---
--(CGFloat)x;
--(CGFloat)y;
--(void)testAddProtocol;
-@end  
-</code></pre><h4 id="实现部分"><a href="#实现部分" class="headerlink" title="实现部分"></a>实现部分</h4><pre><code>    #import &quot;UIView+HZ.h&quot;
-    #import &lt;objc/runtime.h&gt;
-
-    static const void* K_CUSTOMER_FLAG = @&quot;customeFlag&quot;;
-    static const void* K_CUSTOMER_DELEGATE= @&quot;customeDelegate&quot;;
-
-    @implementation UIView (HZ)
-
-    - (id&lt;UIViewCustomeDelegagte&gt;)customeDelegate{
-         return objc_getAssociatedObject(self, K_CUSTOMER_DELEGATE);
-    }
-
-    - (void)setCustomeDelegate:(id&lt;UIViewCustomeDelegagte&gt;)customeDelegate{
-        objc_setAssociatedObject(self, K_CUSTOMER_DELEGATE, customeDelegate, OBJC_ASSOCIATION_ASSIGN);
-    }
-
-    -(NSString *)customeFlag{
-        return objc_getAssociatedObject(self, K_CUSTOMER_FLAG);
-    }
-
-    -(void)setCustomeFlag:(NSString *)customeFlag{
-        objc_setAssociatedObject(self, K_CUSTOMER_FLAG, customeFlag, OBJC_ASSOCIATION_COPY_NONATOMIC);
-    }
-
-    -(CGFloat)x{
-        return self.frame.origin.x;
-    }
-    -(CGFloat)y{
-        return self.frame.origin.y;
-    }
-
-    -(void)testAddProtocol{
-        if ([self.customeDelegate respondsToSelector:@selector(view:selectedItem:)]) {
-            [self.customeDelegate view:self selectedItem:@&quot;selected item&quot;];
-        }
-}
-</code></pre><h3 id="分类的具体实现原理"><a href="#分类的具体实现原理" class="headerlink" title="分类的具体实现原理"></a>分类的具体实现原理</h3><p>分类的实现原理大致如下:</p>
-<ul>
-<li>创建的类文件经过编译后变成可执行的xx.o文件，系统读取镜像后，执行 remethodizeClass()</li>
-<li>将所有的分类装载到宿主</li>
-<li>将分类中的方法转化为二维数组，【倒序遍历—&gt;最后编译的类放在最前面】</li>
-<li>对宿主类的方法列表进行扩容操作，然后进行内存的移动，将列表的前部位置空出供分类中的方法填充</li>
-<li>注意事项： 出现不同分类中存在相同的方法，编译顺序的不同，导致函数的调用也会不同，最后编译的分类中的方法会被执行</li>
-</ul>
-<h3 id="分类的常见问题"><a href="#分类的常见问题" class="headerlink" title="分类的常见问题"></a>分类的常见问题</h3><ul>
-<li>分类中出现与宿主类同名的方法，会出现什么问题？ ==》宿主中的方法会失效，调用的时候会使用分类的方法，不建议定义相同的名称；</li>
-<li>出现多个分类文件，分类文件中存在相同方法时，调用方法时会出现什么问题？==》最后被编译的分类文件中的方法会生效 ，具体原因查看<code>attachLists</code>的代码实现；</li>
-</ul>
-<p><strong>以下是runtime源码中对于分类具体实现的大致调用顺序</strong>  </p>
-<pre><code>  // 加载所有头文件，并从头文件中获取分类列表
-void _read_images(header_info **hList, uint32_t hCount, int totalClasses, int unoptimizedTotalClasses){
-   // 重新调整宿主类的结构，包括：添加方法、属性、协议等
-   remethodizeClass(Class cls) {
-      // 将分类中的内容添加到宿主类中
-      attachCategories(Class cls, category_list *cats, bool flush_caches){
-            // 如何添加的具体实现
-            attachLists(List* const * addedLists, uint32_t addedCount){
-             }
-      }
-  } } 
-</code></pre>
+<li>为系统类增加方法
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/04/21/Objective-C之分类/#more" rel="contents">
@@ -1556,7 +1479,7 @@ typedef struct {
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/04/Objective-C之属性/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/04/Objective-C之属性/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="华子">
@@ -1575,7 +1498,7 @@ typedef struct {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/01/04/Objective-C之属性/" itemprop="url">对象、消息、运行期</a></h1>
+                <a class="post-title-link" href="/2017/01/04/Objective-C之属性/" itemprop="url">Objective-C之属性</a></h1>
         
 
         <div class="post-meta">
@@ -1587,8 +1510,8 @@ typedef struct {
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-04T18:00:32+08:00">
-                2016-01-04
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-04T18:00:32+08:00">
+                2017-01-04
               </time>
             
 
@@ -1648,8 +1571,7 @@ typedef struct {
 
       
         
-          
-            <p>Objective-C属性相关内容 </p>
+          <p>Objective-C属性相关内容 </p>
 <h3 id="property关键字的作用"><a href="#property关键字的作用" class="headerlink" title="@property关键字的作用"></a><code>@property</code>关键字的作用</h3><ul>
 <li>生成实例变量 _propertyName</li>
 <li>生成setter方法</li>
@@ -1673,96 +1595,15 @@ typedef struct {
 <li>copy ：特质同strong，只是在设置值的时候，不保留新值，而是直接将其copy</li>
 </ul>
 </li>
-<li>方法名： getter=<name></name></li>
+<li>方法名： getter=<name></li>
 </ul>
-<h3 id="自定义初始化方法"><a href="#自定义初始化方法" class="headerlink" title="自定义初始化方法"></a>自定义初始化方法</h3><pre><code>-(instancetype)initWithFirstName:(NSString*)firstName lastName:(NSString*)lastName{
-  if(self = [super init]){
-  // 避免传入的值是一个可变对象
-    _firstName = [firstName copy];
-    _lastName = [lastName copy];
-  }
-  return self;
-}
-</code></pre><h3 id="当重写setter和getter方法时，编译器会报错-propertyName未定义"><a href="#当重写setter和getter方法时，编译器会报错-propertyName未定义" class="headerlink" title="当重写setter和getter方法时，编译器会报错_propertyName未定义"></a>当重写setter和getter方法时，编译器会报错_propertyName未定义</h3><p>   此时需要使用<code>@synthesize</code>来合成 <code>propertyName = _propertyName；</code><br>   <code>@synthesize</code>另外一个作用是给实例变量取别名 </p>
-<h3 id="dynamic"><a href="#dynamic" class="headerlink" title="@dynamic"></a>@dynamic</h3><p>   告知编译器setter和getter方法不需要自动生成</p>
-<h3 id="在对象内部尽量直接访问实例变量"><a href="#在对象内部尽量直接访问实例变量" class="headerlink" title="在对象内部尽量直接访问实例变量"></a>在对象内部尽量直接访问实例变量</h3><ul>
-<li>可以避免使用存储方法，不经过“方法的派发”</li>
-<li>折中方案（写入使用存储方法，读取直接访问实例变量）</li>
-<li>直接访问实例变量不会触发内存管理语义</li>
-<li>初始化方法中，直接访问实例变量</li>
-<li>惰性加载 </li>
-</ul>
-<h3 id="理解对象等同性"><a href="#理解对象等同性" class="headerlink" title="理解对象等同性"></a>理解对象等同性</h3><pre><code>NSString *foo = @&quot;123&quot;;
-NSString *bar = [NSString stringWithFormat:@&quot;%i&quot;,123];
-BOOL equalA = (foo == bar);//equalA = NO,== 比较的是两个指针
-BOOL equalB = [foo isEqual:bar];//equalB = YES
-</code></pre><h3 id="使用类族模式（工厂模式）"><a href="#使用类族模式（工厂模式）" class="headerlink" title="使用类族模式（工厂模式）"></a>使用类族模式（工厂模式）</h3><p><code>+ （UIButton*）buttonWithType:(UIButtonType)type</code></p>
-<h3 id="关联对象"><a href="#关联对象" class="headerlink" title="关联对象"></a>关联对象</h3><ul>
-<li>objc_setAssociatedObject(object,key,value,policy)</li>
-<li>objc_getAssociatedObject(object,key)</li>
-</ul>
-<p><strong>使用场景</strong>  </p>
-<ul>
-<li>给一些系统类添加属性    </li>
-<li>在分类中添加属性<ul>
-<li>在分类中定义属性</li>
-<li>重写属性的setter和getter方法（使用关联对象）</li>
-</ul>
-</li>
-</ul>
-<h3 id="比较assign和weak的差别"><a href="#比较assign和weak的差别" class="headerlink" title="比较assign和weak的差别"></a>比较assign和weak的差别</h3><ul>
-<li>assign修饰基本数据类型，weak修饰对象类型</li>
-<li>修饰对象使用weak，当对象被释放时，对象指针会被置为nil，使用assign则不会</li>
-</ul>
-<h3 id="深浅拷贝-、自定义对象的拷贝"><a href="#深浅拷贝-、自定义对象的拷贝" class="headerlink" title="深浅拷贝 、自定义对象的拷贝"></a>深浅拷贝 、自定义对象的拷贝</h3><ul>
-<li>copy<ul>
-<li>不可变对象{NSString/NSArray/NSDictionary} : 浅拷贝，堆上不开辟新空间，得到的也是不可变对象</li>
-<li>可变对象 {NSMutableString/NSMutableArray/NSMutableDictionary}:深拷贝，堆上开辟空间，得到的是不可变对象</li>
-</ul>
-</li>
-<li>mutableCopy：对于可变/不可变对象来说都是深拷贝，堆上开辟新空间，得到的是可变对象</li>
-<li>能否对一些不可变对象使用strong关键词修饰？<br>  不可以，当指针从不可变对象，改为指向可变对象时，数据发生改变，可能会造成不可预知的问题</li>
-<li>自定义对象的实现拷贝<ul>
-<li>遵守NSCopying协议</li>
-<li>实现copyWithZone:(NSZone*)zone</li>
-</ul>
-</li>
-</ul>
-<h3 id="copy-strong-MRC下的setter方法重写"><a href="#copy-strong-MRC下的setter方法重写" class="headerlink" title="copy / strong MRC下的setter方法重写"></a>copy / strong MRC下的setter方法重写</h3><ul>
-<li><p>copy</p>
-<pre><code>-(void)setName:(NSString*)name{
-     _name = [name copy];
-}
-</code></pre></li>
-<li><p>strong</p>
-<pre><code>-(void)setName:(NSString*)name{
-      if(_name!=name){
-        [_name release];
-        _name = [name retain];
-      }
-  }
-</code></pre></li>
-</ul>
-<h3 id="分类、协议中属性的使用"><a href="#分类、协议中属性的使用" class="headerlink" title="分类、协议中属性的使用"></a>分类、协议中属性的使用</h3><ul>
-<li><p>分类中正常不能添加属性，但可以通过联合的方式添加</p>
-<pre><code> #import &quot;HZProperty+HZ.h&quot;
-#import &lt;objc/runtime.h&gt;
-
-const void *key = &quot;hobit&quot;;
-@implementation HZProperty (HZ)
--(void)method{
-    objc_setAssociatedObject(self, &amp;key, @&quot;123&quot;, OBJC_ASSOCIATION_COPY);
-    NSString * hobit = objc_getAssociatedObject(self, &amp;key);
-    NSLog(@&quot;==&gt;%@&quot;,hobit);
-}
-
-@end
-</code></pre></li>
-<li><p>协议中很少使用</p>
-</li>
-</ul>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/01/04/Objective-C之属性/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>

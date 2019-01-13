@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="数据结构," />
+  <meta name="keywords" content="Objective-C," />
 
 
 
@@ -81,40 +81,73 @@
 
 
 
-<meta name="description" content="线性表
-零个或多个数据元素的有限序列；可以理解为数据按照顺序依次排列，除了头结点和尾结点外其他结点只存在唯一的前继和后继； 例如：平时购票的队伍、从北京到上海的京沪线等；
+<meta name="description" content="Objective-C属性相关内容 
+@property关键字的作用
+生成实例变量 _propertyName
+生成setter方法
+生成getter方法  
 
-线性表的顺序存储结构#define MAXSIEZ 20
-typedef int ElemType;
-typedef struct {
-    ElemType data[MAXSIEZ];
-    int length;
-}">
+@property 特质（会影响编译器生成的存取方法）
+原子性 : 默认情况下是atomic，确保原子性
+atomic 
+nonatomic
+
+
+读写
+readwrite
+readonly
+
+
+内存管理
+assign ：基本数据类型
+we">
 <meta property="og:type" content="article">
-<meta property="og:title" content="大话数据结构之线性表的顺序存储">
-<meta property="og:url" content="http://yoursite.com/2017/01/04/数据结构之线性表的顺序存储/index.html">
+<meta property="og:title" content="Objective-C之属性">
+<meta property="og:url" content="http://yoursite.com/2017/01/04/Objective-C之属性/index.html">
 <meta property="og:site_name" content="華">
-<meta property="og:description" content="线性表
-零个或多个数据元素的有限序列；可以理解为数据按照顺序依次排列，除了头结点和尾结点外其他结点只存在唯一的前继和后继； 例如：平时购票的队伍、从北京到上海的京沪线等；
+<meta property="og:description" content="Objective-C属性相关内容 
+@property关键字的作用
+生成实例变量 _propertyName
+生成setter方法
+生成getter方法  
 
-线性表的顺序存储结构#define MAXSIEZ 20
-typedef int ElemType;
-typedef struct {
-    ElemType data[MAXSIEZ];
-    int length;
-}">
-<meta property="og:updated_time" content="2019-01-13T02:49:01.586Z">
+@property 特质（会影响编译器生成的存取方法）
+原子性 : 默认情况下是atomic，确保原子性
+atomic 
+nonatomic
+
+
+读写
+readwrite
+readonly
+
+
+内存管理
+assign ：基本数据类型
+we">
+<meta property="og:updated_time" content="2019-01-13T10:45:41.394Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="大话数据结构之线性表的顺序存储">
-<meta name="twitter:description" content="线性表
-零个或多个数据元素的有限序列；可以理解为数据按照顺序依次排列，除了头结点和尾结点外其他结点只存在唯一的前继和后继； 例如：平时购票的队伍、从北京到上海的京沪线等；
+<meta name="twitter:title" content="Objective-C之属性">
+<meta name="twitter:description" content="Objective-C属性相关内容 
+@property关键字的作用
+生成实例变量 _propertyName
+生成setter方法
+生成getter方法  
 
-线性表的顺序存储结构#define MAXSIEZ 20
-typedef int ElemType;
-typedef struct {
-    ElemType data[MAXSIEZ];
-    int length;
-}">
+@property 特质（会影响编译器生成的存取方法）
+原子性 : 默认情况下是atomic，确保原子性
+atomic 
+nonatomic
+
+
+读写
+readwrite
+readonly
+
+
+内存管理
+assign ：基本数据类型
+we">
 
 
 
@@ -144,13 +177,13 @@ typedef struct {
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/01/04/数据结构之线性表的顺序存储/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/01/04/Objective-C之属性/"/>
 
 
 
 
 
-  <title>大话数据结构之线性表的顺序存储 | 華</title>
+  <title>Objective-C之属性 | 華</title>
   
 
 
@@ -277,7 +310,7 @@ typedef struct {
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/04/数据结构之线性表的顺序存储/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/04/Objective-C之属性/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="华子">
@@ -294,7 +327,7 @@ typedef struct {
 
         
         
-          <h1 class="post-title" itemprop="name headline">大话数据结构之线性表的顺序存储</h1>
+          <h1 class="post-title" itemprop="name headline">Objective-C之属性</h1>
         
 
         <div class="post-meta">
@@ -306,7 +339,7 @@ typedef struct {
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-04T20:57:54+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-04T18:00:32+08:00">
                 2017-01-04
               </time>
             
@@ -329,8 +362,8 @@ typedef struct {
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/数据结构/" itemprop="url" rel="index">
-                    <span itemprop="name">数据结构</span>
+                  <a href="/categories/Objective-C/" itemprop="url" rel="index">
+                    <span itemprop="name">Objective-C</span>
                   </a>
                 </span>
 
@@ -366,62 +399,119 @@ typedef struct {
       
 
       
-        <h4 id="线性表"><a href="#线性表" class="headerlink" title="线性表"></a>线性表</h4><blockquote>
-<p>零个或多个数据元素的有限序列；可以理解为数据按照顺序依次排列，除了头结点和尾结点外其他结点只存在唯一的前继和后继； 例如：平时购票的队伍、从北京到上海的京沪线等；</p>
-</blockquote>
-<h4 id="线性表的顺序存储结构"><a href="#线性表的顺序存储结构" class="headerlink" title="线性表的顺序存储结构"></a>线性表的顺序存储结构</h4><pre><code>#define MAXSIEZ 20
-typedef int ElemType;
-typedef struct {
-    ElemType data[MAXSIEZ];
-    int length;
-}SqList;
-</code></pre><p>线性表的顺序存储结构包含两部分，一个是存储数据的数组，一个实际存储数据元素个数的整型变量；其中MAXSIEZ是该线性表指定的最大存储容量！<br><a id="more"></a></p>
-<h4 id="在线性表中获取指定位置的元素"><a href="#在线性表中获取指定位置的元素" class="headerlink" title="在线性表中获取指定位置的元素"></a>在线性表中获取指定位置的元素</h4><pre><code>int getElem(SqList list,int index,ElemType* e){
-if (list.length==0 || index&lt;1 ||index&gt;list.length) {
-    return 0;
-}else{
-    *e = list.data[index];
-    return 1;
-}
-}
-</code></pre><p>在线性表中获取指定位置的元素，其操作实质是在SqList的data数组中返回指定索引的值；操作中应该避免数组操作引发越界的操作；数组的下标是从0开始的，而线性表的顺序存储是从1开始</p>
-<h4 id="在线性表中指定位置插入数据"><a href="#在线性表中指定位置插入数据" class="headerlink" title="在线性表中指定位置插入数据"></a>在线性表中指定位置插入数据</h4><pre><code> int listInsert(SqList *list,int index,ElemType e){
-if (index&gt;list-&gt;length+1||index&lt;1) {
-    return 0;
-}else{
-    if (index == list-&gt;length+1) {
-        list-&gt;data[index-1] = e;
-        return 1;
-    }else{
-        int lastIndex = list-&gt;length;
-        for (int i = lastIndex; i&gt;=index; i--) {
-            list-&gt;data[i] = list-&gt;data[i-1];
-        }
-        list-&gt;data[index-1] = e ;
-        list-&gt;length++; //元素插入完毕后增加list的长度
-        return 1;
-    }
-}
-}   
-</code></pre><p>  插入操作就是将存储在指定位置后面的所有元素依次向后移动一位；然后指定位置的数据更新为传入的参数，最后将线性表的长度+1；  </p>
-<h4 id="在线性表中指定位置删除数据"><a href="#在线性表中指定位置删除数据" class="headerlink" title="在线性表中指定位置删除数据"></a>在线性表中指定位置删除数据</h4><pre><code> int  listDelete(SqList *list,int index,ElemType* e){
-if (list-&gt;length==0||index&lt;1||index&gt;list-&gt;length) {
-    return 0;
-}
-*e = list-&gt;data[index-1];
-for (int i = index; i&lt;list-&gt;length; i++) {
-    list-&gt;data[i-1] = list-&gt;data[i];
-}
-list-&gt;length--;
-return 1;
-}
-</code></pre><p> 在线性表中指定位置删除数据就是将存储在指定位置后面的所有元素依次向前移动一位，最后将线性表的长度+1；    </p>
-<h4 id="SqList-list-与-SqList-list"><a href="#SqList-list-与-SqList-list" class="headerlink" title="SqList *list 与 SqList list"></a>SqList *list 与 SqList list</h4><ul>
-<li>SqList *list 表示声明一个SqList类型的指针，该指针目前未指向任何内存区域，所以是一个野指针；</li>
-<li>SqList list 表示声明了一个SqList类型的变量，在内存中已经开辟了相应的空间；  </li>
-<li>为什么查找操作的时候传入的是list变量而删除和插入传入的是list指针，主要原因首先是结构体是值类型，查找操作传入list变量，在查找函数中存放的其实是list的一个值拷贝；插入和删除操作则要对传入的list做变更操作，所以要传入list指针；  </li>
+        <p>Objective-C属性相关内容 </p>
+<h3 id="property关键字的作用"><a href="#property关键字的作用" class="headerlink" title="@property关键字的作用"></a><code>@property</code>关键字的作用</h3><ul>
+<li>生成实例变量 _propertyName</li>
+<li>生成setter方法</li>
+<li>生成getter方法  </li>
 </ul>
-<p>关于值类型和引用类型的区分可以考虑 swap(int a,int b);和 swap(int* a,int* b);的区别</p>
+<h3 id="property-特质（会影响编译器生成的存取方法）"><a href="#property-特质（会影响编译器生成的存取方法）" class="headerlink" title="@property 特质（会影响编译器生成的存取方法）"></a><code>@property</code> 特质（会影响编译器生成的存取方法）</h3><ul>
+<li>原子性 : 默认情况下是atomic，确保原子性<ul>
+<li>atomic </li>
+<li>nonatomic</li>
+</ul>
+</li>
+<li>读写<ul>
+<li>readwrite</li>
+<li>readonly</li>
+</ul>
+</li>
+<li>内存管理<ul>
+<li>assign ：基本数据类型</li>
+<li>weak ： 表示非拥有关系，所指对象销毁，会自动置为nil；</li>
+<li>strong ：表示一种拥有属性，为其设置新值时，先保留新值，再释放旧值，然后将新值赋上</li>
+<li>copy ：特质同strong，只是在设置值的时候，不保留新值，而是直接将其copy</li>
+</ul>
+</li>
+<li>方法名： getter=<name></name></li>
+</ul>
+<a id="more"></a>
+<h3 id="自定义初始化方法"><a href="#自定义初始化方法" class="headerlink" title="自定义初始化方法"></a>自定义初始化方法</h3><pre><code>-(instancetype)initWithFirstName:(NSString*)firstName lastName:(NSString*)lastName{
+  if(self = [super init]){
+  // 避免传入的值是一个可变对象
+    _firstName = [firstName copy];
+    _lastName = [lastName copy];
+  }
+  return self;
+}
+</code></pre><h3 id="当重写setter和getter方法时，编译器会报错-propertyName未定义"><a href="#当重写setter和getter方法时，编译器会报错-propertyName未定义" class="headerlink" title="当重写setter和getter方法时，编译器会报错_propertyName未定义"></a>当重写setter和getter方法时，编译器会报错_propertyName未定义</h3><p>   此时需要使用<code>@synthesize</code>来合成 <code>propertyName = _propertyName；</code><br>   <code>@synthesize</code>另外一个作用是给实例变量取别名 </p>
+<h3 id="dynamic"><a href="#dynamic" class="headerlink" title="@dynamic"></a>@dynamic</h3><p>   告知编译器setter和getter方法不需要自动生成</p>
+<h3 id="在对象内部尽量直接访问实例变量"><a href="#在对象内部尽量直接访问实例变量" class="headerlink" title="在对象内部尽量直接访问实例变量"></a>在对象内部尽量直接访问实例变量</h3><ul>
+<li>可以避免使用存储方法，不经过“方法的派发”</li>
+<li>折中方案（写入使用存储方法，读取直接访问实例变量）</li>
+<li>直接访问实例变量不会触发内存管理语义</li>
+<li>初始化方法中，直接访问实例变量</li>
+<li>惰性加载 </li>
+</ul>
+<h3 id="理解对象等同性"><a href="#理解对象等同性" class="headerlink" title="理解对象等同性"></a>理解对象等同性</h3><pre><code>NSString *foo = @&quot;123&quot;;
+NSString *bar = [NSString stringWithFormat:@&quot;%i&quot;,123];
+BOOL equalA = (foo == bar);//equalA = NO,== 比较的是两个指针
+BOOL equalB = [foo isEqual:bar];//equalB = YES
+</code></pre><h3 id="使用类族模式（工厂模式）"><a href="#使用类族模式（工厂模式）" class="headerlink" title="使用类族模式（工厂模式）"></a>使用类族模式（工厂模式）</h3><p><code>+ （UIButton*）buttonWithType:(UIButtonType)type</code></p>
+<h3 id="关联对象"><a href="#关联对象" class="headerlink" title="关联对象"></a>关联对象</h3><ul>
+<li>objc_setAssociatedObject(object,key,value,policy)</li>
+<li>objc_getAssociatedObject(object,key)</li>
+</ul>
+<p><strong>使用场景</strong>  </p>
+<ul>
+<li>给一些系统类添加属性    </li>
+<li>在分类中添加属性<ul>
+<li>在分类中定义属性</li>
+<li>重写属性的setter和getter方法（使用关联对象）</li>
+</ul>
+</li>
+</ul>
+<h3 id="比较assign和weak的差别"><a href="#比较assign和weak的差别" class="headerlink" title="比较assign和weak的差别"></a>比较assign和weak的差别</h3><ul>
+<li>assign修饰基本数据类型，weak修饰对象类型</li>
+<li>修饰对象使用weak，当对象被释放时，对象指针会被置为nil，使用assign则不会</li>
+</ul>
+<h3 id="深浅拷贝-、自定义对象的拷贝"><a href="#深浅拷贝-、自定义对象的拷贝" class="headerlink" title="深浅拷贝 、自定义对象的拷贝"></a>深浅拷贝 、自定义对象的拷贝</h3><ul>
+<li>copy<ul>
+<li>不可变对象{NSString/NSArray/NSDictionary} : 浅拷贝，堆上不开辟新空间，得到的也是不可变对象</li>
+<li>可变对象 {NSMutableString/NSMutableArray/NSMutableDictionary}:深拷贝，堆上开辟空间，得到的是不可变对象</li>
+</ul>
+</li>
+<li>mutableCopy：对于可变/不可变对象来说都是深拷贝，堆上开辟新空间，得到的是可变对象</li>
+<li>能否对一些不可变对象使用strong关键词修饰？<br>  不可以，当指针从不可变对象，改为指向可变对象时，数据发生改变，可能会造成不可预知的问题</li>
+<li>自定义对象的实现拷贝<ul>
+<li>遵守NSCopying协议</li>
+<li>实现copyWithZone:(NSZone*)zone</li>
+</ul>
+</li>
+</ul>
+<h3 id="copy-strong-MRC下的setter方法重写"><a href="#copy-strong-MRC下的setter方法重写" class="headerlink" title="copy / strong MRC下的setter方法重写"></a>copy / strong MRC下的setter方法重写</h3><ul>
+<li><p>copy</p>
+<pre><code>-(void)setName:(NSString*)name{
+     _name = [name copy];
+}
+</code></pre></li>
+<li><p>strong</p>
+<pre><code>-(void)setName:(NSString*)name{
+      if(_name!=name){
+        [_name release];
+        _name = [name retain];
+      }
+  }
+</code></pre></li>
+</ul>
+<h3 id="分类、协议中属性的使用"><a href="#分类、协议中属性的使用" class="headerlink" title="分类、协议中属性的使用"></a>分类、协议中属性的使用</h3><ul>
+<li><p>分类中正常不能添加属性，但可以通过联合的方式添加</p>
+<pre><code> #import &quot;HZProperty+HZ.h&quot;
+#import &lt;objc/runtime.h&gt;
+
+const void *key = &quot;hobit&quot;;
+@implementation HZProperty (HZ)
+-(void)method{
+    objc_setAssociatedObject(self, &amp;key, @&quot;123&quot;, OBJC_ASSOCIATION_COPY);
+    NSString * hobit = objc_getAssociatedObject(self, &amp;key);
+    NSLog(@&quot;==&gt;%@&quot;,hobit);
+}
+
+@end
+</code></pre></li>
+<li><p>协议中很少使用</p>
+</li>
+</ul>
 
       
     </div>
@@ -439,7 +529,7 @@ return 1;
       
         <div class="post-tags">
           
-            <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
+            <a href="/tags/Objective-C/" rel="tag"># Objective-C</a>
           
         </div>
       
@@ -452,18 +542,14 @@ return 1;
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/04/Objective-C之属性/" rel="next" title="Objective-C之属性">
-                <i class="fa fa-chevron-left"></i> Objective-C之属性
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/01/05/数据结构之单链表/" rel="prev" title="大话数据结构之单链表">
-                大话数据结构之单链表 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/01/04/数据结构之线性表的顺序存储/" rel="prev" title="大话数据结构之线性表的顺序存储">
+                大话数据结构之线性表的顺序存储 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -607,7 +693,7 @@ return 1;
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#线性表"><span class="nav-number">1.</span> <span class="nav-text">线性表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#线性表的顺序存储结构"><span class="nav-number">2.</span> <span class="nav-text">线性表的顺序存储结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在线性表中获取指定位置的元素"><span class="nav-number">3.</span> <span class="nav-text">在线性表中获取指定位置的元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在线性表中指定位置插入数据"><span class="nav-number">4.</span> <span class="nav-text">在线性表中指定位置插入数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在线性表中指定位置删除数据"><span class="nav-number">5.</span> <span class="nav-text">在线性表中指定位置删除数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SqList-list-与-SqList-list"><span class="nav-number">6.</span> <span class="nav-text">SqList *list 与 SqList list</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#property关键字的作用"><span class="nav-number">1.</span> <span class="nav-text">@property关键字的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#property-特质（会影响编译器生成的存取方法）"><span class="nav-number">2.</span> <span class="nav-text">@property 特质（会影响编译器生成的存取方法）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义初始化方法"><span class="nav-number">3.</span> <span class="nav-text">自定义初始化方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#当重写setter和getter方法时，编译器会报错-propertyName未定义"><span class="nav-number">4.</span> <span class="nav-text">当重写setter和getter方法时，编译器会报错_propertyName未定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dynamic"><span class="nav-number">5.</span> <span class="nav-text">@dynamic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在对象内部尽量直接访问实例变量"><span class="nav-number">6.</span> <span class="nav-text">在对象内部尽量直接访问实例变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#理解对象等同性"><span class="nav-number">7.</span> <span class="nav-text">理解对象等同性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用类族模式（工厂模式）"><span class="nav-number">8.</span> <span class="nav-text">使用类族模式（工厂模式）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关联对象"><span class="nav-number">9.</span> <span class="nav-text">关联对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#比较assign和weak的差别"><span class="nav-number">10.</span> <span class="nav-text">比较assign和weak的差别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#深浅拷贝-、自定义对象的拷贝"><span class="nav-number">11.</span> <span class="nav-text">深浅拷贝 、自定义对象的拷贝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#copy-strong-MRC下的setter方法重写"><span class="nav-number">12.</span> <span class="nav-text">copy / strong MRC下的setter方法重写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类、协议中属性的使用"><span class="nav-number">13.</span> <span class="nav-text">分类、协议中属性的使用</span></a></li></ol></div>
             
 
           </div>
