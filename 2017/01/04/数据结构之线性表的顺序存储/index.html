@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="随感," />
+  <meta name="keywords" content="数据结构," />
 
 
 
@@ -81,25 +81,40 @@
 
 
 
-<meta name="description" content="人生观
-对于人生的根本态度与看法  
+<meta name="description" content="线性表
+零个或多个数据元素的有限序列；可以理解为数据按照顺序依次排列，除了头结点和尾结点外其他结点只存在唯一的前继和后继； 例如：平时购票的队伍、从北京到上海的京沪线等；
 
-   人生千姿百态，每个人都是一个演员在无剧本的人生舞台上做着自己的表演。有句话说意识决定形态，我个人浅显的理解就是你自己的意愿想通过哪种姿态展现自己， 那么在世人面前你就是以哪种姿态呈现。有时候我们会感慨某某活成了我们自己想要的模样，其实本质上我们都有活成某种模样的意识但最终为什么差别很大？主要原因是缺乏行动，多数人都具有正确的人生观：积极生活、努力奋斗、">
+线性表的顺序存储结构#define MAXSIEZ 20
+typedef int ElemType;
+typedef struct {
+    ElemType data[MAXSIEZ];
+    int length;
+}">
 <meta property="og:type" content="article">
-<meta property="og:title" content="生活篇--说说三观">
-<meta property="og:url" content="http://yoursite.com/2017/06/04/生活篇--说说三观/index.html">
+<meta property="og:title" content="大话数据结构之线性表的顺序存储">
+<meta property="og:url" content="http://yoursite.com/2017/01/04/数据结构之线性表的顺序存储/index.html">
 <meta property="og:site_name" content="華">
-<meta property="og:description" content="人生观
-对于人生的根本态度与看法  
+<meta property="og:description" content="线性表
+零个或多个数据元素的有限序列；可以理解为数据按照顺序依次排列，除了头结点和尾结点外其他结点只存在唯一的前继和后继； 例如：平时购票的队伍、从北京到上海的京沪线等；
 
-   人生千姿百态，每个人都是一个演员在无剧本的人生舞台上做着自己的表演。有句话说意识决定形态，我个人浅显的理解就是你自己的意愿想通过哪种姿态展现自己， 那么在世人面前你就是以哪种姿态呈现。有时候我们会感慨某某活成了我们自己想要的模样，其实本质上我们都有活成某种模样的意识但最终为什么差别很大？主要原因是缺乏行动，多数人都具有正确的人生观：积极生活、努力奋斗、">
-<meta property="og:updated_time" content="2018-06-23T04:14:36.000Z">
+线性表的顺序存储结构#define MAXSIEZ 20
+typedef int ElemType;
+typedef struct {
+    ElemType data[MAXSIEZ];
+    int length;
+}">
+<meta property="og:updated_time" content="2019-01-13T02:49:01.586Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="生活篇--说说三观">
-<meta name="twitter:description" content="人生观
-对于人生的根本态度与看法  
+<meta name="twitter:title" content="大话数据结构之线性表的顺序存储">
+<meta name="twitter:description" content="线性表
+零个或多个数据元素的有限序列；可以理解为数据按照顺序依次排列，除了头结点和尾结点外其他结点只存在唯一的前继和后继； 例如：平时购票的队伍、从北京到上海的京沪线等；
 
-   人生千姿百态，每个人都是一个演员在无剧本的人生舞台上做着自己的表演。有句话说意识决定形态，我个人浅显的理解就是你自己的意愿想通过哪种姿态展现自己， 那么在世人面前你就是以哪种姿态呈现。有时候我们会感慨某某活成了我们自己想要的模样，其实本质上我们都有活成某种模样的意识但最终为什么差别很大？主要原因是缺乏行动，多数人都具有正确的人生观：积极生活、努力奋斗、">
+线性表的顺序存储结构#define MAXSIEZ 20
+typedef int ElemType;
+typedef struct {
+    ElemType data[MAXSIEZ];
+    int length;
+}">
 
 
 
@@ -129,13 +144,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/06/04/生活篇--说说三观/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/01/04/数据结构之线性表的顺序存储/"/>
 
 
 
 
 
-  <title>生活篇--说说三观 | 華</title>
+  <title>大话数据结构之线性表的顺序存储 | 華</title>
   
 
 
@@ -262,7 +277,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/04/生活篇--说说三观/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/04/数据结构之线性表的顺序存储/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="华子">
@@ -279,7 +294,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">生活篇--说说三观</h1>
+          <h1 class="post-title" itemprop="name headline">大话数据结构之线性表的顺序存储</h1>
         
 
         <div class="post-meta">
@@ -291,8 +306,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-04T17:37:48+08:00">
-                2017-06-04
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-04T20:57:54+08:00">
+                2017-01-04
               </time>
             
 
@@ -314,8 +329,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/生活/" itemprop="url" rel="index">
-                    <span itemprop="name">生活</span>
+                  <a href="/categories/数据结构/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
                   </a>
                 </span>
 
@@ -351,40 +366,62 @@
       
 
       
-        <h3 id="人生观"><a href="#人生观" class="headerlink" title="人生观"></a>人生观</h3><blockquote>
-<p>对于人生的根本态度与看法  </p>
+        <h4 id="线性表"><a href="#线性表" class="headerlink" title="线性表"></a>线性表</h4><blockquote>
+<p>零个或多个数据元素的有限序列；可以理解为数据按照顺序依次排列，除了头结点和尾结点外其他结点只存在唯一的前继和后继； 例如：平时购票的队伍、从北京到上海的京沪线等；</p>
 </blockquote>
-<p>   人生千姿百态，每个人都是一个演员在无剧本的人生舞台上做着自己的表演。有句话说<strong>意识决定形态</strong>，我个人浅显的理解就是你自己的意愿想通过哪种姿态展现自己， 那么在世人面前你就是以哪种姿态呈现。<br>有时候我们会感慨某某活成了我们自己想要的模样，其实本质上我们都有活成某种模样的意识但最终为什么差别很大？主要原因是缺乏行动，多数人都具有正确的人生观：积极生活、努力奋斗、追求幸福等；但又有多少勤勤恳恳的去实践自己的人生观呢？经常会听到说这人的做事态度不错，但请不要忘记最终衡量你的还是做事的结果。获取正确的人生观容易，困难的是通过正确的人生观来让生活极大丰富才是最困难的事情！<br><a id="more"></a></p>
-<h4 id="人生观主要包含哪些"><a href="#人生观主要包含哪些" class="headerlink" title="人生观主要包含哪些"></a>人生观主要包含哪些</h4><ul>
-<li>友谊观</li>
-<li>恋爱观</li>
-<li>审美观</li>
-<li>道德观</li>
-<li>苦乐观</li>
-<li>幸福观</li>
+<h4 id="线性表的顺序存储结构"><a href="#线性表的顺序存储结构" class="headerlink" title="线性表的顺序存储结构"></a>线性表的顺序存储结构</h4><pre><code>#define MAXSIEZ 20
+typedef int ElemType;
+typedef struct {
+    ElemType data[MAXSIEZ];
+    int length;
+}SqList;
+</code></pre><p>线性表的顺序存储结构包含两部分，一个是存储数据的数组，一个实际存储数据元素个数的整型变量；其中MAXSIEZ是该线性表指定的最大存储容量！<br><a id="more"></a></p>
+<h4 id="在线性表中获取指定位置的元素"><a href="#在线性表中获取指定位置的元素" class="headerlink" title="在线性表中获取指定位置的元素"></a>在线性表中获取指定位置的元素</h4><pre><code>int getElem(SqList list,int index,ElemType* e){
+if (list.length==0 || index&lt;1 ||index&gt;list.length) {
+    return 0;
+}else{
+    *e = list.data[index];
+    return 1;
+}
+}
+</code></pre><p>在线性表中获取指定位置的元素，其操作实质是在SqList的data数组中返回指定索引的值；操作中应该避免数组操作引发越界的操作；数组的下标是从0开始的，而线性表的顺序存储是从1开始</p>
+<h4 id="在线性表中指定位置插入数据"><a href="#在线性表中指定位置插入数据" class="headerlink" title="在线性表中指定位置插入数据"></a>在线性表中指定位置插入数据</h4><pre><code> int listInsert(SqList *list,int index,ElemType e){
+if (index&gt;list-&gt;length+1||index&lt;1) {
+    return 0;
+}else{
+    if (index == list-&gt;length+1) {
+        list-&gt;data[index-1] = e;
+        return 1;
+    }else{
+        int lastIndex = list-&gt;length;
+        for (int i = lastIndex; i&gt;=index; i--) {
+            list-&gt;data[i] = list-&gt;data[i-1];
+        }
+        list-&gt;data[index-1] = e ;
+        list-&gt;length++; //元素插入完毕后增加list的长度
+        return 1;
+    }
+}
+}   
+</code></pre><p>  插入操作就是将存储在指定位置后面的所有元素依次向后移动一位；然后指定位置的数据更新为传入的参数，最后将线性表的长度+1；  </p>
+<h4 id="在线性表中指定位置删除数据"><a href="#在线性表中指定位置删除数据" class="headerlink" title="在线性表中指定位置删除数据"></a>在线性表中指定位置删除数据</h4><pre><code> int  listDelete(SqList *list,int index,ElemType* e){
+if (list-&gt;length==0||index&lt;1||index&gt;list-&gt;length) {
+    return 0;
+}
+*e = list-&gt;data[index-1];
+for (int i = index; i&lt;list-&gt;length; i++) {
+    list-&gt;data[i-1] = list-&gt;data[i];
+}
+list-&gt;length--;
+return 1;
+}
+</code></pre><p> 在线性表中指定位置删除数据就是将存储在指定位置后面的所有元素依次向前移动一位，最后将线性表的长度+1；    </p>
+<h4 id="SqList-list-与-SqList-list"><a href="#SqList-list-与-SqList-list" class="headerlink" title="SqList *list 与 SqList list"></a>SqList *list 与 SqList list</h4><ul>
+<li>SqList *list 表示声明一个SqList类型的指针，该指针目前未指向任何内存区域，所以是一个野指针；</li>
+<li>SqList list 表示声明了一个SqList类型的变量，在内存中已经开辟了相应的空间；  </li>
+<li>为什么查找操作的时候传入的是list变量而删除和插入传入的是list指针，主要原因首先是结构体是值类型，查找操作传入list变量，在查找函数中存放的其实是list的一个值拷贝；插入和删除操作则要对传入的list做变更操作，所以要传入list指针；  </li>
 </ul>
-<h3 id="世界观"><a href="#世界观" class="headerlink" title="世界观"></a>世界观</h3><blockquote>
-<p>它是人们对世界的基本看法和观点.世界观具有实践性，人的世界观是不断更新、不断完善、不断优化的；  </p>
-</blockquote>
-<p>世界观确实是在不断的更新中的，<strong>世界那么大，我想去看看</strong>本质上的追求是去丰富自己的世界观的，而不是仅仅看看风景，发发朋友圈而已。去一个地方应该在欣赏美景的同时去了解风土人情，通过比较差异来完善自己的认知，使得自己更为的丰富。</p>
-<h3 id="价值观"><a href="#价值观" class="headerlink" title="价值观"></a>价值观</h3><blockquote>
-<p> 用以区分好与坏的标准，是根据个人内心的尺度进行衡量和评价的，这些标准都可以称为价值观。  </p>
-</blockquote>
-<p>我们日常会听到<strong>某某的价值观出了问题</strong>，其实呢我们是在说某人对于问题的评判或者是做的某些行为严重的偏离了我们正常的认知；那么具体什么是正确的价值观呢？这个问题需要我们自己不断的去探寻、去学习。有些价值观是父母师长等人群灌输的；例如孝敬长者，尊师重道等基本的道德要求；真善美与假恶丑是需要自己去分辨的。特别是目前我们处于互联网时代，言论自由，你对于每一个事件的看法都是你价值观的体现；平时和朋友相处也是，交谈中你的价值观就被反应出来了，价值观一致的人才适合一起玩耍的！</p>
-<h3 id="婚姻观"><a href="#婚姻观" class="headerlink" title="婚姻观"></a>婚姻观</h3><blockquote>
-<p>对婚姻和家庭的看法和态度。</p>
-</blockquote>
-<p>我个人一直遵守家庭第一，其他第二的原则；把家庭照顾好了的前提下再向<em>大家</em>奉献，我觉得才是理想的状态。因为每个人的人生观不同所以也就没有评判对与错的必要；</p>
-<h4 id="幸福婚姻应该包含哪些要素"><a href="#幸福婚姻应该包含哪些要素" class="headerlink" title="幸福婚姻应该包含哪些要素"></a>幸福婚姻应该包含哪些要素</h4><ul>
-<li>童心</li>
-<li>浪漫</li>
-<li>幽默</li>
-<li>亲昵</li>
-<li>情话</li>
-<li>沟通</li>
-<li>欣赏</li>
-</ul>
-<p>日常我们经常听到<strong>三观尽毁</strong>和<strong>三观正才能一起玩耍</strong>；一直以来都没有好好的思考自己的<strong>三观</strong>到底是什么？其实我的日常生活中存在很多这样的习以为常的问题都被自己忽略了，真的很不应该，问题是应该被解决的，时间不会将它带走！追求简单生活，不要要逃避问题，而是要解决复杂的问题，这样生活才会简单！</p>
+<p>关于值类型和引用类型的区分可以考虑 swap(int a,int b);和 swap(int* a,int* b);的区别</p>
 
       
     </div>
@@ -402,7 +439,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/随感/" rel="tag"># 随感</a>
+            <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
           
         </div>
       
@@ -415,18 +452,14 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/05/数据结构之单链表/" rel="next" title="大话数据结构之单链表">
-                <i class="fa fa-chevron-left"></i> 大话数据结构之单链表
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/08/18/读《软技能》/" rel="prev" title="读书笔记-《软技能》事业篇">
-                读书笔记-《软技能》事业篇 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/01/05/数据结构之单链表/" rel="prev" title="大话数据结构之单链表">
+                大话数据结构之单链表 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -570,7 +603,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#人生观"><span class="nav-number">1.</span> <span class="nav-text">人生观</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#人生观主要包含哪些"><span class="nav-number">1.1.</span> <span class="nav-text">人生观主要包含哪些</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#世界观"><span class="nav-number">2.</span> <span class="nav-text">世界观</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#价值观"><span class="nav-number">3.</span> <span class="nav-text">价值观</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#婚姻观"><span class="nav-number">4.</span> <span class="nav-text">婚姻观</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#幸福婚姻应该包含哪些要素"><span class="nav-number">4.1.</span> <span class="nav-text">幸福婚姻应该包含哪些要素</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#线性表"><span class="nav-number">1.</span> <span class="nav-text">线性表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#线性表的顺序存储结构"><span class="nav-number">2.</span> <span class="nav-text">线性表的顺序存储结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在线性表中获取指定位置的元素"><span class="nav-number">3.</span> <span class="nav-text">在线性表中获取指定位置的元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在线性表中指定位置插入数据"><span class="nav-number">4.</span> <span class="nav-text">在线性表中指定位置插入数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在线性表中指定位置删除数据"><span class="nav-number">5.</span> <span class="nav-text">在线性表中指定位置删除数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SqList-list-与-SqList-list"><span class="nav-number">6.</span> <span class="nav-text">SqList *list 与 SqList list</span></a></li></ol></div>
             
 
           </div>
