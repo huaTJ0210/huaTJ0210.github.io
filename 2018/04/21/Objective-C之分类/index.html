@@ -81,16 +81,16 @@
 
 
 
-<meta name="description" content="在实际的开发过程中，经常会遇到给现有的系统类增加新方法的需求。根据面向对象语言的特性可以使用继承来实现，但仅仅为了增加一个方法需要把父类的所有属性以及方法都要继承，这种实现机制就显得过于繁琐了。在Objective-C语言中分类特性可以满足给现有类直接新增方法的需求。具体使用是新建Category文件，这样在新建在Category的文件中就可以添加方法（实例方法、类方法）、协议、属性;其中属性的实">
+<meta name="description" content="在实际的开发过程中，经常会遇到给现有的系统类增加新方法的需求。根据面向对象语言的特性可以使用继承来实现。但遇到给系统类（NSString、NSArray等）新增方法或者按照功能拆分大型类文件时，就需要使用分类这一技术了。在Objective-C语言中分类特性是一种编译时手段，可以满足给现有类直接新增方法的需求。具体使用是新建Category文件，这样在新建在Category的文件中就可以添加方法（">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Objective-C之分类">
 <meta property="og:url" content="http://yoursite.com/2018/04/21/Objective-C之分类/index.html">
 <meta property="og:site_name" content="華">
-<meta property="og:description" content="在实际的开发过程中，经常会遇到给现有的系统类增加新方法的需求。根据面向对象语言的特性可以使用继承来实现，但仅仅为了增加一个方法需要把父类的所有属性以及方法都要继承，这种实现机制就显得过于繁琐了。在Objective-C语言中分类特性可以满足给现有类直接新增方法的需求。具体使用是新建Category文件，这样在新建在Category的文件中就可以添加方法（实例方法、类方法）、协议、属性;其中属性的实">
-<meta property="og:updated_time" content="2019-01-13T10:45:59.738Z">
+<meta property="og:description" content="在实际的开发过程中，经常会遇到给现有的系统类增加新方法的需求。根据面向对象语言的特性可以使用继承来实现。但遇到给系统类（NSString、NSArray等）新增方法或者按照功能拆分大型类文件时，就需要使用分类这一技术了。在Objective-C语言中分类特性是一种编译时手段，可以满足给现有类直接新增方法的需求。具体使用是新建Category文件，这样在新建在Category的文件中就可以添加方法（">
+<meta property="og:updated_time" content="2019-01-21T03:02:04.936Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Objective-C之分类">
-<meta name="twitter:description" content="在实际的开发过程中，经常会遇到给现有的系统类增加新方法的需求。根据面向对象语言的特性可以使用继承来实现，但仅仅为了增加一个方法需要把父类的所有属性以及方法都要继承，这种实现机制就显得过于繁琐了。在Objective-C语言中分类特性可以满足给现有类直接新增方法的需求。具体使用是新建Category文件，这样在新建在Category的文件中就可以添加方法（实例方法、类方法）、协议、属性;其中属性的实">
+<meta name="twitter:description" content="在实际的开发过程中，经常会遇到给现有的系统类增加新方法的需求。根据面向对象语言的特性可以使用继承来实现。但遇到给系统类（NSString、NSArray等）新增方法或者按照功能拆分大型类文件时，就需要使用分类这一技术了。在Objective-C语言中分类特性是一种编译时手段，可以满足给现有类直接新增方法的需求。具体使用是新建Category文件，这样在新建在Category的文件中就可以添加方法（">
 
 
 
@@ -342,15 +342,43 @@
       
 
       
-        <p>在实际的开发过程中，经常会遇到给现有的系统类增加新方法的需求。根据面向对象语言的特性可以使用继承来实现，但仅仅为了增加一个方法需要把父类的所有属性以及方法都要继承，这种实现机制就显得过于繁琐了。在<code>Objective-C</code>语言中<code>分类</code>特性可以满足给现有类直接新增方法的需求。<br>具体使用是新建Category文件，这样在新建在Category的文件中就可以添加<strong>方法（实例方法、类方法）</strong>、<strong>协议</strong>、<strong>属性</strong>;其中属性的实现还需要根据关联对象来辅助才能实现；</p>
+        <p>在实际的开发过程中，经常会遇到给现有的系统类增加新方法的需求。根据面向对象语言的特性可以使用继承来实现。但遇到给系统类（NSString、NSArray等）新增方法或者按照功能拆分大型类文件时，就需要使用分类这一技术了。在<code>Objective-C</code>语言中<code>分类</code>特性是一种编译时手段，可以满足给现有类直接新增方法的需求。具体使用是新建Category文件，这样在新建在Category的文件中就可以添加<strong>方法（实例方法、类方法）</strong>、<strong>协议</strong>、<strong>属性</strong>;其中属性的实现还需要根据关联对象来辅助才能实现；</p>
 <h3 id="分类的用途"><a href="#分类的用途" class="headerlink" title="分类的用途"></a>分类的用途</h3><ul>
 <li>声明私有方法:在当前类的.m文件中声明并实现，对外不进行暴露</li>
-<li>分解体积庞大的类文件</li>
-<li>公开frameWork中的一些私有方法【较少使用】</li>
-<li>为系统类增加方法  <a id="more"></a>
-<h3 id="分类的具体使用"><a href="#分类的具体使用" class="headerlink" title="分类的具体使用"></a>分类的具体使用</h3></li>
+<li>分解体积庞大的类文件[按照功能模块拆分自定义类或者为系统类增加方法]</li>
+<li>公开frameWork中的一些私有方法【较少使用】 <a id="more"></a>
+</li>
 </ul>
-<p>向<code>UIView</code>中新增<code>-(CGFloat)x</code>和<code>-(CGFloat)y</code>方法，并通过关联对象的方式新增属性<code>customeFlag</code>,同时新增了一个<code>UIViewCustomeDelegagte</code>的协议；具体实现如下所示：</p>
+<h3 id="分类的相关知识点"><a href="#分类的相关知识点" class="headerlink" title="分类的相关知识点"></a>分类的相关知识点</h3><ul>
+<li>什么是分类<br>  分类是一种编译时的手段，为现有类添加新方法的技术</li>
+</ul>
+<ul>
+<li>分类特点<br>运行时决议【运行时，通过runtime将方法添加到宿主类中】<br>为系统类新增方法</li>
+<li>分类中都可以添加哪些内容<br>实例/类方法<br>协议<br>属性（关联对象）</li>
+<li>分类的作用<br>分解体积庞大的类文件<br>声明私有方法</li>
+<li>分类与继承的对比（如何选择使用哪种技术）<br>为系统类增加方法<br>按照功能拆分大型文件</li>
+<li><p>分类的数据结构 </p>
+<pre><code>struct category_t{
+    const char *name; // 分类名称
+    classref_t cls; // 宿主类
+    struct method_list_t *instanceMethods;
+    struct method_list_t *classMethods;
+    struct protocol_list_t *protocols;
+    struct property_list_t *instanceProperties;
+    method_list_t *methodsForMeta(bool isMeta){
+        if(isMeta) return classMethods;
+        else return instanceMethods;
+    }
+    property_list_t *propertiesForMeta(bool isMeta){
+    if(isMeta) return nil;
+    else return instanceProperties;
+    }
+} 
+</code></pre></li>
+<li><p>分类的实现原理</p>
+</li>
+</ul>
+<h3 id="分类的具体使用"><a href="#分类的具体使用" class="headerlink" title="分类的具体使用"></a>分类的具体使用</h3><p>向<code>UIView</code>中新增<code>-(CGFloat)x</code>和<code>-(CGFloat)y</code>方法，并通过关联对象的方式新增属性<code>customeFlag</code>,同时新增了一个<code>UIViewCustomeDelegagte</code>的协议；具体实现如下所示：</p>
 <h4 id="声明部分"><a href="#声明部分" class="headerlink" title="声明部分"></a>声明部分</h4><pre><code>#import &lt;UIKit/UIKit.h&gt;
 // --- add protocol ---
 @protocol UIViewCustomeDelegagte &lt;NSObject&gt;
@@ -404,7 +432,7 @@
 </code></pre><h3 id="分类的具体实现原理"><a href="#分类的具体实现原理" class="headerlink" title="分类的具体实现原理"></a>分类的具体实现原理</h3><p>分类的实现原理大致如下:</p>
 <ul>
 <li>创建的类文件经过编译后变成可执行的xx.o文件，系统读取镜像后，执行 remethodizeClass()</li>
-<li>将所有的分类装载到宿主</li>
+<li>将所有的分类装载到宿主类中</li>
 <li>将分类中的方法转化为二维数组，【倒序遍历—&gt;最后编译的类放在最前面】</li>
 <li>对宿主类的方法列表进行扩容操作，然后进行内存的移动，将列表的前部位置空出供分类中的方法填充</li>
 <li>注意事项： 出现不同分类中存在相同的方法，编译顺序的不同，导致函数的调用也会不同，最后编译的分类中的方法会被执行</li>
@@ -425,8 +453,7 @@ void _read_images(header_info **hList, uint32_t hCount, int totalClasses, int un
              }
       }
   } } 
-</code></pre><!--more-->      
-<h3 id="分类实现原理的代码解析"><a href="#分类实现原理的代码解析" class="headerlink" title="分类实现原理的代码解析"></a>分类实现原理的代码解析</h3><h4 id="read-images"><a href="#read-images" class="headerlink" title="_read_images()"></a>_read_images()</h4><p>  <code>_read_images()</code> 方法在获取分类时，第一步：遍历加载的.h文件列表，然后获取分类列表；第二部：将分类列表中的方法转换为一个二维数组<code>[[method1,method2,method3],[method4,method5],[method6]]</code>;第三步将二维数组中的每个元素包含的方法再添加到宿主类的<code>method_list</code>中；<strong>分类中的方法是添加在<code>method_list</code>头部</strong>   </p>
+</code></pre><h3 id="分类实现原理的代码解析"><a href="#分类实现原理的代码解析" class="headerlink" title="分类实现原理的代码解析"></a>分类实现原理的代码解析</h3><h4 id="read-images"><a href="#read-images" class="headerlink" title="_read_images()"></a>_read_images()</h4><p>  <code>_read_images()</code> 方法在获取分类时，第一步：遍历加载的.h文件列表，然后获取分类列表；第二部：将分类列表中的方法转换为一个二维数组<code>[[method1,method2,method3],[method4,method5],[method6]]</code>;第三步将二维数组中的每个元素包含的方法再添加到宿主类的<code>method_list</code>中；<strong>分类中的方法是添加在<code>method_list</code>头部</strong>   </p>
 <pre><code>  void _read_images(header_info **hList, uint32_t hCount, int totalClasses, int unoptimizedTotalClasses){
 /*
    Discover categories.
@@ -703,7 +730,7 @@ if ((cats = unattachedCategoriesForClass(cls, false/*not realizing*/))) {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#分类的用途"><span class="nav-number">1.</span> <span class="nav-text">分类的用途</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类的具体使用"><span class="nav-number">2.</span> <span class="nav-text">分类的具体使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#声明部分"><span class="nav-number">2.1.</span> <span class="nav-text">声明部分</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现部分"><span class="nav-number">2.2.</span> <span class="nav-text">实现部分</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类的具体实现原理"><span class="nav-number">3.</span> <span class="nav-text">分类的具体实现原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类的常见问题"><span class="nav-number">4.</span> <span class="nav-text">分类的常见问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类实现原理的代码解析"><span class="nav-number">5.</span> <span class="nav-text">分类实现原理的代码解析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#read-images"><span class="nav-number">5.1.</span> <span class="nav-text">_read_images()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#remethodizeClass-Class-cls"><span class="nav-number">5.2.</span> <span class="nav-text">remethodizeClass(Class cls)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#attachCategories"><span class="nav-number">5.3.</span> <span class="nav-text">attachCategories</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#attachLists"><span class="nav-number">5.4.</span> <span class="nav-text">attachLists</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#分类的用途"><span class="nav-number">1.</span> <span class="nav-text">分类的用途</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类的相关知识点"><span class="nav-number">2.</span> <span class="nav-text">分类的相关知识点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类的具体使用"><span class="nav-number">3.</span> <span class="nav-text">分类的具体使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#声明部分"><span class="nav-number">3.1.</span> <span class="nav-text">声明部分</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现部分"><span class="nav-number">3.2.</span> <span class="nav-text">实现部分</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类的具体实现原理"><span class="nav-number">4.</span> <span class="nav-text">分类的具体实现原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类的常见问题"><span class="nav-number">5.</span> <span class="nav-text">分类的常见问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类实现原理的代码解析"><span class="nav-number">6.</span> <span class="nav-text">分类实现原理的代码解析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#read-images"><span class="nav-number">6.1.</span> <span class="nav-text">_read_images()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#remethodizeClass-Class-cls"><span class="nav-number">6.2.</span> <span class="nav-text">remethodizeClass(Class cls)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#attachCategories"><span class="nav-number">6.3.</span> <span class="nav-text">attachCategories</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#attachLists"><span class="nav-number">6.4.</span> <span class="nav-text">attachLists</span></a></li></ol></li></ol></div>
             
 
           </div>
