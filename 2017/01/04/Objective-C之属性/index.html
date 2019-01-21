@@ -125,7 +125,7 @@ readonly
 内存管理
 assign ：基本数据类型
 we">
-<meta property="og:updated_time" content="2019-01-13T10:54:54.861Z">
+<meta property="og:updated_time" content="2019-01-21T06:41:23.910Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Objective-C之属性">
 <meta name="twitter:description" content="Objective-C属性相关内容 
@@ -449,17 +449,35 @@ BOOL equalA = (foo == bar);//equalA = NO,== 比较的是两个指针
 BOOL equalB = [foo isEqual:bar];//equalB = YES
 </code></pre><h3 id="使用类族模式（工厂模式）"><a href="#使用类族模式（工厂模式）" class="headerlink" title="使用类族模式（工厂模式）"></a>使用类族模式（工厂模式）</h3><p><code>+ （UIButton*）buttonWithType:(UIButtonType)type</code></p>
 <h3 id="关联对象"><a href="#关联对象" class="headerlink" title="关联对象"></a>关联对象</h3><ul>
-<li>objc_setAssociatedObject(object,key,value,policy)</li>
-<li>objc_getAssociatedObject(object,key)</li>
+<li><code>objc_setAssociatedObject(id object,const void *key,id value,objc_AssociationPolicy policy)</code></li>
+<li><code>objc_getAssociatedObject(id object,const void *key)</code></li>
+<li><code>objc_removeAssociatedObjects(id object)</code></li>
 </ul>
-<p><strong>使用场景</strong>  </p>
-<ul>
+<h4 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h4><ul>
 <li>给一些系统类添加属性    </li>
 <li>在分类中添加属性<ul>
 <li>在分类中定义属性</li>
 <li>重写属性的setter和getter方法（使用关联对象）</li>
 </ul>
 </li>
+<li>移除关联对象中的指定属性：objc_setAssociatedObject设置指定的key的值为nil</li>
+</ul>
+<h4 id="关联对象的本质"><a href="#关联对象的本质" class="headerlink" title="关联对象的本质"></a>关联对象的本质</h4><p>关联对象统一放置在同一个全局容器中使用AssociationManager管理的一个AssociationHashMap中，所有对象的关联内容都放在一个全局的容器中，关于关联对象的存储主要分为以下步骤：</p>
+<ul>
+<li>ObjcAssociation封装，ObjcAssociation中包含{objc_AssociationPolicy,value}</li>
+<li>ObjcAssociationMap封装，ObjcAssociationMap中包含{ObjcAssociation,@selector(key)}</li>
+<li><p>AssociationHashMap封装，AssociationHashMap中包含{DISGUISE(obj),ObjcAssociationMap}</p>
+<pre><code>{// AssociationHashMap
+  &quot;对象地址p&quot;: 
+      { // ObjcAssociationMap
+       &quot;@selector(key1)&quot;:
+           { // ObjcAssociation
+             &quot;value&quot;:&quot;value1&quot;,
+             &quot;policy&quot;:&quot;policy&quot;
+            }
+      }
+}
+</code></pre></li>
 </ul>
 <h3 id="比较assign和weak的差别"><a href="#比较assign和weak的差别" class="headerlink" title="比较assign和weak的差别"></a>比较assign和weak的差别</h3><ul>
 <li>assign修饰基本数据类型，weak修饰对象类型</li>
@@ -635,7 +653,7 @@ const void *key = &quot;hobit&quot;;
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -697,7 +715,7 @@ const void *key = &quot;hobit&quot;;
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#property关键字的作用"><span class="nav-number">1.</span> <span class="nav-text">@property关键字的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#property-特质（会影响编译器生成的存取方法）"><span class="nav-number">2.</span> <span class="nav-text">@property 特质（会影响编译器生成的存取方法）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义初始化方法"><span class="nav-number">3.</span> <span class="nav-text">自定义初始化方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#当重写setter和getter方法时，编译器会报错-propertyName未定义"><span class="nav-number">4.</span> <span class="nav-text">当重写setter和getter方法时，编译器会报错_propertyName未定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dynamic"><span class="nav-number">5.</span> <span class="nav-text">@dynamic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在对象内部尽量直接访问实例变量"><span class="nav-number">6.</span> <span class="nav-text">在对象内部尽量直接访问实例变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#理解对象等同性"><span class="nav-number">7.</span> <span class="nav-text">理解对象等同性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用类族模式（工厂模式）"><span class="nav-number">8.</span> <span class="nav-text">使用类族模式（工厂模式）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关联对象"><span class="nav-number">9.</span> <span class="nav-text">关联对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#比较assign和weak的差别"><span class="nav-number">10.</span> <span class="nav-text">比较assign和weak的差别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#深浅拷贝-、自定义对象的拷贝"><span class="nav-number">11.</span> <span class="nav-text">深浅拷贝 、自定义对象的拷贝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#copy-strong-MRC下的setter方法重写"><span class="nav-number">12.</span> <span class="nav-text">copy / strong MRC下的setter方法重写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类、协议中属性的使用"><span class="nav-number">13.</span> <span class="nav-text">分类、协议中属性的使用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#property关键字的作用"><span class="nav-number">1.</span> <span class="nav-text">@property关键字的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#property-特质（会影响编译器生成的存取方法）"><span class="nav-number">2.</span> <span class="nav-text">@property 特质（会影响编译器生成的存取方法）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义初始化方法"><span class="nav-number">3.</span> <span class="nav-text">自定义初始化方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#当重写setter和getter方法时，编译器会报错-propertyName未定义"><span class="nav-number">4.</span> <span class="nav-text">当重写setter和getter方法时，编译器会报错_propertyName未定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dynamic"><span class="nav-number">5.</span> <span class="nav-text">@dynamic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在对象内部尽量直接访问实例变量"><span class="nav-number">6.</span> <span class="nav-text">在对象内部尽量直接访问实例变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#理解对象等同性"><span class="nav-number">7.</span> <span class="nav-text">理解对象等同性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用类族模式（工厂模式）"><span class="nav-number">8.</span> <span class="nav-text">使用类族模式（工厂模式）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关联对象"><span class="nav-number">9.</span> <span class="nav-text">关联对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用场景"><span class="nav-number">9.1.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关联对象的本质"><span class="nav-number">9.2.</span> <span class="nav-text">关联对象的本质</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#比较assign和weak的差别"><span class="nav-number">10.</span> <span class="nav-text">比较assign和weak的差别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#深浅拷贝-、自定义对象的拷贝"><span class="nav-number">11.</span> <span class="nav-text">深浅拷贝 、自定义对象的拷贝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#copy-strong-MRC下的setter方法重写"><span class="nav-number">12.</span> <span class="nav-text">copy / strong MRC下的setter方法重写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类、协议中属性的使用"><span class="nav-number">13.</span> <span class="nav-text">分类、协议中属性的使用</span></a></li></ol></div>
             
 
           </div>

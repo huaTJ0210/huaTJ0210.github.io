@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="随感," />
+  <meta name="keywords" content="Objective-C," />
 
 
 
@@ -81,25 +81,31 @@
 
 
 
-<meta name="description" content="人生观
-对于人生的根本态度与看法  
+<meta name="description" content="代理-委托委托方通过协议的方式约束代理方实现具体的方法或者属性，代理方将需要返回的结果回传给委托方。 
 
-   人生千姿百态，每个人都是一个演员在无剧本的人生舞台上做着自己的表演。有句话说意识决定形态，我个人浅显的理解就是你自己的意愿想通过哪种姿态展现自己， 那么在世人面前你就是以哪种姿态呈现。有时候我们会感慨某某活成了我们自己想要的模样，其实本质上我们都有活成某种模样的意识但最终为什么差别很大？主要原因是缺乏行动，多数人都具有正确的人生观：积极生活、努力奋斗、">
+代理模式
+传递方式：一对一
+代理方 –strong引用– 委托方 
+委托方 –weak引用– 代理方（delegate）">
 <meta property="og:type" content="article">
-<meta property="og:title" content="生活篇--说说三观">
-<meta property="og:url" content="http://yoursite.com/2017/06/04/生活篇--说说三观/index.html">
+<meta property="og:title" content="Objective-C之代理和通知">
+<meta property="og:url" content="http://yoursite.com/2017/03/02/Objective-C之代理和通知/index.html">
 <meta property="og:site_name" content="華">
-<meta property="og:description" content="人生观
-对于人生的根本态度与看法  
+<meta property="og:description" content="代理-委托委托方通过协议的方式约束代理方实现具体的方法或者属性，代理方将需要返回的结果回传给委托方。 
 
-   人生千姿百态，每个人都是一个演员在无剧本的人生舞台上做着自己的表演。有句话说意识决定形态，我个人浅显的理解就是你自己的意愿想通过哪种姿态展现自己， 那么在世人面前你就是以哪种姿态呈现。有时候我们会感慨某某活成了我们自己想要的模样，其实本质上我们都有活成某种模样的意识但最终为什么差别很大？主要原因是缺乏行动，多数人都具有正确的人生观：积极生活、努力奋斗、">
-<meta property="og:updated_time" content="2018-06-23T04:14:36.000Z">
+代理模式
+传递方式：一对一
+代理方 –strong引用– 委托方 
+委托方 –weak引用– 代理方（delegate）">
+<meta property="og:updated_time" content="2019-01-21T08:35:56.691Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="生活篇--说说三观">
-<meta name="twitter:description" content="人生观
-对于人生的根本态度与看法  
+<meta name="twitter:title" content="Objective-C之代理和通知">
+<meta name="twitter:description" content="代理-委托委托方通过协议的方式约束代理方实现具体的方法或者属性，代理方将需要返回的结果回传给委托方。 
 
-   人生千姿百态，每个人都是一个演员在无剧本的人生舞台上做着自己的表演。有句话说意识决定形态，我个人浅显的理解就是你自己的意愿想通过哪种姿态展现自己， 那么在世人面前你就是以哪种姿态呈现。有时候我们会感慨某某活成了我们自己想要的模样，其实本质上我们都有活成某种模样的意识但最终为什么差别很大？主要原因是缺乏行动，多数人都具有正确的人生观：积极生活、努力奋斗、">
+代理模式
+传递方式：一对一
+代理方 –strong引用– 委托方 
+委托方 –weak引用– 代理方（delegate）">
 
 
 
@@ -129,13 +135,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/06/04/生活篇--说说三观/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/03/02/Objective-C之代理和通知/"/>
 
 
 
 
 
-  <title>生活篇--说说三观 | 華</title>
+  <title>Objective-C之代理和通知 | 華</title>
   
 
 
@@ -262,7 +268,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/04/生活篇--说说三观/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/02/Objective-C之代理和通知/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="华子">
@@ -279,7 +285,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">生活篇--说说三观</h1>
+          <h1 class="post-title" itemprop="name headline">Objective-C之代理和通知</h1>
         
 
         <div class="post-meta">
@@ -291,8 +297,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-04T17:37:48+08:00">
-                2017-06-04
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-02T20:30:40+08:00">
+                2017-03-02
               </time>
             
 
@@ -314,8 +320,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/生活/" itemprop="url" rel="index">
-                    <span itemprop="name">生活</span>
+                  <a href="/categories/Objective-C/" itemprop="url" rel="index">
+                    <span itemprop="name">Objective-C</span>
                   </a>
                 </span>
 
@@ -351,40 +357,24 @@
       
 
       
-        <h3 id="人生观"><a href="#人生观" class="headerlink" title="人生观"></a>人生观</h3><blockquote>
-<p>对于人生的根本态度与看法  </p>
-</blockquote>
-<p>   人生千姿百态，每个人都是一个演员在无剧本的人生舞台上做着自己的表演。有句话说<strong>意识决定形态</strong>，我个人浅显的理解就是你自己的意愿想通过哪种姿态展现自己， 那么在世人面前你就是以哪种姿态呈现。<br>有时候我们会感慨某某活成了我们自己想要的模样，其实本质上我们都有活成某种模样的意识但最终为什么差别很大？主要原因是缺乏行动，多数人都具有正确的人生观：积极生活、努力奋斗、追求幸福等；但又有多少勤勤恳恳的去实践自己的人生观呢？经常会听到说这人的做事态度不错，但请不要忘记最终衡量你的还是做事的结果。获取正确的人生观容易，困难的是通过正确的人生观来让生活极大丰富才是最困难的事情！<br><a id="more"></a></p>
-<h4 id="人生观主要包含哪些"><a href="#人生观主要包含哪些" class="headerlink" title="人生观主要包含哪些"></a>人生观主要包含哪些</h4><ul>
-<li>友谊观</li>
-<li>恋爱观</li>
-<li>审美观</li>
-<li>道德观</li>
-<li>苦乐观</li>
-<li>幸福观</li>
+        <h3 id="代理-委托"><a href="#代理-委托" class="headerlink" title="代理-委托"></a>代理-委托</h3><p>委托方通过协议的方式约束代理方实现具体的方法或者属性，代理方将需要返回的结果回传给委托方。 </p>
+<ul>
+<li>代理模式</li>
+<li>传递方式：一对一</li>
+<li>代理方 –strong引用– 委托方 </li>
+<li>委托方 –weak引用– 代理方（delegate）</li>
 </ul>
-<h3 id="世界观"><a href="#世界观" class="headerlink" title="世界观"></a>世界观</h3><blockquote>
-<p>它是人们对世界的基本看法和观点.世界观具有实践性，人的世界观是不断更新、不断完善、不断优化的；  </p>
-</blockquote>
-<p>世界观确实是在不断的更新中的，<strong>世界那么大，我想去看看</strong>本质上的追求是去丰富自己的世界观的，而不是仅仅看看风景，发发朋友圈而已。去一个地方应该在欣赏美景的同时去了解风土人情，通过比较差异来完善自己的认知，使得自己更为的丰富。</p>
-<h3 id="价值观"><a href="#价值观" class="headerlink" title="价值观"></a>价值观</h3><blockquote>
-<p> 用以区分好与坏的标准，是根据个人内心的尺度进行衡量和评价的，这些标准都可以称为价值观。  </p>
-</blockquote>
-<p>我们日常会听到<strong>某某的价值观出了问题</strong>，其实呢我们是在说某人对于问题的评判或者是做的某些行为严重的偏离了我们正常的认知；那么具体什么是正确的价值观呢？这个问题需要我们自己不断的去探寻、去学习。有些价值观是父母师长等人群灌输的；例如孝敬长者，尊师重道等基本的道德要求；真善美与假恶丑是需要自己去分辨的。特别是目前我们处于互联网时代，言论自由，你对于每一个事件的看法都是你价值观的体现；平时和朋友相处也是，交谈中你的价值观就被反应出来了，价值观一致的人才适合一起玩耍的！</p>
-<h3 id="婚姻观"><a href="#婚姻观" class="headerlink" title="婚姻观"></a>婚姻观</h3><blockquote>
-<p>对婚姻和家庭的看法和态度。</p>
-</blockquote>
-<p>我个人一直遵守家庭第一，其他第二的原则；把家庭照顾好了的前提下再向<em>大家</em>奉献，我觉得才是理想的状态。因为每个人的人生观不同所以也就没有评判对与错的必要；</p>
-<h4 id="幸福婚姻应该包含哪些要素"><a href="#幸福婚姻应该包含哪些要素" class="headerlink" title="幸福婚姻应该包含哪些要素"></a>幸福婚姻应该包含哪些要素</h4><ul>
-<li>童心</li>
-<li>浪漫</li>
-<li>幽默</li>
-<li>亲昵</li>
-<li>情话</li>
-<li>沟通</li>
-<li>欣赏</li>
+<a id="more"></a>   
+<h3 id="通知"><a href="#通知" class="headerlink" title="通知"></a>通知</h3><ul>
+<li>通过观察者模式实现跨层消息传递的机制</li>
+<li>传递方式：一对多</li>
+<li>发送者 –&gt; 通知中心 —&gt; 观察者{1,2,3,4}</li>
 </ul>
-<p>日常我们经常听到<strong>三观尽毁</strong>和<strong>三观正才能一起玩耍</strong>；一直以来都没有好好的思考自己的<strong>三观</strong>到底是什么？其实我的日常生活中存在很多这样的习以为常的问题都被自己忽略了，真的很不应该，问题是应该被解决的，时间不会将它带走！追求简单生活，不要要逃避问题，而是要解决复杂的问题，这样生活才会简单！</p>
+<h4 id="通知的实现机制"><a href="#通知的实现机制" class="headerlink" title="通知的实现机制"></a>通知的实现机制</h4><p>通知中心管理一个全局的NotificationMap{notificationName0:observerList,notificationName1:observerList}</p>
+<ul>
+<li>增加观察者操作，会根据<code>notificationName</code>将观察者加入到对应的<code>observerList</code>中</li>
+<li>发送消息时，会根据<code>notificationName</code>在<code>NotificationMap</code>中找到<code>observerList</code>,然后执行每个观察者注册的方法</li>
+</ul>
 
       
     </div>
@@ -402,7 +392,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/随感/" rel="tag"># 随感</a>
+            <a href="/tags/Objective-C/" rel="tag"># Objective-C</a>
           
         </div>
       
@@ -415,8 +405,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/02/Objective-C之代理和通知/" rel="next" title="Objective-C之代理和通知">
-                <i class="fa fa-chevron-left"></i> Objective-C之代理和通知
+              <a href="/2017/02/27/Objective-C之KVC/" rel="next" title="Objective-C之KVC">
+                <i class="fa fa-chevron-left"></i> Objective-C之KVC
               </a>
             
           </div>
@@ -425,8 +415,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/04/21/Objective-C之分类/" rel="prev" title="Objective-C之分类">
-                Objective-C之分类 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/06/04/生活篇--说说三观/" rel="prev" title="生活篇--说说三观">
+                生活篇--说说三观 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -570,7 +560,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#人生观"><span class="nav-number">1.</span> <span class="nav-text">人生观</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#人生观主要包含哪些"><span class="nav-number">1.1.</span> <span class="nav-text">人生观主要包含哪些</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#世界观"><span class="nav-number">2.</span> <span class="nav-text">世界观</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#价值观"><span class="nav-number">3.</span> <span class="nav-text">价值观</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#婚姻观"><span class="nav-number">4.</span> <span class="nav-text">婚姻观</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#幸福婚姻应该包含哪些要素"><span class="nav-number">4.1.</span> <span class="nav-text">幸福婚姻应该包含哪些要素</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#代理-委托"><span class="nav-number">1.</span> <span class="nav-text">代理-委托</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通知"><span class="nav-number">2.</span> <span class="nav-text">通知</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#通知的实现机制"><span class="nav-number">2.1.</span> <span class="nav-text">通知的实现机制</span></a></li></ol></li></ol></div>
             
 
           </div>
