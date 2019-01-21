@@ -97,7 +97,7 @@
 传递方式：一对一
 代理方 –strong引用– 委托方 
 委托方 –weak引用– 代理方（delegate）">
-<meta property="og:updated_time" content="2019-01-21T08:35:56.691Z">
+<meta property="og:updated_time" content="2019-01-21T14:10:11.950Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Objective-C之代理和通知">
 <meta name="twitter:description" content="代理-委托委托方通过协议的方式约束代理方实现具体的方法或者属性，代理方将需要返回的结果回传给委托方。 
@@ -375,6 +375,11 @@
 <li>增加观察者操作，会根据<code>notificationName</code>将观察者加入到对应的<code>observerList</code>中</li>
 <li>发送消息时，会根据<code>notificationName</code>在<code>NotificationMap</code>中找到<code>observerList</code>,然后执行每个观察者注册的方法</li>
 </ul>
+<h4 id="通知同步or异步"><a href="#通知同步or异步" class="headerlink" title="通知同步or异步"></a>通知同步or异步</h4><ul>
+<li>所谓的同步就是发送通知之后是否会阻塞当前线程，直到所有observer处理完成</li>
+<li>在子线程中使用 [NSNotificationQueue defaultQueue] 将通知加入到通知队列中，观察者选择器方法就会在子线程中被执行。</li>
+<li>异步在子线程中发通知，监听对象的执行方法也在子线程中</li>
+</ul>
 
       
     </div>
@@ -560,7 +565,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#代理-委托"><span class="nav-number">1.</span> <span class="nav-text">代理-委托</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通知"><span class="nav-number">2.</span> <span class="nav-text">通知</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#通知的实现机制"><span class="nav-number">2.1.</span> <span class="nav-text">通知的实现机制</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#代理-委托"><span class="nav-number">1.</span> <span class="nav-text">代理-委托</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通知"><span class="nav-number">2.</span> <span class="nav-text">通知</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#通知的实现机制"><span class="nav-number">2.1.</span> <span class="nav-text">通知的实现机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通知同步or异步"><span class="nav-number">2.2.</span> <span class="nav-text">通知同步or异步</span></a></li></ol></li></ol></div>
             
 
           </div>

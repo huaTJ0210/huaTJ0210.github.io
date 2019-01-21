@@ -1581,8 +1581,12 @@
       
         
           <h4 id="什么是KVO"><a href="#什么是KVO" class="headerlink" title="什么是KVO"></a>什么是KVO</h4><blockquote>
-<p>KVO,即：Key-Value Observing，它提供一种机制，当指定的对象的属性被修改后，则对象就会接受到通知。简单的说就是每次指定的被观察的对象的属性被修改后，KVO就会自动通知相应的观察者了。  </p>
+<p>KVO,即：Key-Value Observing，它提供一种机制，当指定的对象的属性被修改后，则对象就会接收到通知。简单的说就是每次指定的被观察的对象的属性被修改后，KVO就会自动通知相应的观察者了。 </p>
 </blockquote>
+<ul>
+<li>KVO是Objective-C对观察者设计模式的又一实现</li>
+<li>Apple使用了isa混写（isa-swizzling）来实现KVO </li>
+</ul>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/02/20/Objective-C之KVO/#more" rel="contents">
