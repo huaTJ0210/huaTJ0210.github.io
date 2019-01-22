@@ -89,18 +89,12 @@
 
 @property 特质（会影响编译器生成的存取方法）
 原子性 : 默认情况下是atomic，确保原子性
-atomic 
+atomic – 可以保证赋值和获取（数组添加和移除就不能保证线程安全）线程安全
 nonatomic
 
 
 读写
-readwrite
-readonly
-
-
-内存管理
-assign ：基本数据类型
-we">
+readwrite">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Objective-C之属性">
 <meta property="og:url" content="http://yoursite.com/2017/01/04/Objective-C之属性/index.html">
@@ -113,19 +107,13 @@ we">
 
 @property 特质（会影响编译器生成的存取方法）
 原子性 : 默认情况下是atomic，确保原子性
-atomic 
+atomic – 可以保证赋值和获取（数组添加和移除就不能保证线程安全）线程安全
 nonatomic
 
 
 读写
-readwrite
-readonly
-
-
-内存管理
-assign ：基本数据类型
-we">
-<meta property="og:updated_time" content="2019-01-21T06:41:23.910Z">
+readwrite">
+<meta property="og:updated_time" content="2019-01-22T02:12:31.315Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Objective-C之属性">
 <meta name="twitter:description" content="Objective-C属性相关内容 
@@ -136,18 +124,12 @@ we">
 
 @property 特质（会影响编译器生成的存取方法）
 原子性 : 默认情况下是atomic，确保原子性
-atomic 
+atomic – 可以保证赋值和获取（数组添加和移除就不能保证线程安全）线程安全
 nonatomic
 
 
 读写
-readwrite
-readonly
-
-
-内存管理
-assign ：基本数据类型
-we">
+readwrite">
 
 
 
@@ -407,12 +389,12 @@ we">
 </ul>
 <h3 id="property-特质（会影响编译器生成的存取方法）"><a href="#property-特质（会影响编译器生成的存取方法）" class="headerlink" title="@property 特质（会影响编译器生成的存取方法）"></a><code>@property</code> 特质（会影响编译器生成的存取方法）</h3><ul>
 <li>原子性 : 默认情况下是atomic，确保原子性<ul>
-<li>atomic </li>
+<li>atomic – 可以保证赋值和获取（数组添加和移除就不能保证线程安全）线程安全</li>
 <li>nonatomic</li>
 </ul>
 </li>
 <li>读写<ul>
-<li>readwrite</li>
+<li>readwrite （默认）</li>
 <li>readonly</li>
 </ul>
 </li>
@@ -497,6 +479,11 @@ BOOL equalB = [foo isEqual:bar];//equalB = YES
 </ul>
 </li>
 </ul>
+<h4 id="深浅拷贝的本质区别"><a href="#深浅拷贝的本质区别" class="headerlink" title="深浅拷贝的本质区别"></a>深浅拷贝的本质区别</h4><ul>
+<li>是否开辟了新的内存空间</li>
+<li>是否影响了引用计数</li>
+</ul>
+<h4 id="copy注意点"><a href="#copy注意点" class="headerlink" title="copy注意点"></a>copy注意点</h4><p><code>@property(copy)NSMutableArray *array;</code> 对array进行赋值无论是NSArray或者MutableArray最终array都是NSArray类型，当程序中存在array使用NSMutableArray的相关对元素增删等操作的API时，会引起crash问题。</p>
 <h3 id="copy-strong-MRC下的setter方法重写"><a href="#copy-strong-MRC下的setter方法重写" class="headerlink" title="copy / strong MRC下的setter方法重写"></a>copy / strong MRC下的setter方法重写</h3><ul>
 <li><p>copy</p>
 <pre><code>-(void)setName:(NSString*)name{
@@ -505,7 +492,7 @@ BOOL equalB = [foo isEqual:bar];//equalB = YES
 </code></pre></li>
 <li><p>strong</p>
 <pre><code>-(void)setName:(NSString*)name{
-      if(_name!=name){
+      if(_name!=name){// 为什么进行不等的判断 ==》主要是为了解决异常，当_name = name,如果直接release，再进行retain，会引发异常。
         [_name release];
         _name = [name retain];
       }
@@ -715,7 +702,7 @@ const void *key = &quot;hobit&quot;;
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#property关键字的作用"><span class="nav-number">1.</span> <span class="nav-text">@property关键字的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#property-特质（会影响编译器生成的存取方法）"><span class="nav-number">2.</span> <span class="nav-text">@property 特质（会影响编译器生成的存取方法）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义初始化方法"><span class="nav-number">3.</span> <span class="nav-text">自定义初始化方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#当重写setter和getter方法时，编译器会报错-propertyName未定义"><span class="nav-number">4.</span> <span class="nav-text">当重写setter和getter方法时，编译器会报错_propertyName未定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dynamic"><span class="nav-number">5.</span> <span class="nav-text">@dynamic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在对象内部尽量直接访问实例变量"><span class="nav-number">6.</span> <span class="nav-text">在对象内部尽量直接访问实例变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#理解对象等同性"><span class="nav-number">7.</span> <span class="nav-text">理解对象等同性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用类族模式（工厂模式）"><span class="nav-number">8.</span> <span class="nav-text">使用类族模式（工厂模式）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关联对象"><span class="nav-number">9.</span> <span class="nav-text">关联对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用场景"><span class="nav-number">9.1.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关联对象的本质"><span class="nav-number">9.2.</span> <span class="nav-text">关联对象的本质</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#比较assign和weak的差别"><span class="nav-number">10.</span> <span class="nav-text">比较assign和weak的差别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#深浅拷贝-、自定义对象的拷贝"><span class="nav-number">11.</span> <span class="nav-text">深浅拷贝 、自定义对象的拷贝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#copy-strong-MRC下的setter方法重写"><span class="nav-number">12.</span> <span class="nav-text">copy / strong MRC下的setter方法重写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类、协议中属性的使用"><span class="nav-number">13.</span> <span class="nav-text">分类、协议中属性的使用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#property关键字的作用"><span class="nav-number">1.</span> <span class="nav-text">@property关键字的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#property-特质（会影响编译器生成的存取方法）"><span class="nav-number">2.</span> <span class="nav-text">@property 特质（会影响编译器生成的存取方法）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义初始化方法"><span class="nav-number">3.</span> <span class="nav-text">自定义初始化方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#当重写setter和getter方法时，编译器会报错-propertyName未定义"><span class="nav-number">4.</span> <span class="nav-text">当重写setter和getter方法时，编译器会报错_propertyName未定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dynamic"><span class="nav-number">5.</span> <span class="nav-text">@dynamic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在对象内部尽量直接访问实例变量"><span class="nav-number">6.</span> <span class="nav-text">在对象内部尽量直接访问实例变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#理解对象等同性"><span class="nav-number">7.</span> <span class="nav-text">理解对象等同性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用类族模式（工厂模式）"><span class="nav-number">8.</span> <span class="nav-text">使用类族模式（工厂模式）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关联对象"><span class="nav-number">9.</span> <span class="nav-text">关联对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用场景"><span class="nav-number">9.1.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关联对象的本质"><span class="nav-number">9.2.</span> <span class="nav-text">关联对象的本质</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#比较assign和weak的差别"><span class="nav-number">10.</span> <span class="nav-text">比较assign和weak的差别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#深浅拷贝-、自定义对象的拷贝"><span class="nav-number">11.</span> <span class="nav-text">深浅拷贝 、自定义对象的拷贝</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#深浅拷贝的本质区别"><span class="nav-number">11.1.</span> <span class="nav-text">深浅拷贝的本质区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#copy注意点"><span class="nav-number">11.2.</span> <span class="nav-text">copy注意点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#copy-strong-MRC下的setter方法重写"><span class="nav-number">12.</span> <span class="nav-text">copy / strong MRC下的setter方法重写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类、协议中属性的使用"><span class="nav-number">13.</span> <span class="nav-text">分类、协议中属性的使用</span></a></li></ol></div>
             
 
           </div>

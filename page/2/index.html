@@ -654,12 +654,12 @@ typedef struct {
 </ul>
 <h3 id="property-特质（会影响编译器生成的存取方法）"><a href="#property-特质（会影响编译器生成的存取方法）" class="headerlink" title="@property 特质（会影响编译器生成的存取方法）"></a><code>@property</code> 特质（会影响编译器生成的存取方法）</h3><ul>
 <li>原子性 : 默认情况下是atomic，确保原子性<ul>
-<li>atomic </li>
+<li>atomic – 可以保证赋值和获取（数组添加和移除就不能保证线程安全）线程安全</li>
 <li>nonatomic</li>
 </ul>
 </li>
 <li>读写<ul>
-<li>readwrite</li>
+<li>readwrite （默认）</li>
 <li>readonly</li>
 </ul>
 </li>
