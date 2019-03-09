@@ -112,36 +112,6 @@
   </entry>
   
   <entry>
-    <title>Objective-C知识点的汇总</title>
-    <link href="http://yoursite.com/2018/04/27/Objective-C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E7%82%B9%E6%B1%87%E6%80%BB/"/>
-    <id>http://yoursite.com/2018/04/27/Objective-C面试知识点汇总/</id>
-    <published>2018-04-27T03:37:40.000Z</published>
-    <updated>2019-01-21T08:50:59.816Z</updated>
-    
-    <content type="html"><![CDATA[<p>Objective-C相关知识点的汇总如下：</p><ul><li>属性 :   <a href="https://huatj0210.github.io/2017/01/04/Objective-C%E4%B9%8B%E5%B1%9E%E6%80%A7/" target="_blank" rel="external">Objective-C之属性</a></li><li>方法 :   <a href="https://huatj0210.github.io/2017/01/10/Objective-C%E4%B9%8B%E6%96%B9%E6%B3%95/" target="_blank" rel="external">Objective-C之方法</a></li><li>分类/扩展:   <a href="https://huatj0210.github.io/2018/04/21/Objective-C%E4%B9%8B%E5%88%86%E7%B1%BB/" target="_blank" rel="external">Objective-C之分类</a></li><li>通知/代理: <a href="https://huatj0210.github.io/2017/03/02/Objective-C%E4%B9%8B%E4%BB%A3%E7%90%86%E5%92%8C%E9%80%9A%E7%9F%A5/" target="_blank" rel="external">Objective-C之代理和通知</a></li><li>KVO:  <a href="https://huatj0210.github.io/2017/02/20/Objective-C%E4%B9%8BKVO/" target="_blank" rel="external">Objective-C之KVO</a></li><li>KVC  <a href="https://huatj0210.github.io/2017/02/27/Objective-C%E4%B9%8BKVC/" target="_blank" rel="external">Objective-C之KVC</a></li></ul><a id="more"></a> <h3 id="Objective-C知识点思维导图如下："><a href="#Objective-C知识点思维导图如下：" class="headerlink" title="Objective-C知识点思维导图如下："></a>Objective-C知识点思维导图如下：</h3><p><img src="https://raw.githubusercontent.com/huaTJ0210/HZiOS/master/知识模块/2-Objective-C/Objective-C.png" alt="Objective-C知识点思维导图"></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Objective-C相关知识点的汇总如下：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;属性 :   &lt;a href=&quot;https://huatj0210.github.io/2017/01/04/Objective-C%E4%B9%8B%E5%B1%9E%E6%80%A7/&quot;&gt;Objective-C之属性&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;方法 :   &lt;a href=&quot;https://huatj0210.github.io/2017/01/10/Objective-C%E4%B9%8B%E6%96%B9%E6%B3%95/&quot;&gt;Objective-C之方法&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;分类/扩展:   &lt;a href=&quot;https://huatj0210.github.io/2018/04/21/Objective-C%E4%B9%8B%E5%88%86%E7%B1%BB/&quot;&gt;Objective-C之分类&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;通知/代理: &lt;a href=&quot;https://huatj0210.github.io/2017/03/02/Objective-C%E4%B9%8B%E4%BB%A3%E7%90%86%E5%92%8C%E9%80%9A%E7%9F%A5/&quot;&gt;Objective-C之代理和通知&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;KVO:  &lt;a href=&quot;https://huatj0210.github.io/2017/02/20/Objective-C%E4%B9%8BKVO/&quot;&gt;Objective-C之KVO&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;KVC  &lt;a href=&quot;https://huatj0210.github.io/2017/02/27/Objective-C%E4%B9%8BKVC/&quot;&gt;Objective-C之KVC&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="Objective-C" scheme="http://yoursite.com/categories/Objective-C/"/>
-    
-    
-      <category term="Objective-C" scheme="http://yoursite.com/tags/Objective-C/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Objective-C之分类</title>
     <link href="http://yoursite.com/2018/04/21/Objective-C%E4%B9%8B%E5%88%86%E7%B1%BB/"/>
     <id>http://yoursite.com/2018/04/21/Objective-C之分类/</id>
@@ -158,6 +128,33 @@
 &lt;li&gt;分解体积庞大的类文件[按照功能模块拆分自定义类或者为系统类增加方法]&lt;/li&gt;
 &lt;li&gt;公开frameWork中的一些私有方法【较少使用】 &lt;/li&gt;
 &lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="Objective-C" scheme="http://yoursite.com/categories/Objective-C/"/>
+    
+    
+      <category term="Objective-C" scheme="http://yoursite.com/tags/Objective-C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Objective-C知识点的汇总</title>
+    <link href="http://yoursite.com/2018/01/27/Objective-C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E7%82%B9%E6%B1%87%E6%80%BB/"/>
+    <id>http://yoursite.com/2018/01/27/Objective-C面试知识点汇总/</id>
+    <published>2018-01-27T03:37:40.000Z</published>
+    <updated>2019-03-09T02:54:00.343Z</updated>
+    
+    <content type="html"><![CDATA[<p>Objective-C相关知识点的汇总如下：</p><ul><li>属性 :   <a href="https://huatj0210.github.io/2017/01/04/Objective-C%E4%B9%8B%E5%B1%9E%E6%80%A7/" target="_blank" rel="external">Objective-C之属性</a></li><li>方法 :   <a href="https://huatj0210.github.io/2017/01/10/Objective-C%E4%B9%8B%E6%96%B9%E6%B3%95/" target="_blank" rel="external">Objective-C之方法</a></li><li>分类/扩展:   <a href="https://huatj0210.github.io/2018/04/21/Objective-C%E4%B9%8B%E5%88%86%E7%B1%BB/" target="_blank" rel="external">Objective-C之分类</a></li><li>通知/代理: <a href="https://huatj0210.github.io/2017/03/02/Objective-C%E4%B9%8B%E4%BB%A3%E7%90%86%E5%92%8C%E9%80%9A%E7%9F%A5/" target="_blank" rel="external">Objective-C之代理和通知</a></li><li>KVO:  <a href="https://huatj0210.github.io/2017/02/20/Objective-C%E4%B9%8BKVO/" target="_blank" rel="external">Objective-C之KVO</a></li><li>KVC  <a href="https://huatj0210.github.io/2017/02/27/Objective-C%E4%B9%8BKVC/" target="_blank" rel="external">Objective-C之KVC</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Objective-C相关知识点的汇总如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;属性 :   &lt;a href=&quot;https://huatj0210.github.io/2017/01/04/Objective-C%E4%B9%8B%E5%B1%9E%E6%80%A7/&quot; targe
+      
     
     </summary>
     
@@ -292,7 +289,7 @@
     <link href="http://yoursite.com/2017/01/10/Objective-C%E4%B9%8B%E6%96%B9%E6%B3%95/"/>
     <id>http://yoursite.com/2017/01/10/Objective-C之方法/</id>
     <published>2017-01-10T10:00:32.000Z</published>
-    <updated>2019-01-13T10:54:16.521Z</updated>
+    <updated>2019-01-24T01:45:49.325Z</updated>
     
     <content type="html"><![CDATA[<p>Objective-C方法相关内容 </p><blockquote><p>文章参考 <a href="http://tech.glowing.com/cn/objective-c-runtime/" target="_blank" rel="external">Objective-C Runtime</a></p></blockquote><p>在项目编码中最为常见的就是[object message];这种形式的消息发送，对于其他面向对象语言来说就是实例对象调用类中实现的实例方法；[object message]这种形式到底做了什么呢？<br><a id="more"></a></p><h4 id="objc-object-objc-class-以及-objc-method"><a href="#objc-object-objc-class-以及-objc-method" class="headerlink" title="objc_object, objc_class 以及 objc_method"></a>objc_object, objc_class 以及 objc_method</h4><p>在Objective-C中类、对象、方法都是C语言中结构体类型；具体数据类型可以参照<code>objc/objc.h</code>文件</p><pre><code> // 类 struct objc_class {                        Class isa;//指针，顾名思义，表示是一个什么，                        //实例的isa指向类对象，类对象的isa指向元类                        #if !__OBJC2__                        Class super_class;  //指向父类                        const char *name;  //类名                        long version;                        long info;                        long instance_size                        struct objc_ivar_list *ivars //成员变量列表                        struct objc_method_list **methodLists; //方法列表                        struct objc_cache *cache;//缓存一种优化，调用过的方法存入缓存列表，下次调用先找缓存                        struct objc_protocol_list *protocols //协议列表                        #endif            } OBJC2_UNAVAILABLE; //对象             struct objc_object {                    Class isa  OBJC_ISA_AVAILABILITY;            };// 方法            struct objc_method {                    SEL method_name                 OBJC2_UNAVAILABLE;  // 方法名                    char *method_types                  OBJC2_UNAVAILABLE;                    IMP method_imp                      OBJC2_UNAVAILABLE;  // 方法实现            }</code></pre><h4 id="消息的传递"><a href="#消息的传递" class="headerlink" title="消息的传递"></a>消息的传递</h4><h5 id="在People类中声明并实现walk方法则消息会正常被传递"><a href="#在People类中声明并实现walk方法则消息会正常被传递" class="headerlink" title="在People类中声明并实现walk方法则消息会正常被传递"></a>在<code>People</code>类中声明并实现<code>walk</code>方法则消息会正常被传递</h5><pre><code>#import &lt;Foundation/Foundation.h&gt;@interface HZPeople : NSObject-(void)walk;@end#import &quot;HZPeople.h&quot;#import &lt;objc/objc-runtime.h&gt;@implementation HZPeople-(void)walk{    NSLog(@&quot;people walk!!&quot;);}</code></pre><p>控制台能正常打印 <code>people walk!!</code>   </p><h5 id="如果只声明并不是实现walk方法则会调用-BOOL-resolveInstanceMethod-SEL-sel-允许在此进行对类增加方法"><a href="#如果只声明并不是实现walk方法则会调用-BOOL-resolveInstanceMethod-SEL-sel-允许在此进行对类增加方法" class="headerlink" title="如果只声明并不是实现walk方法则会调用+(BOOL)resolveInstanceMethod:(SEL)sel;允许在此进行对类增加方法"></a>如果只声明并不是实现<code>walk</code>方法则会调用<code>+(BOOL)resolveInstanceMethod:(SEL)sel</code>;允许在此进行对类增加方法</h5><pre><code>    #import &lt;Foundation/Foundation.h&gt;    @interface HZPeople : NSObject    -(void)walk;    @end    #import &quot;HZPeople.h&quot;    #import &lt;objc/objc-runtime.h&gt;    @implementation HZPeople    void anotherPeopleWalk(id obj ,SEL _cmd){NSLog(@&quot;anotherPeopleWalk!&quot;);}    +(BOOL)resolveInstanceMethod:(SEL)sel{NSLog(@&quot;resolveInstanceMethod!&quot;);if (sel == @selector(walk)) {  // 通过imp_implementationWithBlock执行新增方法事项    IMP fooIMP = imp_implementationWithBlock(^(id _self) {        NSLog(@&quot;Doing foo&quot;);    });    // 给类动态添加执行方法    class_addMethod([self class], sel, fooIMP, &quot;v@:&quot;);  //  class_addMethod([self class], sel, (IMP)anotherPeopleWalk, &quot;v@:&quot;);    return YES;}return [super resolveInstanceMethod:sel];}</code></pre><p>控制台会先打印<code>resolveInstanceMethod</code>然后打印<code>Doing foo</code>   </p><h5 id="BOOL-resolveInstanceMethod-SEL-sel中没有实现方法的新增则会调用-id-forwardingTargetForSelector-SEL-aSelector允许对消息转发给其他对象"><a href="#BOOL-resolveInstanceMethod-SEL-sel中没有实现方法的新增则会调用-id-forwardingTargetForSelector-SEL-aSelector允许对消息转发给其他对象" class="headerlink" title="+(BOOL)resolveInstanceMethod:(SEL)sel中没有实现方法的新增则会调用-(id)forwardingTargetForSelector:(SEL)aSelector允许对消息转发给其他对象"></a><code>+(BOOL)resolveInstanceMethod:(SEL)sel</code>中没有实现方法的新增则会调用<code>-(id)forwardingTargetForSelector:(SEL)aSelector</code>允许对消息转发给其他对象</h5><pre><code>   #import &lt;Foundation/Foundation.h&gt;    #import &quot;HZMan.h&quot;    @interface HZPeople : NSObject    @property(nonatomic,strong)HZMan* man;    -(void)walk;    @end    #import &quot;HZPeople.h&quot;    #import &lt;objc/objc-runtime.h&gt;    @implementation HZPeople    -(id)forwardingTargetForSelector:(SEL)aSelector{if (aSelector == @selector(walk)) {    // 将消息转发给HZMan中的walk方法    return self.man;}return [super forwardingTargetForSelector:aSelector];}</code></pre><h5 id="id-forwardingTargetForSelector-SEL-aSelector如果没有实现还有最后的机会进行一次消息转发；这个需要重写-NSMethodSignature-methodSignatureForSelector-SEL-aSelector为执行方法进行签名，最后在实现-void-forwardInvocation-NSInvocation-anInvocation完成一次消息的完整转发"><a href="#id-forwardingTargetForSelector-SEL-aSelector如果没有实现还有最后的机会进行一次消息转发；这个需要重写-NSMethodSignature-methodSignatureForSelector-SEL-aSelector为执行方法进行签名，最后在实现-void-forwardInvocation-NSInvocation-anInvocation完成一次消息的完整转发" class="headerlink" title="-(id)forwardingTargetForSelector:(SEL)aSelector如果没有实现还有最后的机会进行一次消息转发；这个需要重写- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector为执行方法进行签名，最后在实现-(void)forwardInvocation:(NSInvocation *)anInvocation完成一次消息的完整转发"></a><code>-(id)forwardingTargetForSelector:(SEL)aSelector</code>如果没有实现还有最后的机会进行一次消息转发；这个需要重写<code>- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector</code>为执行方法进行签名，最后在实现<code>-(void)forwardInvocation:(NSInvocation *)anInvocation</code>完成一次消息的完整转发</h5><pre><code> #import &lt;Foundation/Foundation.h&gt;    #import &quot;HZMan.h&quot;    @interface HZPeople : NSObject    @property(nonatomic,strong)HZMan* man;    -(void)walk;    @end    #import &quot;HZPeople.h&quot;    #import &lt;objc/objc-runtime.h&gt;    @implementation HZPeople    - (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {NSMethodSignature* signature = [super methodSignatureForSelector:aSelector];if(!signature){    signature = [_man methodSignatureForSelector:aSelector];}return signature;}-(void)forwardInvocation:(NSInvocation *)anInvocation{    SEL sel = anInvocation.selector;    if ([self .man respondsToSelector:sel]) {        [anInvocation invokeWithTarget:self.man];    }else{        [self doesNotRecognizeSelector:sel];    }}</code></pre><h5 id="如果最终也没有对消息进行处理就只能执行doesNotRecognizeSelector-sel抛出异常了"><a href="#如果最终也没有对消息进行处理就只能执行doesNotRecognizeSelector-sel抛出异常了" class="headerlink" title="如果最终也没有对消息进行处理就只能执行doesNotRecognizeSelector:sel抛出异常了"></a>如果最终也没有对消息进行处理就只能执行<code>doesNotRecognizeSelector:sel</code>抛出异常了</h5><h3 id="基础数据类型"><a href="#基础数据类型" class="headerlink" title="基础数据类型"></a>基础数据类型</h3><ul><li>SEL: Objective-C在编译时，会依据每一个方法的名字、参数序列，生成一个唯一的整型标识(Int类型的地址)，这个标识就是SEL,本质上，SEL只是一个指向方法的指针（准确的说，只是一个根据方法名hash化了的KEY值，能唯一代表一个方法），它的存在只是为了加快方法的查询速度。</li><li>IMP：实际上是一个函数指针，指向方法实现的首地址</li><li><p>Method ：表示类定义的方法</p><pre><code>typedef struct objc_method *Method; struct objc_method {     SEL method_name                 OBJC2_UNAVAILABLE;  // 方法名     char *method_types                  OBJC2_UNAVAILABLE;     IMP method_imp                      OBJC2_UNAVAILABLE;  // 方法实现}</code></pre></li></ul><h3 id="load-和-initialize"><a href="#load-和-initialize" class="headerlink" title="+load 和 +initialize"></a><code>+load</code> 和 <code>+initialize</code></h3><ul><li><code>+load</code>:类加载时调用，程序生命周期内仅仅调用一次</li><li><code>+initialize</code> ：会在第一次调用类的类方法或实例方法之前被调用。【类第一次被使用】</li></ul><h3 id="objc-msgSend-的理解："><a href="#objc-msgSend-的理解：" class="headerlink" title="objc_msgSend 的理解："></a>objc_msgSend 的理解：</h3><ul><li>objc_msgSend(id self,SEL cmd,…);</li><li>[someobject sendMsg:param];=&gt;本质上是转化成<code>objc_msgsend(someobject,selector(sendMsg),param);</code></li><li>消息的传递：首先会在当前对象的类的方法列表（先查缓存表）中查，若是没有找到会向父类中查找，若没有则消息转发，如若没有报异常信息</li></ul><h3 id="理解消息转发机制（method-forwarding）"><a href="#理解消息转发机制（method-forwarding）" class="headerlink" title="理解消息转发机制（method forwarding）"></a>理解消息转发机制（method forwarding）</h3><p>消息转发分为两个主要的部分：动态方法解析和消息转发</p><ul><li>动态方法解析：重写<code>+(BOOL)resolveInstanceMethod:(SEL)sel</code>方法，动态的使用<code>class_add</code>为当前类增加方法</li><li>消息转发：转发方式有如下两种：<ul><li>将消息转发给制定的对象：重写<code>-(id)forwardingTargetForSelector:(SEL)aSelector</code>指定接收消息的对象</li><li>若没有指定转发给哪个对象接收消息，则将消息包装为NSInvocation对象做转发，首先需要对selector做方法的签名；重写<code>-(NSMethodSignature*)methodSignatureForSelector:(SEL)aSelector</code>,然后重写<code>-(void)forwardInvocation:(NSInvocation*)anInvocation</code>完成消息的最终转发</li></ul></li></ul><h3 id="NSInvocation"><a href="#NSInvocation" class="headerlink" title="NSInvocation"></a>NSInvocation</h3><p>NSInvocation用来描述objective-c的消息，一个NSInvocation对象包含消息的基本元素：目标、selector、参数、返回值  </p><h4 id="普通方法调用"><a href="#普通方法调用" class="headerlink" title="普通方法调用"></a>普通方法调用</h4><pre><code>- (void)methodOne{    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];    [dateFormatter setDateFormat:@&quot;YYYY-MM-dd&quot;];    HZMethodTarget * method = [HZMethodTarget new];    NSString * currentDate = [method stringForDate:[NSDate date] usingFormatter:dateFormatter];    NSLog(@&quot;currentDate:%@&quot;,currentDate);}</code></pre><h4 id="使用NSInvocation对象执行方法的调用"><a href="#使用NSInvocation对象执行方法的调用" class="headerlink" title="使用NSInvocation对象执行方法的调用"></a>使用NSInvocation对象执行方法的调用</h4><pre><code>- (void)methodTwo{    HZMethodTarget * method = [HZMethodTarget new];    SEL aSel = @selector(stringForDate:usingFormatter:);    NSMethodSignature *methodSignature = [HZMethodTarget instanceMethodSignatureForSelector:aSel];    NSInvocation *anInvocation = [NSInvocation invocationWithMethodSignature:methodSignature];    [anInvocation setTarget:method];    [anInvocation setSelector:aSel];    NSDate *currentDate = [NSDate date];    [anInvocation setArgument:&amp;currentDate atIndex:2];    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];    [dateFormatter setDateFormat:@&quot;YYYY-MM-dd&quot;];    [anInvocation setArgument:&amp;dateFormatter atIndex:3];    [anInvocation retainArguments];    [anInvocation invoke];    //使用局部变量接收函数的返回值会引发崩溃[]  NSString *result = nil;-[CFString release]: message sent to deallocated instance 0x600002be0bc0    [anInvocation getReturnValue:&amp;_result];    NSLog(@&quot;result==&gt;:%@&quot;,_result);}</code></pre><h3 id="方法交换（method-swizzle）"><a href="#方法交换（method-swizzle）" class="headerlink" title="方法交换（method swizzle）"></a>方法交换（method swizzle）</h3><p>为了对系统某些API新增一些功能时，例如：页面数据统计，需要在<code>viewWillAppear</code>方法中打点;  </p><pre><code>#import &quot;UIViewController+Tracking.h&quot;#import &lt;objc/runtime.h&gt;@implementation UIViewController (Tracking)+ (void)load {    static dispatch_once_t onceToken;    dispatch_once(&amp;onceToken, ^{        Class class = [self class];        SEL originalSelector = @selector(viewWillAppear:);        SEL swizzledSelector = @selector(tracking_viewWillAppear:);        Method originalMethod = class_getInstanceMethod(class, originalSelector);        Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);        method_exchangeImplementations(originalMethod, swizzledMethod);    });}#pragma mark - Method Swizzling- (void)tracking_viewWillAppear:(BOOL)animated {    NSLog(@&quot;Method Swizzling viewWillAppear: %@&quot;, self);    [self tracking_viewWillAppear:animated];}@end</code></pre><h4 id="method-swizzle的使用场景"><a href="#method-swizzle的使用场景" class="headerlink" title="method swizzle的使用场景"></a>method swizzle的使用场景</h4><ul><li>页面统计打点</li><li>按钮避免多次点击</li><li>集合(NSArray/NSDictionary)避免传入nil引发崩溃</li></ul>]]></content>
     
@@ -310,59 +307,6 @@
     
     
       <category term="Objective-C" scheme="http://yoursite.com/tags/Objective-C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>大话数据结构之单链表</title>
-    <link href="http://yoursite.com/2017/01/05/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E5%8D%95%E9%93%BE%E8%A1%A8/"/>
-    <id>http://yoursite.com/2017/01/05/数据结构之单链表/</id>
-    <published>2017-01-05T12:44:54.000Z</published>
-    <updated>2019-01-13T02:49:26.762Z</updated>
-    
-    <content type="html"><![CDATA[<p>线性表的顺序存储结构在查找指定位置的元素时操作较快，但是在插入和删除操作的时候需要移动大量数据的位置，操作较为耗时，造成这种结果的原因在于顺序存储是开辟一块连续的内存空间，各个数据之间紧紧相邻；那么解决顺序存储插入和删除问题就需要采取另外一种存储结构–链式存储；</p><a id="more"></a>  <h4 id="线性表的链式存储结构"><a href="#线性表的链式存储结构" class="headerlink" title="线性表的链式存储结构"></a>线性表的链式存储结构</h4><p>在顺序存储结构中数据元素只要存储数据元素信息就可以了，而链式存储结构还需要存储下一个结点的内存地址，即每个数据元素成为一个独立的结点，结点包含数据信息和地址信息两个部分；n个这样的结点就构成了链表，  </p><h4 id="单链表"><a href="#单链表" class="headerlink" title="单链表"></a>单链表</h4><p> 因为结点中只存在一个地址指针，即该链表又称之为单链表   </p><h4 id="头结点"><a href="#头结点" class="headerlink" title="头结点"></a>头结点</h4><p>排在单链表的第一个结点前的结点叫头结点  </p><h4 id="头指针"><a href="#头指针" class="headerlink" title="头指针"></a>头指针</h4><p>链表第一个结点的存储位置即为头指针/ 头结点中存放的指针即为头指针  </p><h4 id="单链表的链式存储结构"><a href="#单链表的链式存储结构" class="headerlink" title="单链表的链式存储结构"></a>单链表的链式存储结构</h4><pre><code>typedef int ElemType;typedef struct Node{    ElemType data;    struct Node * next;}Node;typedef struct Node* LinkList;  </code></pre><p> 一个结点的构成包含数据域和指针区域；  </p><h4 id="单链表的初始化"><a href="#单链表的初始化" class="headerlink" title="单链表的初始化"></a>单链表的初始化</h4><pre><code>LinkList linkListInit(){Node* L ;L = (Node*)malloc(sizeof(Node));if (L == NULL) {    printf(&quot;申请内存空间失败\n&quot;);}L -&gt;next = NULL;return L;}     </code></pre><h4 id="创建单链表之头插入方法"><a href="#创建单链表之头插入方法" class="headerlink" title="创建单链表之头插入方法"></a>创建单链表之头插入方法</h4><pre><code>LinkList linkListCreateHeaderMethod(int numberOfNode){Node* L ;L = (Node*)malloc(sizeof(Node));if (L==NULL) {    return NULL;}L-&gt;next = NULL;for (int i =0; i&lt;numberOfNode; i++) {    Node *p;    p =(Node*) malloc(sizeof(Node));    p -&gt; data = i ;    p-&gt;next = L-&gt;next;   //将结点插入到表头L--&gt;|3|--&gt;|2|--&gt;|1|--&gt;NULL    L -&gt; next = p;}return L;}  </code></pre><p> 头插入法创建单链表是在头指针和第一个结点之间完成插入操作，新节点的指针存放的是上一个作为第一个结点的地址即L-&gt;next；然后再讲L-&gt;next指向新节点p即可；  </p><h4 id="创建单链表之尾插入方法"><a href="#创建单链表之尾插入方法" class="headerlink" title="创建单链表之尾插入方法"></a>创建单链表之尾插入方法</h4><pre><code>LinkList linkListCreateTailMethod(int numberOfNode){Node* L ;L = (Node*)malloc(sizeof(Node));if (L==NULL) {    return NULL;}L -&gt; next = NULL;Node* tempL = L;for (int i = 0; i&lt;numberOfNode; i++) {    Node* p ;    p = (Node*)malloc(sizeof(Node));    p -&gt;data = i ;    tempL -&gt; next = p ;    tempL = p ;}tempL -&gt;next = NULL;return L;} </code></pre><p> 尾插入就是将新建立的结点放在链表的最后；  </p><h4 id="单链表的插入操作"><a href="#单链表的插入操作" class="headerlink" title="单链表的插入操作"></a>单链表的插入操作</h4><pre><code>int linkListInsert(LinkList list ,int index,int e){    Node* pre ;    pre = list;    for (int i = 1; i&lt;index; i++) {        pre = pre -&gt;next;    }    if (pre) {        Node* newNode;        newNode  = (Node*)malloc(sizeof(Node));        newNode-&gt;data = e ;        newNode-&gt;next = pre-&gt;next;        pre-&gt;next = newNode;        return 1;    }    return 0;} </code></pre><h4 id="单链表的删除操作"><a href="#单链表的删除操作" class="headerlink" title="单链表的删除操作"></a>单链表的删除操作</h4><pre><code>int linkListDeleteNode(LinkList list ,int e){    Node *p,*pre = NULL;                   //pre为前驱结点，p为查找的结点。    p = list-&gt;next;    while(p-&gt;data != e)              //查找值为x的元素    {        pre = p;        p = p-&gt;next;    }    pre-&gt;next = p-&gt;next;          //删除操作，将其前驱next指向其后继。    free(p);    return 1;}  </code></pre><h4 id="单链表返回指定位置的结点数据"><a href="#单链表返回指定位置的结点数据" class="headerlink" title="单链表返回指定位置的结点数据"></a>单链表返回指定位置的结点数据</h4><pre><code>int GetElem(LinkList list,int index,ElemType *e){    int i=1;    LinkList p ;    p = list -&gt;next; // 默认链表名作为第一个结点的指针    while (i&lt;index&amp;&amp;p) {        p = p -&gt;next;        i++;    }    if (!p||i&gt;index) {       return 0;    }else{        *e = p-&gt;data;        return 1;    }}</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;线性表的顺序存储结构在查找指定位置的元素时操作较快，但是在插入和删除操作的时候需要移动大量数据的位置，操作较为耗时，造成这种结果的原因在于顺序存储是开辟一块连续的内存空间，各个数据之间紧紧相邻；那么解决顺序存储插入和删除问题就需要采取另外一种存储结构–链式存储；&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="数据结构" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
-    
-      <category term="数据结构" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>大话数据结构之线性表的顺序存储</title>
-    <link href="http://yoursite.com/2017/01/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E7%BA%BF%E6%80%A7%E8%A1%A8%E7%9A%84%E9%A1%BA%E5%BA%8F%E5%AD%98%E5%82%A8/"/>
-    <id>http://yoursite.com/2017/01/04/数据结构之线性表的顺序存储/</id>
-    <published>2017-01-04T12:57:54.000Z</published>
-    <updated>2019-01-13T02:49:01.586Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="线性表"><a href="#线性表" class="headerlink" title="线性表"></a>线性表</h4><blockquote><p>零个或多个数据元素的有限序列；可以理解为数据按照顺序依次排列，除了头结点和尾结点外其他结点只存在唯一的前继和后继； 例如：平时购票的队伍、从北京到上海的京沪线等；</p></blockquote><h4 id="线性表的顺序存储结构"><a href="#线性表的顺序存储结构" class="headerlink" title="线性表的顺序存储结构"></a>线性表的顺序存储结构</h4><pre><code>#define MAXSIEZ 20typedef int ElemType;typedef struct {    ElemType data[MAXSIEZ];    int length;}SqList;</code></pre><p>线性表的顺序存储结构包含两部分，一个是存储数据的数组，一个实际存储数据元素个数的整型变量；其中MAXSIEZ是该线性表指定的最大存储容量！<br><a id="more"></a></p><h4 id="在线性表中获取指定位置的元素"><a href="#在线性表中获取指定位置的元素" class="headerlink" title="在线性表中获取指定位置的元素"></a>在线性表中获取指定位置的元素</h4><pre><code>int getElem(SqList list,int index,ElemType* e){if (list.length==0 || index&lt;1 ||index&gt;list.length) {    return 0;}else{    *e = list.data[index];    return 1;}}</code></pre><p>在线性表中获取指定位置的元素，其操作实质是在SqList的data数组中返回指定索引的值；操作中应该避免数组操作引发越界的操作；数组的下标是从0开始的，而线性表的顺序存储是从1开始</p><h4 id="在线性表中指定位置插入数据"><a href="#在线性表中指定位置插入数据" class="headerlink" title="在线性表中指定位置插入数据"></a>在线性表中指定位置插入数据</h4><pre><code> int listInsert(SqList *list,int index,ElemType e){if (index&gt;list-&gt;length+1||index&lt;1) {    return 0;}else{    if (index == list-&gt;length+1) {        list-&gt;data[index-1] = e;        return 1;    }else{        int lastIndex = list-&gt;length;        for (int i = lastIndex; i&gt;=index; i--) {            list-&gt;data[i] = list-&gt;data[i-1];        }        list-&gt;data[index-1] = e ;        list-&gt;length++; //元素插入完毕后增加list的长度        return 1;    }}}   </code></pre><p>  插入操作就是将存储在指定位置后面的所有元素依次向后移动一位；然后指定位置的数据更新为传入的参数，最后将线性表的长度+1；  </p><h4 id="在线性表中指定位置删除数据"><a href="#在线性表中指定位置删除数据" class="headerlink" title="在线性表中指定位置删除数据"></a>在线性表中指定位置删除数据</h4><pre><code> int  listDelete(SqList *list,int index,ElemType* e){if (list-&gt;length==0||index&lt;1||index&gt;list-&gt;length) {    return 0;}*e = list-&gt;data[index-1];for (int i = index; i&lt;list-&gt;length; i++) {    list-&gt;data[i-1] = list-&gt;data[i];}list-&gt;length--;return 1;}</code></pre><p> 在线性表中指定位置删除数据就是将存储在指定位置后面的所有元素依次向前移动一位，最后将线性表的长度+1；    </p><h4 id="SqList-list-与-SqList-list"><a href="#SqList-list-与-SqList-list" class="headerlink" title="SqList *list 与 SqList list"></a>SqList *list 与 SqList list</h4><ul><li>SqList *list 表示声明一个SqList类型的指针，该指针目前未指向任何内存区域，所以是一个野指针；</li><li>SqList list 表示声明了一个SqList类型的变量，在内存中已经开辟了相应的空间；  </li><li>为什么查找操作的时候传入的是list变量而删除和插入传入的是list指针，主要原因首先是结构体是值类型，查找操作传入list变量，在查找函数中存放的其实是list的一个值拷贝；插入和删除操作则要对传入的list做变更操作，所以要传入list指针；  </li></ul><p>关于值类型和引用类型的区分可以考虑 swap(int a,int b);和 swap(int* a,int* b);的区别</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h4 id=&quot;线性表&quot;&gt;&lt;a href=&quot;#线性表&quot; class=&quot;headerlink&quot; title=&quot;线性表&quot;&gt;&lt;/a&gt;线性表&lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;零个或多个数据元素的有限序列；可以理解为数据按照顺序依次排列，除了头结点和尾结点外其他结点只存在唯一的前继和后继； 例如：平时购票的队伍、从北京到上海的京沪线等；&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h4 id=&quot;线性表的顺序存储结构&quot;&gt;&lt;a href=&quot;#线性表的顺序存储结构&quot; class=&quot;headerlink&quot; title=&quot;线性表的顺序存储结构&quot;&gt;&lt;/a&gt;线性表的顺序存储结构&lt;/h4&gt;&lt;pre&gt;&lt;code&gt;#define MAXSIEZ 20
-typedef int ElemType;
-typedef struct {
-    ElemType data[MAXSIEZ];
-    int length;
-}SqList;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;线性表的顺序存储结构包含两部分，一个是存储数据的数组，一个实际存储数据元素个数的整型变量；其中MAXSIEZ是该线性表指定的最大存储容量！&lt;br&gt;
-    
-    </summary>
-    
-      <category term="数据结构" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
-    
-      <category term="数据结构" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
   </entry>
   
